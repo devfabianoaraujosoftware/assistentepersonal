@@ -1,0 +1,13 @@
+{
+  "personal": {
+    "nomeProfissional": "Personal Padrão",
+    "nomeCompleto": "João Silva",
+    "estado": "SP",
+    "cidade": "São Paulo",
+    "telefone": "(11) 99999-9999",
+    "email": "contato@joaosilva.com",
+    "especialidade": "Hipertrofia e Emagrecimento",
+    "frase": "Transformando vidas através do movimento.",
+    "logoBase64": ""
+  }
+}

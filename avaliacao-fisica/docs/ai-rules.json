@@ -1,0 +1,39 @@
+{
+  "regras": [
+    {
+      "id": "RULE001",
+      "categoria": "seguranca",
+      "condicao": "aluno.lesoes.some(l => l.local.toLowerCase().includes('ombro'))",
+      "acao": "Alertar sobre exercícios de pressão vertical (ex: Desenvolvimento) e sugerir revisão presencial.",
+      "nivel": "laranja"
+    },
+    {
+      "id": "RULE002",
+      "categoria": "seguranca",
+      "condicao": "aluno.parq && Object.values(aluno.parq).some(resposta => resposta === true)",
+      "acao": "PAR-Q+ indicou fator de risco. Não iniciar/intensificar treinamento até esclarecimento médico.",
+      "nivel": "vermelho"
+    },
+    {
+      "id": "RULE003",
+      "categoria": "volume",
+      "condicao": "aluno.experiencia === 'Iniciante'",
+      "acao": "Sugerir volume semanal moderado (10-12 séries por grupo muscular) e foco em técnica.",
+      "nivel": "verde"
+    },
+    {
+      "id": "RULE004",
+      "categoria": "frequencia",
+      "condicao": "aluno.frequenciaSemanal <= 2",
+      "acao": "Sugerir divisão Full Body (Corpo Inteiro) para otimizar a frequência muscular.",
+      "nivel": "amarelo"
+    },
+    {
+      "id": "RULE005",
+      "categoria": "saude",
+      "condicao": "aluno.sono.horas < 6 && aluno.estresse > 7",
+      "acao": "Aluno relatou baixo sono e alto estresse. Risco aumentado de fadiga e overtraining. Monitorar RPE.",
+      "nivel": "laranja"
+    }
+  ]
+}

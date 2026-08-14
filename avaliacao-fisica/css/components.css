@@ -1,0 +1,121 @@
+/* components.css */
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: #e2e8f0;
+  color: var(--text-color);
+}
+.btn-secondary:hover {
+  background-color: #cbd5e1;
+}
+
+.btn-danger {
+  background-color: var(--status-red);
+  color: white;
+}
+
+/* Cards */
+.card {
+  background-color: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  border: 1px solid var(--border-color);
+}
+
+.card-header {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: var(--space-2);
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Grid System for Forms */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+.form-col {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Tables */
+.table-responsive {
+  overflow-x: auto;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th, .table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+.table th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+.table tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* Badges */
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.badge-green { background-color: #dcfce7; color: #166534; }
+.badge-yellow { background-color: #fef9c3; color: #854d0e; }
+.badge-orange { background-color: #ffedd5; color: #9a3412; }
+.badge-red { background-color: #fee2e2; color: #991b1b; }

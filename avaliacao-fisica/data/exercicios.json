@@ -10,7 +10,9 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX002", "EX003"],
       "observacoes": "Manter escápulas retraídas.",
-      "restricoes": ["ombro_lesao"]
+      "restricoes": ["ombro_lesao"],
+      "link_youtube": "https://www.youtube.com/watch?v=sqOw2Y6uDWQ",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX002",
@@ -22,7 +24,9 @@
       "objetivos": ["hipertrofia"],
       "substitutos": ["EX001"],
       "observacoes": "",
-      "restricoes": ["ombro_lesao"]
+      "restricoes": ["ombro_lesao"],
+      "link_youtube": "https://www.youtube.com/watch?v=0G2_XXbvitY",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX003",
@@ -34,7 +38,9 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "link_youtube": "https://www.youtube.com/watch?v=O-JNvL1_ZqU",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX004",
@@ -46,7 +52,9 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX005"],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "link_youtube": "https://www.youtube.com/watch?v=uiA-OQ-sC1s",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX005",
@@ -58,7 +66,9 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX004"],
       "observacoes": "Atenção à postura da lombar.",
-      "restricoes": ["lombar_lesao"]
+      "restricoes": ["lombar_lesao"],
+      "link_youtube": "https://www.youtube.com/watch?v=9efgcAjQe7E",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX006",
@@ -70,7 +80,9 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["ombro_lesao", "cervical_lesao"]
+      "restricoes": ["ombro_lesao", "cervical_lesao"],
+      "link_youtube": "https://www.youtube.com/watch?v=qEwKCR5JCog",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX007",
@@ -82,7 +94,9 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "link_youtube": "https://www.youtube.com/watch?v=3VcKaXpzqRo",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX008",
@@ -94,7 +108,9 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["cotovelo_lesao"]
+      "restricoes": ["cotovelo_lesao"],
+      "link_youtube": "https://www.youtube.com/watch?v=kwG2ipFRgfo",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX009",
@@ -106,7 +122,9 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["cotovelo_lesao"]
+      "restricoes": ["cotovelo_lesao"],
+      "link_youtube": "https://www.youtube.com/watch?v=2-LAMcpzODU",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX010",
@@ -118,7 +136,9 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX011"],
       "observacoes": "Essencial técnica correta.",
-      "restricoes": ["joelho_lesao", "lombar_lesao"]
+      "restricoes": ["joelho_lesao", "lombar_lesao"],
+      "link_youtube": "https://www.youtube.com/watch?v=bEv6CCg2BC8",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX011",
@@ -130,7 +150,9 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX010"],
       "observacoes": "Não estender completamente os joelhos.",
-      "restricoes": ["joelho_lesao"]
+      "restricoes": ["joelho_lesao"],
+      "link_youtube": "https://www.youtube.com/watch?v=IZxyjW7OSgQ",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX012",
@@ -142,7 +164,9 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["LCA_lesao"]
+      "restricoes": ["LCA_lesao"],
+      "link_youtube": "https://www.youtube.com/watch?v=YyvSfVjQeL0",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX013",
@@ -154,7 +178,9 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "link_youtube": "https://www.youtube.com/watch?v=1Tq3Qd_Fsyk",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX014",
@@ -166,7 +192,9 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "link_youtube": "https://www.youtube.com/watch?v=3nB-j1VvHIM",
+      "modalidade": "musculacao"
     },
     {
       "id": "EX015",
@@ -178,7 +206,65 @@
       "objetivos": ["condicionamento", "resistencia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "link_youtube": "https://www.youtube.com/watch?v=pSHjTRCQxIw",
+      "modalidade": "treino_em_casa"
+    },
+    {
+      "id": "EX016",
+      "nome": "Burpee",
+      "grupoMuscular": ["Core", "Peitoral", "Pernas", "Cardio"],
+      "tipo": "multiarticular",
+      "equipamento": "peso corporal",
+      "nivel": ["intermediario", "avancado"],
+      "objetivos": ["condicionamento", "emagrecimento"],
+      "substitutos": [],
+      "observacoes": "Atenção ao impacto.",
+      "restricoes": ["joelho_lesao"],
+      "link_youtube": "https://www.youtube.com/watch?v=TU8QYVW0gDU",
+      "modalidade": "crossfit"
+    },
+    {
+      "id": "EX017",
+      "nome": "Kettlebell Swing",
+      "grupoMuscular": ["Glúteos", "Posterior", "Core"],
+      "tipo": "multiarticular",
+      "equipamento": "kettlebell",
+      "nivel": ["iniciante", "intermediario", "avancado"],
+      "objetivos": ["condicionamento", "forca"],
+      "substitutos": [],
+      "observacoes": "Foco no quadril e não nos ombros.",
+      "restricoes": ["lombar_lesao"],
+      "link_youtube": "https://www.youtube.com/watch?v=YSxHifyI6s8",
+      "modalidade": "funcional"
+    },
+    {
+      "id": "EX018",
+      "nome": "Alongamento de Isquiotibiais",
+      "grupoMuscular": ["Posterior"],
+      "tipo": "flexibilidade",
+      "equipamento": "nenhum",
+      "nivel": ["iniciante", "intermediario", "avancado"],
+      "objetivos": ["mobilidade", "saude"],
+      "substitutos": [],
+      "observacoes": "Segurar 30 segundos.",
+      "restricoes": [],
+      "link_youtube": "https://www.youtube.com/watch?v=3R10u-xH0P8",
+      "modalidade": "alongamento"
+    },
+    {
+      "id": "EX019",
+      "nome": "Mobilidade Torácica",
+      "grupoMuscular": ["Costas", "Mobilidade"],
+      "tipo": "flexibilidade",
+      "equipamento": "nenhum",
+      "nivel": ["iniciante", "intermediario", "avancado"],
+      "objetivos": ["mobilidade", "saude"],
+      "substitutos": [],
+      "observacoes": "Realizar rotações suaves.",
+      "restricoes": [],
+      "link_youtube": "https://www.youtube.com/watch?v=qX9FSZJu448",
+      "modalidade": "mobilidade"
     }
   ]
 }

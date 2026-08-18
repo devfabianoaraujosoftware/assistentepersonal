@@ -14,6 +14,7 @@ export const AlunoDetailView = {
         return `
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: var(--space-6)">
                 <a href="#/alunos" class="btn btn-secondary">← Voltar</a>
+                ${aluno.fotoPerfil ? `<img src="${aluno.fotoPerfil}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">` : ''}
                 <h1>${aluno.nome} <span class="badge badge-green">${idade} anos</span></h1>
             </div>
 
@@ -97,10 +98,35 @@ export const AlunoDetailView = {
                                 <input type="number" step="0.1" id="gordura" class="form-control">
                             </div>
                         </div>
-                        <div style="margin-top: var(--space-4);">
-                             <label class="form-label">Fotos (Mock de Upload Base64)</label>
-                             <input type="file" id="foto_upload" accept="image/*">
+
+                        <div class="card-header" style="margin-top: 20px;">Biofotogrametria / Fotos e Exames</div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Frente</label>
+                                <input type="file" id="foto_frente" accept="image/*" class="form-control">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Costas</label>
+                                <input type="file" id="foto_costas" accept="image/*" class="form-control">
+                            </div>
                         </div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Lateral Direita</label>
+                                <input type="file" id="foto_lateral_dir" accept="image/*" class="form-control">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Lateral Esquerda</label>
+                                <input type="file" id="foto_lateral_esq" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Upload de Exames / Bioimpedância</label>
+                                <input type="file" id="exames_upload" accept="image/*,.pdf" class="form-control">
+                            </div>
+                        </div>
+
                         <div style="text-align: right; margin-top: 15px;">
                             <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação</button>
                         </div>
@@ -138,10 +164,14 @@ export const AlunoDetailView = {
             });
         });
 
+        // Helper to fetch the current student inside callbacks
+        const getAluno = () => DB.getById('alunos', id);
+
         // AI Engine Action
         const btnIA = document.getElementById('btn-analisar-ia');
         if (btnIA) {
             btnIA.addEventListener('click', async () => {
+                const alunoAtualizado = getAluno();
                 const resultsContainer = document.getElementById('ia-results');
                 resultsContainer.innerHTML = '<em>Processando dados antropométricos, histórico e regras de segurança...</em>';
                 btnIA.disabled = true;
@@ -235,9 +265,23 @@ export const AlunoDetailView = {
 
                     document.getElementById('btn-gerar-pdf').addEventListener('click', async () => {
                         const { PDFService } = await import('../pdf.js');
-                        PDFService.generateAlunoReport(aluno, analise, sugestaoTreino);
+                        PDFService.generateAlunoReport(alunoAtualizado, analise, sugestaoTreino);
                         Utils.toast('PDF gerado com sucesso.', 'sucesso');
                     });
+
+                    // Adicionar botão do WhatsApp dinamicamente se houver telefone
+                    if (alunoAtualizado && alunoAtualizado.telefone) {
+                        const btnZap = document.createElement('a');
+                        btnZap.className = 'btn btn-green';
+                        btnZap.style.marginLeft = '10px';
+                        btnZap.target = '_blank';
+                        btnZap.textContent = 'Enviar via WhatsApp';
+                        // Limpa e formata o telefone para link
+                        const telNumbers = alunoAtualizado.telefone.replace(/\D/g, '');
+                        const zapLink = `https://wa.me/${telNumbers}?text=Olá%20${alunoAtualizado.nome},%20seu%20novo%20treino%20e%20avaliação%20já%20estão%20disponíveis!`;
+                        btnZap.href = zapLink;
+                        document.getElementById('btn-gerar-pdf').parentNode.appendChild(btnZap);
+                    }
 
                     Utils.toast('Análise concluída com sucesso.', 'sucesso');
 

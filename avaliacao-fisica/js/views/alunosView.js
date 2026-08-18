@@ -77,6 +77,13 @@ export const AlunoFormView = {
                         </div>
                     </div>
 
+                    <div class="form-row" style="margin-top: 10px;">
+                        <div class="form-group form-col">
+                            <label class="form-label">Foto de Perfil do Aluno</label>
+                            <input type="file" id="foto_perfil" class="form-control" accept="image/*">
+                        </div>
+                    </div>
+
                     <div class="card-header" style="margin-top: 20px;">Perfil de Treinamento e Anamnese Básica</div>
 
                     <div class="form-row">
@@ -128,8 +135,29 @@ export const AlunoFormView = {
                             <input type="text" id="lesoes_resumo" class="form-control" placeholder="Ex: Ombro direito, lombar">
                         </div>
                         <div class="form-group form-col">
+                            <label class="form-label">Cirurgias Anteriores</label>
+                            <input type="text" id="cirurgias_resumo" class="form-control" placeholder="Ex: Apendicite, LCA">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-col">
                             <label class="form-label">Medicamentos de Uso Contínuo</label>
                             <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Hidratação Diária (Litros)</label>
+                            <input type="number" step="0.1" id="hidratacao_litros" min="0" max="10" class="form-control">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Padrão Alimentar</label>
+                            <select id="padrao_alimentar" class="form-control">
+                                <option value="balanceado">Balanceado</option>
+                                <option value="vegetariano">Vegetariano / Vegano</option>
+                                <option value="hipercalorica">Hipercalórica (Bulking)</option>
+                                <option value="hipocalorica">Hipocalórica (Cutting)</option>
+                                <option value="irregular">Irregular / Pula Refeições</option>
+                            </select>
                         </div>
                     </div>
 
@@ -148,8 +176,14 @@ export const AlunoFormView = {
         `;
     },
     afterRender: () => {
-        document.getElementById('aluno-form').addEventListener('submit', (e) => {
+        document.getElementById('aluno-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            let fotoPerfilBase64 = null;
+            const fotoPerfilFile = document.getElementById('foto_perfil').files[0];
+            if (fotoPerfilFile) {
+                fotoPerfilBase64 = await Utils.fileToBase64(fotoPerfilFile);
+            }
 
             const novoAluno = {
                 nome: document.getElementById('nome').value,
@@ -162,12 +196,16 @@ export const AlunoFormView = {
                 status: 'Ativo',
                 consentimentoLGPD: document.getElementById('consentimento').checked,
                 dataCadastro: new Date().toISOString(),
+                fotoPerfil: fotoPerfilBase64,
                 // Anamnese fields
                 sono: { horas: parseInt(document.getElementById('sono_horas').value) || 8 },
                 estresse: parseInt(document.getElementById('estresse_nivel').value) || 5,
                 parq: { possuiRestricao: document.getElementById('parq_restricao').value === 'true' },
                 lesoes: document.getElementById('lesoes_resumo').value ? [{ local: document.getElementById('lesoes_resumo').value }] : [],
-                medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : []
+                cirurgias: document.getElementById('cirurgias_resumo').value ? [{ tipo: document.getElementById('cirurgias_resumo').value }] : [],
+                medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : [],
+                hidratacao: parseFloat(document.getElementById('hidratacao_litros').value) || 0,
+                alimentacao: document.getElementById('padrao_alimentar').value
             };
 
             const salvo = DB.save('alunos', novoAluno);

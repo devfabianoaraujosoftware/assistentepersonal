@@ -39,6 +39,18 @@ const ConfiguracoesView = {
                         <label class="form-label">Frase Profissional (Rodapé)</label>
                         <input type="text" id="cfg_frase" class="form-control" value="${p.frase || ''}">
                     </div>
+                    <div class="card-header" style="margin-top: 20px;">Personalização Visual</div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor Primária do Sistema</label>
+                            <input type="color" id="cfg_cor_primaria" class="form-control" value="${p.corPrimaria || '#2563eb'}" style="height: 40px; padding: 2px;">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Logomarca (Upload)</label>
+                            <input type="file" id="cfg_logo" class="form-control" accept="image/*">
+                            ${p.logoBase64 ? `<div style="margin-top: 10px;"><img src="${p.logoBase64}" alt="Logo" style="max-height: 50px; border-radius: 4px;"></div>` : ''}
+                        </div>
+                    </div>
                     <div style="text-align: right; margin-top: var(--space-4);">
                         <button type="submit" class="btn btn-primary">Salvar Configurações</button>
                     </div>
@@ -50,9 +62,16 @@ const ConfiguracoesView = {
         const Utils = (await import('./utils.js')).default;
         const DB = (await import('./database.js')).default;
 
-        document.getElementById('config-form').addEventListener('submit', (e) => {
+        document.getElementById('config-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const config = DB.getConfig() || { personal: {} };
+
+            let logoBase64 = config.personal.logoBase64;
+            const logoFile = document.getElementById('cfg_logo').files[0];
+            if (logoFile) {
+                logoBase64 = await Utils.fileToBase64(logoFile);
+            }
+
             config.personal = {
                 ...config.personal,
                 nomeProfissional: document.getElementById('cfg_nome').value,
@@ -60,10 +79,24 @@ const ConfiguracoesView = {
                 telefone: document.getElementById('cfg_telefone').value,
                 especialidade: document.getElementById('cfg_especialidade').value,
                 frase: document.getElementById('cfg_frase').value,
+                corPrimaria: document.getElementById('cfg_cor_primaria').value,
+                logoBase64: logoBase64
             };
             DB.saveConfig(config);
+
+            // Apply configurations immediately
             document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            document.documentElement.style.setProperty('--primary-color', config.personal.corPrimaria);
+
+            const headerLogo = document.getElementById('sidebar-logo');
+            if (headerLogo && logoBase64) {
+                headerLogo.src = logoBase64;
+                headerLogo.style.display = 'block';
+            }
+
             Utils.toast('Configurações salvas com sucesso!', 'sucesso');
+            // Recarregar a view para mostrar a nova logo na visualização de config, opcional
+            window.location.reload();
         });
     }
 };
@@ -160,12 +193,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start router
     const router = new Router(routes, 'router-view');
 
-    // Set global username from config
+    // Set global username and theme from config
     import('./database.js').then(module => {
         const DB = module.default;
-        const config = DB.getConfig();
-        if (config && config.personal && config.personal.nomeProfissional) {
-            document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
-        }
+        // Wait a small amount for init, or use DB methods if sync
+        setTimeout(() => {
+            const config = DB.getConfig();
+            if (config && config.personal) {
+                if (config.personal.nomeProfissional) {
+                    document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+                }
+                if (config.personal.corPrimaria) {
+                    document.documentElement.style.setProperty('--primary-color', config.personal.corPrimaria);
+                }
+                if (config.personal.logoBase64) {
+                    const sidebarHeader = document.querySelector('.sidebar-header');
+                    // Substituir o texto MESTRE por logo se existir
+                    sidebarHeader.innerHTML = `
+                        <img id="sidebar-logo" src="${config.personal.logoBase64}" alt="Logo" style="max-height: 40px; margin-bottom: 5px;">
+                        <div style="font-size: 0.75rem; font-weight: normal; color: var(--text-light)">${config.personal.nomeProfissional || 'Personal Trainer OS'}</div>
+                    `;
+                }
+            }
+        }, 100);
     });
 });

@@ -36,6 +36,10 @@ export const AlunoDetailView = {
                         <hr style="margin: 10px 0; border: 0; border-top: 1px solid var(--border-color);">
                         <p><strong>Email:</strong> ${aluno.email || 'N/A'}</p>
                         <p><strong>Telefone:</strong> ${aluno.telefone || 'N/A'}</p>
+                        <hr style="margin: 10px 0; border: 0; border-top: 1px solid var(--border-color);">
+                        <p><strong>Nutrição:</strong> PTN: ${aluno.nutricao?.proteina || 0} g/kg | CHO: ${aluno.nutricao?.carbo || 0} g/kg | LIP: ${aluno.nutricao?.gordura || 0} g/kg</p>
+                        <p><strong>Hidratação:</strong> ${aluno.hidratacao || 0} L/dia</p>
+                        <p><strong>Medicamentos:</strong> ${aluno.medicamentos && aluno.medicamentos.length ? aluno.medicamentos.map(m=>m.nome).join(', ') : 'Nenhum'}</p>
                     </div>
 
                     <div class="card">
@@ -97,10 +101,34 @@ export const AlunoDetailView = {
                                 <input type="number" step="0.1" id="gordura" class="form-control">
                             </div>
                         </div>
-                        <div style="margin-top: var(--space-4);">
-                             <label class="form-label">Fotos (Mock de Upload Base64)</label>
-                             <input type="file" id="foto_upload" accept="image/*">
+                        <div class="card-header" style="margin-top: 20px;">Fotos de Avaliação & Biofotogrametria</div>
+                        <div class="form-row">
+                             <div class="form-group form-col">
+                                 <label class="form-label">Frente</label>
+                                 <input type="file" id="foto_frente" accept="image/*" class="form-control">
+                             </div>
+                             <div class="form-group form-col">
+                                 <label class="form-label">Lateral Direita</label>
+                                 <input type="file" id="foto_lat_dir" accept="image/*" class="form-control">
+                             </div>
                         </div>
+                        <div class="form-row">
+                             <div class="form-group form-col">
+                                 <label class="form-label">Costas</label>
+                                 <input type="file" id="foto_costas" accept="image/*" class="form-control">
+                             </div>
+                             <div class="form-group form-col">
+                                 <label class="form-label">Lateral Esquerda</label>
+                                 <input type="file" id="foto_lat_esq" accept="image/*" class="form-control">
+                             </div>
+                        </div>
+
+                        <div class="card-header" style="margin-top: 20px;">Imagens de Exames / Bioimpedância</div>
+                        <div class="form-group">
+                             <label class="form-label">Upload (IA fará análise visual mockada)</label>
+                             <input type="file" id="foto_exame" accept="image/*" class="form-control">
+                        </div>
+
                         <div style="text-align: right; margin-top: 15px;">
                             <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação</button>
                         </div>
@@ -161,6 +189,13 @@ export const AlunoDetailView = {
                         htmlAnalise += `<strong>Alertas de Segurança:</strong><br>`;
                         analise.alertas.forEach(a => {
                             htmlAnalise += `<div class="alert-item alert-${a.nivel}">${a.mensagem}</div>`;
+                        });
+                    }
+
+                    if (analise.sugestoes && analise.sugestoes.length > 0) {
+                        htmlAnalise += `<br><strong>Sugestões IA:</strong><br>`;
+                        analise.sugestoes.forEach(s => {
+                            htmlAnalise += `<div class="alert-item alert-amarelo"><strong>${s.categoria}:</strong> ${s.mensagem}</div>`;
                         });
                     }
 

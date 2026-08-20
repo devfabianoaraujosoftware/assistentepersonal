@@ -14,7 +14,24 @@ const ConfiguracoesView = {
             <h1>Configurações do Personal Trainer</h1>
             <div class="card">
                 <form id="config-form">
-                    <div class="card-header">Dados Profissionais (Usados nos Relatórios PDF)</div>
+                    <div class="card-header">Personalização do Sistema</div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor Primária do Sistema</label>
+                            <input type="color" id="cfg_corPrimaria" class="form-control" style="height: 40px; padding: 0" value="${p.corPrimaria || '#2563eb'}">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor do Menu Lateral</label>
+                            <input type="color" id="cfg_corSidebar" class="form-control" style="height: 40px; padding: 0" value="${p.corSidebar || '#1e293b'}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Logomarca (Recomendado 300x300, max 2MB)</label>
+                        <input type="file" id="cfg_logo" class="form-control" accept="image/*">
+                        ${p.logoBase64 ? `<img src="${p.logoBase64}" style="max-width: 100px; margin-top: 10px; border-radius: 8px;" alt="Logo Preview">` : ''}
+                    </div>
+
+                    <div class="card-header" style="margin-top: 20px;">Dados Profissionais (Usados nos Relatórios PDF)</div>
                     <div class="form-row">
                         <div class="form-group form-col">
                             <label class="form-label">Nome Profissional</label>
@@ -50,6 +67,20 @@ const ConfiguracoesView = {
         const Utils = (await import('./utils.js')).default;
         const DB = (await import('./database.js')).default;
 
+        let logoBase64Temp = DB.getConfig()?.personal?.logoBase64 || '';
+
+        document.getElementById('cfg_logo').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                try {
+                    logoBase64Temp = await Utils.fileToBase64(file);
+                    Utils.toast('Logo carregada na memória. Clique em Salvar.', 'info');
+                } catch (error) {
+                    Utils.toast('Erro ao ler imagem.', 'erro');
+                }
+            }
+        });
+
         document.getElementById('config-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const config = DB.getConfig() || { personal: {} };
@@ -60,10 +91,31 @@ const ConfiguracoesView = {
                 telefone: document.getElementById('cfg_telefone').value,
                 especialidade: document.getElementById('cfg_especialidade').value,
                 frase: document.getElementById('cfg_frase').value,
+                corPrimaria: document.getElementById('cfg_corPrimaria').value,
+                corSidebar: document.getElementById('cfg_corSidebar').value,
+                logoBase64: logoBase64Temp
             };
             DB.saveConfig(config);
+
+            // Apply live
+            document.documentElement.style.setProperty('--primary-color', config.personal.corPrimaria);
+            document.documentElement.style.setProperty('--bg-sidebar', config.personal.corSidebar);
             document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+
+            const logoEl = document.getElementById('sidebar-logo');
+            const titleEl = document.getElementById('sidebar-title');
+            if (config.personal.logoBase64) {
+                logoEl.src = config.personal.logoBase64;
+                logoEl.style.display = 'block';
+                titleEl.style.display = 'none';
+            } else {
+                logoEl.style.display = 'none';
+                titleEl.style.display = 'block';
+            }
+
             Utils.toast('Configurações salvas com sucesso!', 'sucesso');
+            // Refresh view
+            setTimeout(() => window.location.reload(), 1000);
         });
     }
 };
@@ -160,12 +212,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start router
     const router = new Router(routes, 'router-view');
 
-    // Set global username from config
+    // Set global UI from config
     import('./database.js').then(module => {
         const DB = module.default;
         const config = DB.getConfig();
-        if (config && config.personal && config.personal.nomeProfissional) {
-            document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+        if (config && config.personal) {
+            if (config.personal.nomeProfissional) {
+                document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            }
+            if (config.personal.corPrimaria) {
+                document.documentElement.style.setProperty('--primary-color', config.personal.corPrimaria);
+            }
+            if (config.personal.corSidebar) {
+                document.documentElement.style.setProperty('--bg-sidebar', config.personal.corSidebar);
+            }
+
+            const logoEl = document.getElementById('sidebar-logo');
+            const titleEl = document.getElementById('sidebar-title');
+            if (config.personal.logoBase64) {
+                logoEl.src = config.personal.logoBase64;
+                logoEl.style.display = 'block';
+                if(titleEl) titleEl.style.display = 'none';
+            }
         }
     });
 });

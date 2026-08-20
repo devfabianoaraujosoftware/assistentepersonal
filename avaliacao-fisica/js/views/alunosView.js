@@ -113,6 +113,25 @@ export const AlunoFormView = {
                             <label class="form-label">Nível de Estresse (0-10)</label>
                             <input type="number" id="estresse_nivel" min="0" max="10" class="form-control">
                         </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Hidratação Diária (Litros)</label>
+                            <input type="number" step="0.1" id="hidratacao" min="0" max="10" class="form-control" placeholder="Ex: 2.5">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Ingestão de Proteína (g/kg)</label>
+                            <input type="number" step="0.1" id="nutricao_proteina" min="0" class="form-control" placeholder="Ex: 1.6">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Ingestão de Carboidrato (g/kg)</label>
+                            <input type="number" step="0.1" id="nutricao_carbo" min="0" class="form-control" placeholder="Ex: 4.0">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Ingestão de Gordura (g/kg)</label>
+                            <input type="number" step="0.1" id="nutricao_gordura" min="0" class="form-control" placeholder="Ex: 1.0">
+                        </div>
                     </div>
 
                     <div class="form-row">
@@ -127,9 +146,16 @@ export const AlunoFormView = {
                             <label class="form-label">Lesões Prévias (Resumo)</label>
                             <input type="text" id="lesoes_resumo" class="form-control" placeholder="Ex: Ombro direito, lombar">
                         </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cirurgias Anteriores</label>
+                            <input type="text" id="cirurgias_resumo" class="form-control" placeholder="Ex: LCA Joelho Esquerdo">
+                        </div>
                         <div class="form-group form-col">
                             <label class="form-label">Medicamentos de Uso Contínuo</label>
-                            <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana">
+                            <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana, Metformina">
                         </div>
                     </div>
 
@@ -165,8 +191,15 @@ export const AlunoFormView = {
                 // Anamnese fields
                 sono: { horas: parseInt(document.getElementById('sono_horas').value) || 8 },
                 estresse: parseInt(document.getElementById('estresse_nivel').value) || 5,
+                hidratacao: parseFloat(document.getElementById('hidratacao').value) || 0,
+                nutricao: {
+                    proteina: parseFloat(document.getElementById('nutricao_proteina').value) || 0,
+                    carbo: parseFloat(document.getElementById('nutricao_carbo').value) || 0,
+                    gordura: parseFloat(document.getElementById('nutricao_gordura').value) || 0
+                },
                 parq: { possuiRestricao: document.getElementById('parq_restricao').value === 'true' },
                 lesoes: document.getElementById('lesoes_resumo').value ? [{ local: document.getElementById('lesoes_resumo').value }] : [],
+                cirurgias: document.getElementById('cirurgias_resumo').value ? [{ local: document.getElementById('cirurgias_resumo').value }] : [],
                 medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : []
             };
 

@@ -56,24 +56,34 @@ export const AlunoFormView = {
                 <form id="aluno-form">
                     <div class="card-header">Dados Pessoais</div>
                     <div class="form-row">
-                        <div class="form-group form-col">
-                            <label class="form-label">Nome Completo *</label>
-                            <input type="text" id="nome" class="form-control" required>
+                        <div class="form-group form-col" style="flex: 0 0 120px;">
+                            <label class="form-label">Foto de Perfil</label>
+                            <div id="foto_preview" style="width: 100px; height: 100px; border: 1px dashed var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 10px;">
+                                <span style="font-size: 0.8rem; color: var(--text-light); text-align: center;">Upload</span>
+                            </div>
+                            <input type="file" id="foto_aluno" accept="image/*" style="width: 100px; font-size: 0.75rem;">
                         </div>
-                        <div class="form-group form-col">
-                            <label class="form-label">Data de Nascimento *</label>
-                            <input type="date" id="dataNascimento" class="form-control" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                         <div class="form-group form-col">
-                            <label class="form-label">Email</label>
-                            <input type="email" id="email" class="form-control">
-                        </div>
-                        <div class="form-group form-col">
-                            <label class="form-label">Telefone (WhatsApp)</label>
-                            <input type="text" id="telefone" class="form-control">
+                        <div class="form-col" style="flex: 1;">
+                            <div class="form-row">
+                                <div class="form-group form-col">
+                                    <label class="form-label">Nome Completo *</label>
+                                    <input type="text" id="nome" class="form-control" required>
+                                </div>
+                                <div class="form-group form-col">
+                                    <label class="form-label">Data de Nascimento *</label>
+                                    <input type="date" id="dataNascimento" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                 <div class="form-group form-col">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" id="email" class="form-control">
+                                </div>
+                                <div class="form-group form-col">
+                                    <label class="form-label">Telefone (WhatsApp)</label>
+                                    <input type="text" id="telefone" class="form-control">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -117,19 +127,30 @@ export const AlunoFormView = {
 
                     <div class="form-row">
                         <div class="form-group form-col">
-                            <label class="form-label">PAR-Q+ (Possui restrição médica declarada?)</label>
+                            <label class="form-label">Hidratação Diária (Litros)</label>
+                            <input type="number" step="0.1" id="hidratacao" class="form-control" placeholder="Ex: 2.5">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Orientação Alimentar (Macronutrientes)</label>
+                            <input type="text" id="alimentacao" class="form-control" placeholder="Ex: Alta proteína, baixo carbo">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">PAR-Q+ (Restrição Médica?)</label>
                             <select id="parq_restricao" class="form-control">
                                 <option value="false">Não</option>
                                 <option value="true">Sim (Exige liberação médica)</option>
                             </select>
                         </div>
                         <div class="form-group form-col">
-                            <label class="form-label">Lesões Prévias (Resumo)</label>
-                            <input type="text" id="lesoes_resumo" class="form-control" placeholder="Ex: Ombro direito, lombar">
+                            <label class="form-label">Cirurgias / Lesões</label>
+                            <input type="text" id="lesoes_resumo" class="form-control" placeholder="Ex: LCA Joelho (2020)">
                         </div>
                         <div class="form-group form-col">
-                            <label class="form-label">Medicamentos de Uso Contínuo</label>
-                            <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana">
+                            <label class="form-label">Medicamentos de Uso Contínuo (Detalhar)</label>
+                            <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana, Ritalina (Descreva impactos se souber)">
                         </div>
                     </div>
 
@@ -148,6 +169,19 @@ export const AlunoFormView = {
         `;
     },
     afterRender: () => {
+        let fotoBase64 = '';
+        document.getElementById('foto_aluno').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    fotoBase64 = event.target.result;
+                    document.getElementById('foto_preview').innerHTML = `<img src="${fotoBase64}" style="width:100%; height:100%; object-fit:cover;">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         document.getElementById('aluno-form').addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -162,9 +196,12 @@ export const AlunoFormView = {
                 status: 'Ativo',
                 consentimentoLGPD: document.getElementById('consentimento').checked,
                 dataCadastro: new Date().toISOString(),
+                foto: fotoBase64,
                 // Anamnese fields
                 sono: { horas: parseInt(document.getElementById('sono_horas').value) || 8 },
                 estresse: parseInt(document.getElementById('estresse_nivel').value) || 5,
+                hidratacao: parseFloat(document.getElementById('hidratacao').value) || 0,
+                alimentacao: document.getElementById('alimentacao').value,
                 parq: { possuiRestricao: document.getElementById('parq_restricao').value === 'true' },
                 lesoes: document.getElementById('lesoes_resumo').value ? [{ local: document.getElementById('lesoes_resumo').value }] : [],
                 medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : []

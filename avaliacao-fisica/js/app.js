@@ -14,7 +14,19 @@ const ConfiguracoesView = {
             <h1>Configurações do Personal Trainer</h1>
             <div class="card">
                 <form id="config-form">
-                    <div class="card-header">Dados Profissionais (Usados nos Relatórios PDF)</div>
+                    <div class="card-header">Personalização do Sistema</div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor Principal do Sistema</label>
+                            <input type="color" id="cfg_cor" class="form-control" value="${p.corSistema || '#2563eb'}" style="height: 50px;">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Logomarca (Upload)</label>
+                            <input type="file" id="cfg_logo" class="form-control" accept="image/*">
+                            ${p.logoBase64 ? `<img src="${p.logoBase64}" style="max-height: 50px; margin-top: 10px;">` : ''}
+                        </div>
+                    </div>
+                    <div class="card-header" style="margin-top: 20px;">Dados Profissionais (Usados nos Relatórios PDF)</div>
                     <div class="form-row">
                         <div class="form-group form-col">
                             <label class="form-label">Nome Profissional</label>
@@ -39,6 +51,11 @@ const ConfiguracoesView = {
                         <label class="form-label">Frase Profissional (Rodapé)</label>
                         <input type="text" id="cfg_frase" class="form-control" value="${p.frase || ''}">
                     </div>
+                    <div class="form-group">
+                        <label class="form-label">Foto de Perfil (Upload)</label>
+                        <input type="file" id="cfg_foto_perfil" class="form-control" accept="image/*">
+                        ${p.fotoPerfilBase64 ? `<img src="${p.fotoPerfilBase64}" style="max-height: 100px; margin-top: 10px; border-radius: 50%;">` : ''}
+                    </div>
                     <div style="text-align: right; margin-top: var(--space-4);">
                         <button type="submit" class="btn btn-primary">Salvar Configurações</button>
                     </div>
@@ -50,9 +67,31 @@ const ConfiguracoesView = {
         const Utils = (await import('./utils.js')).default;
         const DB = (await import('./database.js')).default;
 
-        document.getElementById('config-form').addEventListener('submit', (e) => {
+        document.getElementById('config-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const config = DB.getConfig() || { personal: {} };
+
+            const fileToBase64 = (file) => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+
+            const logoInput = document.getElementById('cfg_logo');
+            let logoBase64 = config.personal.logoBase64;
+            if (logoInput.files.length > 0) {
+                logoBase64 = await fileToBase64(logoInput.files[0]);
+            }
+
+            const fotoPerfilInput = document.getElementById('cfg_foto_perfil');
+            let fotoPerfilBase64 = config.personal.fotoPerfilBase64;
+            if (fotoPerfilInput.files.length > 0) {
+                fotoPerfilBase64 = await fileToBase64(fotoPerfilInput.files[0]);
+            }
+
+            const novaCor = document.getElementById('cfg_cor').value;
+
             config.personal = {
                 ...config.personal,
                 nomeProfissional: document.getElementById('cfg_nome').value,
@@ -60,10 +99,26 @@ const ConfiguracoesView = {
                 telefone: document.getElementById('cfg_telefone').value,
                 especialidade: document.getElementById('cfg_especialidade').value,
                 frase: document.getElementById('cfg_frase').value,
+                corSistema: novaCor,
+                logoBase64: logoBase64,
+                fotoPerfilBase64: fotoPerfilBase64
             };
             DB.saveConfig(config);
+
+            // Apply new settings immediately
             document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            document.documentElement.style.setProperty('--primary-color', novaCor);
+
+            const sidebarHeader = document.querySelector('.sidebar-header');
+            if (logoBase64) {
+                sidebarHeader.innerHTML = `<img src="${logoBase64}" style="max-height: 40px; margin-bottom: 5px;"><br><div style="font-size: 0.75rem; font-weight: normal; color: var(--text-light)">Personal Trainer OS</div>`;
+            } else {
+                 sidebarHeader.innerHTML = `MESTRE<div style="font-size: 0.75rem; font-weight: normal; color: var(--text-light)">Personal Trainer OS</div>`;
+            }
+
             Utils.toast('Configurações salvas com sucesso!', 'sucesso');
+            // Refresh view to show updated images
+            window.location.hash = '#/configuracoes';
         });
     }
 };
@@ -160,12 +215,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start router
     const router = new Router(routes, 'router-view');
 
-    // Set global username from config
+    // Set global username, color and logo from config
     import('./database.js').then(module => {
         const DB = module.default;
         const config = DB.getConfig();
-        if (config && config.personal && config.personal.nomeProfissional) {
-            document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+        if (config && config.personal) {
+            if (config.personal.nomeProfissional) {
+                document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            }
+            if (config.personal.corSistema) {
+                document.documentElement.style.setProperty('--primary-color', config.personal.corSistema);
+            }
+            if (config.personal.logoBase64) {
+                 const sidebarHeader = document.querySelector('.sidebar-header');
+                 sidebarHeader.innerHTML = `<img src="${config.personal.logoBase64}" style="max-height: 40px; margin-bottom: 5px;"><br><div style="font-size: 0.75rem; font-weight: normal; color: var(--text-light)">Personal Trainer OS</div>`;
+            }
         }
     });
 });

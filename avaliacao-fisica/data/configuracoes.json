@@ -8,6 +8,8 @@
     "email": "contato@joaosilva.com",
     "especialidade": "Hipertrofia e Emagrecimento",
     "frase": "Transformando vidas através do movimento.",
-    "logoBase64": ""
+    "logoBase64": "",
+    "fotoPerfilBase64": "",
+    "corSistema": "#2563eb"
   }
 }

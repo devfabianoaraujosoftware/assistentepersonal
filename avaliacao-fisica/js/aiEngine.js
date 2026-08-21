@@ -39,7 +39,11 @@ class MockAIService {
             frequenciaSemanal: parseInt(aluno.frequenciaSemanal) || 3,
             sono: aluno.sono || { horas: 8 },
             estresse: parseInt(aluno.estresse) || 5,
-            objetivos: aluno.objetivos || []
+            objetivos: aluno.objetivos || [],
+            objetivoPrincipal: aluno.objetivoPrincipal || '',
+            hidratacao: parseFloat(aluno.hidratacao) || 0,
+            alimentacao: aluno.alimentacao || '',
+            medicamentos: aluno.medicamentos || []
         }
     };
 
@@ -91,11 +95,11 @@ class MockAIService {
      // Very simple logic to mock workout splitting
      if (dias <= 2) {
          // Full body
-         estrutura.push(this._createDay('A', 'Corpo Inteiro', exerciciosBD, ['Peitoral', 'Costas', 'Quadríceps', 'Posterior']));
+         estrutura.push(this._createDay('A', 'Corpo Inteiro', exerciciosBD, ['Peitoral', 'Costas', 'Quadríceps', 'Posterior', 'Core']));
      } else if (dias === 3) {
          // Push/Pull/Legs mock
          estrutura.push(this._createDay('A', 'Empurrar', exerciciosBD, ['Peitoral', 'Ombros', 'Tríceps']));
-         estrutura.push(this._createDay('B', 'Puxar', exerciciosBD, ['Costas', 'Bíceps']));
+         estrutura.push(this._createDay('B', 'Puxar', exerciciosBD, ['Costas', 'Bíceps', 'Core']));
          estrutura.push(this._createDay('C', 'Pernas', exerciciosBD, ['Quadríceps', 'Posterior', 'Glúteos', 'Panturrilha']));
      } else {
          // Bro split mock
@@ -105,24 +109,46 @@ class MockAIService {
          estrutura.push(this._createDay('D', 'Ombros e Core', exerciciosBD, ['Ombros', 'Core', 'Abdômen']));
      }
 
+     // Determine expected evolution and cautions
+     let cuidados = "Manter atenção à técnica em exercícios multiarticulares.";
+     if (aluno.medicamentos && aluno.medicamentos.length > 0) {
+         cuidados += ` Atenção aos possíveis efeitos colaterais das medicações relatadas (${aluno.medicamentos.map(m=>m.nome).join(', ')}).`;
+     }
+     if (aluno.experiencia === 'Iniciante') {
+         cuidados += " Focar na aprendizagem motora antes de progredir carga.";
+     }
+
+     let evolucao = "Melhora no condicionamento geral e força básica nas primeiras 4 a 6 semanas.";
+     if (aluno.objetivoPrincipal === 'Hipertrofia') {
+         evolucao = "Hipertrofia miofibrilar visível a partir de 8-12 semanas de treino consistente e superávit calórico adequado.";
+     } else if (aluno.objetivoPrincipal === 'Emagrecimento') {
+         evolucao = "Melhora na composição corporal com redução do percentual de gordura, aliada à dieta hipocalórica, nas primeiras semanas.";
+     }
+
      return {
          alunoId,
          dataInicio: new Date().toISOString(),
          status: 'Rascunho', // Must be approved by Personal
          frequencia: dias,
          estrutura,
-         justificativa: "Estrutura sugerida com base na frequência semanal e nível de experiência. Cargas e ajustes finos requerem revisão presencial."
+         justificativa: "Estrutura sugerida com base na frequência semanal e nível de experiência. Cargas e ajustes finos requerem revisão presencial do Personal Trainer.",
+         cuidados: cuidados,
+         evolucao: evolucao
      };
   }
 
   _createDay(identificador, nome, db, gruposFoco) {
       const dia = { identificador, nome, exercicios: [] };
 
+      // Shuffle array helper
+      const shuffle = (array) => array.sort(() => 0.5 - Math.random());
+
       gruposFoco.forEach(grupo => {
           // Find 1-2 exercises for the muscle group
-          const possiveis = db.filter(ex => ex.grupoMuscular.includes(grupo));
+          let possiveis = db.filter(ex => ex.grupoMuscular.includes(grupo));
           if(possiveis.length > 0) {
-              const exSelecionado = possiveis[Math.floor(Math.random() * possiveis.length)];
+              possiveis = shuffle(possiveis);
+              const exSelecionado = possiveis[0];
               dia.exercicios.push({
                   exercicioId: exSelecionado.id,
                   nome: exSelecionado.nome,
@@ -130,7 +156,8 @@ class MockAIService {
                   repeticoes: "8-12",
                   carga: "A definir (RIR 2)",
                   descanso: "90s",
-                  observacao: exSelecionado.observacoes || "Controlar excêntrica."
+                  observacao: exSelecionado.observacoes || "Controlar excêntrica.",
+                  video: exSelecionado.video_url || ""
               });
           }
       });

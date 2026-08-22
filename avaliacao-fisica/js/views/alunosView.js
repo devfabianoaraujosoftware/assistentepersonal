@@ -128,8 +128,33 @@ export const AlunoFormView = {
                             <input type="text" id="lesoes_resumo" class="form-control" placeholder="Ex: Ombro direito, lombar">
                         </div>
                         <div class="form-group form-col">
+                            <label class="form-label">Cirurgias (Resumo)</label>
+                            <input type="text" id="cirurgias_resumo" class="form-control" placeholder="Ex: Apendicite, joelho">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
                             <label class="form-label">Medicamentos de Uso Contínuo</label>
                             <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Alimentação (Qualidade geral)</label>
+                            <select id="alimentacao_qualidade" class="form-control">
+                                <option value="Boa">Boa</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Ruim">Ruim</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Hidratação (Litros/dia)</label>
+                            <input type="number" id="hidratacao_litros" step="0.1" class="form-control" placeholder="Ex: 2.5">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Foto de Identificação (Mock URL)</label>
+                            <input type="text" id="foto_identificacao" class="form-control" placeholder="https://exemplo.com/foto.jpg">
                         </div>
                     </div>
 
@@ -162,12 +187,17 @@ export const AlunoFormView = {
                 status: 'Ativo',
                 consentimentoLGPD: document.getElementById('consentimento').checked,
                 dataCadastro: new Date().toISOString(),
+                matricula: 'MAT-' + Math.floor(Math.random() * 1000000).toString().padStart(6, '0'),
+                fotoUrl: document.getElementById('foto_identificacao').value,
                 // Anamnese fields
                 sono: { horas: parseInt(document.getElementById('sono_horas').value) || 8 },
                 estresse: parseInt(document.getElementById('estresse_nivel').value) || 5,
                 parq: { possuiRestricao: document.getElementById('parq_restricao').value === 'true' },
                 lesoes: document.getElementById('lesoes_resumo').value ? [{ local: document.getElementById('lesoes_resumo').value }] : [],
-                medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : []
+                cirurgias: document.getElementById('cirurgias_resumo').value,
+                medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : [],
+                alimentacao: document.getElementById('alimentacao_qualidade').value,
+                hidratacao: parseFloat(document.getElementById('hidratacao_litros').value) || 0
             };
 
             const salvo = DB.save('alunos', novoAluno);

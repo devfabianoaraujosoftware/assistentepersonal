@@ -10,7 +10,8 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX002", "EX003"],
       "observacoes": "Manter escápulas retraídas.",
-      "restricoes": ["ombro_lesao"]
+      "restricoes": ["ombro_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=sqOw2Y6uDWQ"
     },
     {
       "id": "EX002",
@@ -22,7 +23,8 @@
       "objetivos": ["hipertrofia"],
       "substitutos": ["EX001"],
       "observacoes": "",
-      "restricoes": ["ombro_lesao"]
+      "restricoes": ["ombro_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=8iPEnn-ltC8"
     },
     {
       "id": "EX003",
@@ -34,7 +36,8 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoYoutube": "https://www.youtube.com/watch?v=Z5ZA1kV9Eko"
     },
     {
       "id": "EX004",
@@ -46,7 +49,8 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX005"],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoYoutube": "https://www.youtube.com/watch?v=CAwf7n6Luuc"
     },
     {
       "id": "EX005",
@@ -58,7 +62,8 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX004"],
       "observacoes": "Atenção à postura da lombar.",
-      "restricoes": ["lombar_lesao"]
+      "restricoes": ["lombar_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=9efgcAjQe7E"
     },
     {
       "id": "EX006",
@@ -70,7 +75,8 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["ombro_lesao", "cervical_lesao"]
+      "restricoes": ["ombro_lesao", "cervical_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=qEwKCR5JCog"
     },
     {
       "id": "EX007",
@@ -82,7 +88,8 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoYoutube": "https://www.youtube.com/watch?v=3VcKaXpzqRo"
     },
     {
       "id": "EX008",
@@ -94,7 +101,8 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["cotovelo_lesao"]
+      "restricoes": ["cotovelo_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=ykJmrZ5v0Oo"
     },
     {
       "id": "EX009",
@@ -106,7 +114,8 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["cotovelo_lesao"]
+      "restricoes": ["cotovelo_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=2-LAMcpzODU"
     },
     {
       "id": "EX010",
@@ -118,7 +127,8 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX011"],
       "observacoes": "Essencial técnica correta.",
-      "restricoes": ["joelho_lesao", "lombar_lesao"]
+      "restricoes": ["joelho_lesao", "lombar_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=gcNh17Ckjgg"
     },
     {
       "id": "EX011",
@@ -130,7 +140,8 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX010"],
       "observacoes": "Não estender completamente os joelhos.",
-      "restricoes": ["joelho_lesao"]
+      "restricoes": ["joelho_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=IZxyjW7OSvc"
     },
     {
       "id": "EX012",
@@ -142,7 +153,8 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["LCA_lesao"]
+      "restricoes": ["LCA_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=YyvSfVjQeL0"
     },
     {
       "id": "EX013",
@@ -154,7 +166,8 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoYoutube": "https://www.youtube.com/watch?v=1Tq3QdYUuHs"
     },
     {
       "id": "EX014",
@@ -166,7 +179,8 @@
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoYoutube": "https://www.youtube.com/watch?v=3UWi4dKxGjE"
     },
     {
       "id": "EX015",
@@ -178,7 +192,73 @@
       "objetivos": ["condicionamento", "resistencia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoYoutube": "https://www.youtube.com/watch?v=pSHjTRCQxIw"
+    },
+    {
+      "id": "EX016",
+      "nome": "Alongamento de Isquiotibiais",
+      "grupoMuscular": ["Posterior"],
+      "tipo": "alongamento",
+      "equipamento": "peso corporal",
+      "nivel": ["iniciante", "intermediario", "avancado"],
+      "objetivos": ["mobilidade"],
+      "substitutos": [],
+      "observacoes": "Não forçar a dor.",
+      "restricoes": [],
+      "videoYoutube": "https://www.youtube.com/watch?v=68Kk-wY4WkY"
+    },
+    {
+      "id": "EX017",
+      "nome": "Mobilidade de Tornozelo",
+      "grupoMuscular": ["Panturrilha", "Tornozelo"],
+      "tipo": "mobilidade",
+      "equipamento": "peso corporal",
+      "nivel": ["iniciante", "intermediario", "avancado"],
+      "objetivos": ["mobilidade"],
+      "substitutos": [],
+      "observacoes": "Manter o calcanhar no chão.",
+      "restricoes": [],
+      "videoYoutube": "https://www.youtube.com/watch?v=zT1s4w5H1xQ"
+    },
+    {
+      "id": "EX018",
+      "nome": "Burpee",
+      "grupoMuscular": ["Corpo Inteiro"],
+      "tipo": "crossfit",
+      "equipamento": "peso corporal",
+      "nivel": ["intermediario", "avancado"],
+      "objetivos": ["condicionamento"],
+      "substitutos": [],
+      "observacoes": "Cuidado com o impacto.",
+      "restricoes": ["joelho_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=TU8QYVW0gDU"
+    },
+    {
+      "id": "EX019",
+      "nome": "Kettlebell Swing",
+      "grupoMuscular": ["Glúteos", "Posterior", "Core"],
+      "tipo": "funcional",
+      "equipamento": "kettlebell",
+      "nivel": ["intermediario", "avancado"],
+      "objetivos": ["forca", "condicionamento"],
+      "substitutos": [],
+      "observacoes": "Movimento vem do quadril, não da lombar.",
+      "restricoes": ["lombar_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=YSxHifyI6s8"
+    },
+    {
+      "id": "EX020",
+      "nome": "Flexão de Braço (Treino em Casa)",
+      "grupoMuscular": ["Peitoral", "Tríceps", "Core"],
+      "tipo": "multiarticular",
+      "equipamento": "peso corporal",
+      "nivel": ["iniciante", "intermediario", "avancado"],
+      "objetivos": ["hipertrofia", "resistencia"],
+      "substitutos": [],
+      "observacoes": "Manter corpo alinhado.",
+      "restricoes": ["ombro_lesao", "punho_lesao"],
+      "videoYoutube": "https://www.youtube.com/watch?v=IODxDxX7oi4"
     }
   ]
 }

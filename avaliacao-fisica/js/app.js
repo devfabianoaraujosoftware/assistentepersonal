@@ -35,6 +35,16 @@ const ConfiguracoesView = {
                             <input type="text" id="cfg_especialidade" class="form-control" value="${p.especialidade || ''}">
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor Primária do Sistema (Hex)</label>
+                            <input type="color" id="cfg_cor" class="form-control" value="${p.corPrimaria || '#2563eb'}" style="height: 40px; padding: 0;">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Logo Profissional (URL)</label>
+                            <input type="text" id="cfg_logo" class="form-control" value="${p.logoUrl || ''}" placeholder="https://exemplo.com/minhalogo.png">
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="form-label">Frase Profissional (Rodapé)</label>
                         <input type="text" id="cfg_frase" class="form-control" value="${p.frase || ''}">
@@ -53,6 +63,9 @@ const ConfiguracoesView = {
         document.getElementById('config-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const config = DB.getConfig() || { personal: {} };
+            const corPrimaria = document.getElementById('cfg_cor').value;
+            const logoUrl = document.getElementById('cfg_logo').value;
+
             config.personal = {
                 ...config.personal,
                 nomeProfissional: document.getElementById('cfg_nome').value,
@@ -60,9 +73,27 @@ const ConfiguracoesView = {
                 telefone: document.getElementById('cfg_telefone').value,
                 especialidade: document.getElementById('cfg_especialidade').value,
                 frase: document.getElementById('cfg_frase').value,
+                corPrimaria: corPrimaria,
+                logoUrl: logoUrl,
             };
             DB.saveConfig(config);
             document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+
+            if(corPrimaria) {
+                document.documentElement.style.setProperty('--primary-color', corPrimaria);
+            }
+
+            const sidebarHeader = document.querySelector('.sidebar-header');
+            if (sidebarHeader) {
+                if (logoUrl) {
+                    sidebarHeader.innerHTML = `<img src="${logoUrl}" alt="Logo" style="max-width: 100%; max-height: 50px; margin-bottom: 5px;">
+                                              <div style="font-size: 0.75rem; font-weight: normal; color: var(--text-light)">Personal Trainer OS</div>`;
+                } else {
+                    sidebarHeader.innerHTML = `MESTRE
+                                              <div style="font-size: 0.75rem; font-weight: normal; color: var(--text-light)">Personal Trainer OS</div>`;
+                }
+            }
+
             Utils.toast('Configurações salvas com sucesso!', 'sucesso');
         });
     }
@@ -160,12 +191,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start router
     const router = new Router(routes, 'router-view');
 
-    // Set global username from config
+    // Set global username, theme and logo from config
     import('./database.js').then(module => {
         const DB = module.default;
         const config = DB.getConfig();
-        if (config && config.personal && config.personal.nomeProfissional) {
-            document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+        if (config && config.personal) {
+            if (config.personal.nomeProfissional) {
+                document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            }
+            if (config.personal.corPrimaria) {
+                document.documentElement.style.setProperty('--primary-color', config.personal.corPrimaria);
+            }
+
+            const sidebarHeader = document.querySelector('.sidebar-header');
+            if (sidebarHeader && config.personal.logoUrl) {
+                sidebarHeader.innerHTML = `<img src="${config.personal.logoUrl}" alt="Logo" style="max-width: 100%; max-height: 50px; margin-bottom: 5px;">
+                                          <div style="font-size: 0.75rem; font-weight: normal; color: var(--text-light)">Personal Trainer OS</div>`;
+            }
         }
     });
 });

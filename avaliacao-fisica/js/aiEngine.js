@@ -39,7 +39,10 @@ class MockAIService {
             frequenciaSemanal: parseInt(aluno.frequenciaSemanal) || 3,
             sono: aluno.sono || { horas: 8 },
             estresse: parseInt(aluno.estresse) || 5,
-            objetivos: aluno.objetivos || []
+            objetivos: aluno.objetivos || [aluno.objetivoPrincipal] || [],
+            medicamentos: aluno.medicamentos || [],
+            alimentacao: aluno.alimentacao || 'Regular',
+            hidratacao: aluno.hidratacao || 2
         }
     };
 
@@ -68,6 +71,23 @@ class MockAIService {
     // Default static insights if rules don't trigger much
     if (alertas.length === 0) {
         alertas.push({ nivel: 'verde', mensagem: 'Sem alertas relevantes identificados pelos dados disponíveis.', id: 'DEFAULT_OK' });
+    }
+
+    // Simulate image analysis (mock) if the student has photos
+    if (aluno.fotoUrl || aluno.foto_frente || aluno.foto_exames) {
+        sugestoes.push({ categoria: 'imagem', mensagem: 'Análise de Imagem (Mock): Assimetria leve detectada no ombro direito. Bioimpedância sugere 15% de BF.' });
+    }
+
+    // Nutritional guidelines based on objective
+    const objPrincipal = aluno.objetivoPrincipal || '';
+    if (objPrincipal === 'Hipertrofia') {
+        sugestoes.push({ categoria: 'nutricao', mensagem: 'Sugestão Nutricional (Validada): Focar em superávit calórico leve (200-300 kcal), alta ingestão de proteína (1.6 a 2.2g/kg). Suplementação sugerida: Creatina, Whey Protein.' });
+        sugestoes.push({ categoria: 'evolucao', mensagem: 'Evolução Prevista: Ganho de 0.5 a 1kg de massa magra por mês se houver adesão ao treino e dieta.' });
+    } else if (objPrincipal === 'Emagrecimento') {
+        sugestoes.push({ categoria: 'nutricao', mensagem: 'Sugestão Nutricional (Validada): Focar em déficit calórico moderado (300-500 kcal), manter alta proteína para preservar massa magra. Suplementação sugerida: Cafeína (pré-treino).' });
+        sugestoes.push({ categoria: 'evolucao', mensagem: 'Evolução Prevista: Perda de 0.5 a 1kg de gordura por semana com boa adesão.' });
+    } else if (objPrincipal === 'Força') {
+        sugestoes.push({ categoria: 'nutricao', mensagem: 'Sugestão Nutricional (Validada): Focar em dieta isocalórica ou leve superávit. Alta ingestão de carboidratos antes do treino. Suplementação sugerida: Creatina.' });
     }
 
     return {
@@ -111,7 +131,7 @@ class MockAIService {
          status: 'Rascunho', // Must be approved by Personal
          frequencia: dias,
          estrutura,
-         justificativa: "Estrutura sugerida com base na frequência semanal e nível de experiência. Cargas e ajustes finos requerem revisão presencial."
+         justificativa: "Estrutura sugerida com base na frequência semanal e nível de experiência. Cargas e ajustes finos requerem revisão presencial. Cuidados para o treinador: Monitore a execução dos exercícios multiarticulares e ajuste a carga conforme o feedback do aluno (RIR)."
      };
   }
 

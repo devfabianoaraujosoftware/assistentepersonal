@@ -14,7 +14,11 @@ export const AlunoDetailView = {
         return `
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: var(--space-6)">
                 <a href="#/alunos" class="btn btn-secondary">← Voltar</a>
+                ${aluno.fotoUrl ? `<img src="${aluno.fotoUrl}" alt="Foto" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">` : ''}
                 <h1>${aluno.nome} <span class="badge badge-green">${idade} anos</span></h1>
+                <div style="margin-left: auto;">
+                    <span class="badge badge-orange">Matrícula: ${aluno.matricula || '-'}</span>
+                </div>
             </div>
 
             <!-- Tabs Navigation -->
@@ -66,8 +70,20 @@ export const AlunoDetailView = {
                     </div>
                 </div>
                 <div class="card">
+                    <div class="card-header">Estilo de Vida</div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <p><strong>Alimentação:</strong> ${aluno.alimentacao || 'Não informado'}</p>
+                        </div>
+                        <div class="form-col">
+                            <p><strong>Hidratação:</strong> ${aluno.hidratacao ? aluno.hidratacao + ' L/dia' : 'Não informado'}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
                     <div class="card-header">Histórico Médico</div>
                     <p><strong>Lesões:</strong> ${aluno.lesoes && aluno.lesoes.length > 0 ? aluno.lesoes.map(l => l.local).join(', ') : 'Nenhuma relatada'}</p>
+                    <p><strong>Cirurgias:</strong> ${aluno.cirurgias || 'Nenhuma relatada'}</p>
                     <p><strong>Medicamentos:</strong> ${aluno.medicamentos && aluno.medicamentos.length > 0 ? aluno.medicamentos.map(m => m.nome).join(', ') : 'Nenhum relatado'}</p>
                 </div>
             </div>
@@ -97,9 +113,29 @@ export const AlunoDetailView = {
                                 <input type="number" step="0.1" id="gordura" class="form-control">
                             </div>
                         </div>
-                        <div style="margin-top: var(--space-4);">
-                             <label class="form-label">Fotos (Mock de Upload Base64)</label>
-                             <input type="file" id="foto_upload" accept="image/*">
+                        <div class="form-row" style="margin-top: var(--space-4);">
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Postural Frente (Mock URL)</label>
+                                <input type="text" id="foto_frente" class="form-control" placeholder="URL da foto frente">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Postural Costas (Mock URL)</label>
+                                <input type="text" id="foto_costas" class="form-control" placeholder="URL da foto costas">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Postural Lateral Dir. (Mock URL)</label>
+                                <input type="text" id="foto_lat_dir" class="form-control" placeholder="URL da foto lateral direita">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Postural Lateral Esq. (Mock URL)</label>
+                                <input type="text" id="foto_lat_esq" class="form-control" placeholder="URL da foto lateral esquerda">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: var(--space-4);">
+                             <label class="form-label">Fotos de Exames / Bioimpedância IA (Mock URL)</label>
+                             <input type="text" id="foto_exames" class="form-control" placeholder="URL das fotos de exames">
                         </div>
                         <div style="text-align: right; margin-top: 15px;">
                             <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação</button>
@@ -158,10 +194,18 @@ export const AlunoDetailView = {
                     `;
 
                     if (analise.alertas.length > 0) {
-                        htmlAnalise += `<strong>Alertas de Segurança:</strong><br>`;
+                        htmlAnalise += `<strong>Alertas e Direcionamentos:</strong><br>`;
                         analise.alertas.forEach(a => {
                             htmlAnalise += `<div class="alert-item alert-${a.nivel}">${a.mensagem}</div>`;
                         });
+                    }
+
+                    if (analise.sugestoes && analise.sugestoes.length > 0) {
+                        htmlAnalise += `<strong style="margin-top: 15px; display: block;">Sugestões Inteligentes:</strong><ul style="padding-left: 20px;">`;
+                        analise.sugestoes.forEach(s => {
+                            htmlAnalise += `<li><strong style="color: var(--primary-color);">[${s.categoria.toUpperCase()}]</strong> ${s.mensagem}</li>`;
+                        });
+                        htmlAnalise += `</ul>`;
                     }
 
                     resultsContainer.innerHTML = htmlAnalise;
@@ -208,6 +252,7 @@ export const AlunoDetailView = {
                         <div style="margin-top: 20px; text-align: right;">
                             <button class="btn btn-primary" id="btn-aprovar-treino">Aprovar e Salvar Prescrição</button>
                             <button class="btn btn-secondary" id="btn-gerar-pdf" style="margin-left: 10px; display: none;">Gerar PDF</button>
+                            <button class="btn btn-success" id="btn-enviar-relatorio" style="margin-left: 10px; display: none;">Enviar Relatório (Mock WhatsApp/Email)</button>
                         </div>
                     `;
 
@@ -229,6 +274,7 @@ export const AlunoDetailView = {
                         document.getElementById('status-treino-badge').textContent = 'Aprovado';
                         document.getElementById('status-treino-badge').className = 'badge badge-green';
                         document.getElementById('btn-gerar-pdf').style.display = 'inline-block';
+                        document.getElementById('btn-enviar-relatorio').style.display = 'inline-block';
 
                         Utils.toast('Treino aprovado e salvo com sucesso!', 'sucesso');
                     });
@@ -237,6 +283,10 @@ export const AlunoDetailView = {
                         const { PDFService } = await import('../pdf.js');
                         PDFService.generateAlunoReport(aluno, analise, sugestaoTreino);
                         Utils.toast('PDF gerado com sucesso.', 'sucesso');
+                    });
+
+                    document.getElementById('btn-enviar-relatorio').addEventListener('click', () => {
+                         Utils.toast(`Relatório enviado para o aluno (Matrícula: ${aluno.matricula || '-'}) com sucesso via WhatsApp/Email!`, 'sucesso');
                     });
 
                     Utils.toast('Análise concluída com sucesso.', 'sucesso');

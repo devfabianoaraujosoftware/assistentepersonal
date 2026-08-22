@@ -34,6 +34,27 @@
       "condicao": "aluno.sono.horas < 6 && aluno.estresse > 7",
       "acao": "Aluno relatou baixo sono e alto estresse. Risco aumentado de fadiga e overtraining. Monitorar RPE.",
       "nivel": "laranja"
+    },
+    {
+      "id": "RULE006",
+      "categoria": "nutricao",
+      "condicao": "aluno.hidratacao < 2",
+      "acao": "Sugestão: Aumentar a ingestão de água. Hidratação atual abaixo do ideal (2L+), o que pode afetar a performance e recuperação.",
+      "nivel": "amarelo"
+    },
+    {
+      "id": "RULE007",
+      "categoria": "nutricao",
+      "condicao": "aluno.alimentacao === 'Ruim'",
+      "acao": "Alimentação relatada como ruim. Avaliar encaminhamento para nutricionista. Resultados podem ser comprometidos.",
+      "nivel": "laranja"
+    },
+    {
+      "id": "RULE008",
+      "categoria": "saude",
+      "condicao": "aluno.medicamentos && aluno.medicamentos.length > 0",
+      "acao": "Atenção Profissional: Aluno faz uso de medicamentos contínuos. Verificar possíveis interações (ex: betabloqueadores podem mascarar a frequência cardíaca).",
+      "nivel": "amarelo"
     }
   ]
 }

@@ -8,13 +8,27 @@ import { AlunoDetailView } from './views/alunoDetailView.js';
 const ConfiguracoesView = {
     render: async () => {
         const DB = (await import('./database.js')).default;
-        const config = DB.getConfig() || { personal: {} };
-        const p = config.personal;
+        const config = DB.getConfig() || { personal: {}, system: {} };
+        const p = config.personal || {};
+        const sys = config.system || {};
         return `
             <h1>Configurações do Personal Trainer</h1>
             <div class="card">
                 <form id="config-form">
-                    <div class="card-header">Dados Profissionais (Usados nos Relatórios PDF)</div>
+                    <div class="card-header">Personalização do Sistema</div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor Principal do Sistema</label>
+                            <input type="color" id="cfg_cor" class="form-control" value="${sys.corPrincipal || '#2563eb'}" style="height: 40px;">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Logomarca (Upload)</label>
+                            <input type="file" id="cfg_logo" class="form-control" accept="image/*">
+                            ${sys.logoBase64 ? '<img src="'+sys.logoBase64+'" style="max-height: 50px; margin-top: 10px;">' : ''}
+                        </div>
+                    </div>
+
+                    <div class="card-header" style="margin-top: 20px;">Dados Profissionais (Usados nos Relatórios PDF)</div>
                     <div class="form-row">
                         <div class="form-group form-col">
                             <label class="form-label">Nome Profissional</label>
@@ -50,9 +64,25 @@ const ConfiguracoesView = {
         const Utils = (await import('./utils.js')).default;
         const DB = (await import('./database.js')).default;
 
-        document.getElementById('config-form').addEventListener('submit', (e) => {
+        document.getElementById('config-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const config = DB.getConfig() || { personal: {} };
+            const config = DB.getConfig() || { personal: {}, system: {} };
+
+            // Handle logo upload
+            const logoFile = document.getElementById('cfg_logo').files[0];
+            let logoBase64 = config.system?.logoBase64;
+            if (logoFile) {
+                logoBase64 = await Utils.fileToBase64(logoFile);
+            }
+
+            const corPrincipal = document.getElementById('cfg_cor').value;
+
+            config.system = {
+                ...config.system,
+                corPrincipal,
+                logoBase64
+            };
+
             config.personal = {
                 ...config.personal,
                 nomeProfissional: document.getElementById('cfg_nome').value,
@@ -61,9 +91,24 @@ const ConfiguracoesView = {
                 especialidade: document.getElementById('cfg_especialidade').value,
                 frase: document.getElementById('cfg_frase').value,
             };
+
             DB.saveConfig(config);
+
+            // Apply configuration immediately
             document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            document.documentElement.style.setProperty('--primary-color', corPrincipal);
+            if (logoBase64) {
+                const sidebarLogo = document.getElementById('sidebar-logo');
+                if (sidebarLogo) {
+                    sidebarLogo.src = logoBase64;
+                    sidebarLogo.style.display = 'block';
+                }
+            }
+
             Utils.toast('Configurações salvas com sucesso!', 'sucesso');
+
+            // Optional: refresh to show new logo preview in form
+            setTimeout(() => window.location.reload(), 1000);
         });
     }
 };
@@ -160,12 +205,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start router
     const router = new Router(routes, 'router-view');
 
-    // Set global username from config
+    // Set global username and system customisation from config
     import('./database.js').then(module => {
         const DB = module.default;
         const config = DB.getConfig();
-        if (config && config.personal && config.personal.nomeProfissional) {
-            document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+        if (config) {
+            if (config.personal && config.personal.nomeProfissional) {
+                document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            }
+            if (config.system) {
+                if (config.system.corPrincipal) {
+                    document.documentElement.style.setProperty('--primary-color', config.system.corPrincipal);
+                }
+                if (config.system.logoBase64) {
+                    const sidebarLogo = document.getElementById('sidebar-logo');
+                    if (sidebarLogo) {
+                        sidebarLogo.src = config.system.logoBase64;
+                        sidebarLogo.style.display = 'block';
+                    }
+                }
+            }
         }
     });
 });

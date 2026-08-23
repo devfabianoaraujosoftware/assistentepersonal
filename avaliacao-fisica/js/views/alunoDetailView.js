@@ -12,9 +12,16 @@ export const AlunoDetailView = {
         const idade = Calc.idade(aluno.dataNascimento);
 
         return `
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: var(--space-6)">
-                <a href="#/alunos" class="btn btn-secondary">← Voltar</a>
-                <h1>${aluno.nome} <span class="badge badge-green">${idade} anos</span></h1>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-6)">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a href="#/alunos" class="btn btn-secondary">← Voltar</a>
+                    ${aluno.fotoBase64 ? `<img src="${aluno.fotoBase64}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">` : ''}
+                    <h1>${aluno.nome} <span class="badge badge-green">${idade} anos</span></h1>
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="btn-whatsapp" style="margin-right: 10px;" onclick="window.open('https://wa.me/?text=Olá%20${encodeURIComponent(aluno.nome)},%20seu%20ID%20de%20cadastro%20é:%20${aluno.id}','_blank')">Enviar Relatório (WhatsApp)</button>
+                    <span class="badge badge-green">${aluno.status || 'Ativo'}</span>
+                </div>
             </div>
 
             <!-- Tabs Navigation -->
@@ -98,12 +105,19 @@ export const AlunoDetailView = {
                             </div>
                         </div>
                         <div style="margin-top: var(--space-4);">
-                             <label class="form-label">Fotos (Mock de Upload Base64)</label>
-                             <input type="file" id="foto_upload" accept="image/*">
+                             <label class="form-label">Fotos "Antes" e "Depois" (Frente, Lado Dir, Lado Esq, Costas)</label>
+                             <input type="file" id="fotos_evolucao" accept="image/*" multiple class="form-control">
                         </div>
-                        <div style="text-align: right; margin-top: 15px;">
+                        <div style="margin-top: var(--space-4);">
+                             <label class="form-label">Fotos de Exames / Bioimpedância</label>
+                             <input type="file" id="fotos_exames" accept="image/*" multiple class="form-control">
+                        </div>
+                        <div style="text-align: right; margin-top: 15px; display: flex; justify-content: flex-end; gap: 10px;">
+                            <button type="button" id="btn-analisar-imagens" class="btn btn-secondary">Analisar Imagens com IA</button>
                             <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação</button>
                         </div>
+
+                        <div id="analise-imagens-result" style="margin-top: 20px;"></div>
                     </form>
                 </div>
             </div>
@@ -253,6 +267,44 @@ export const AlunoDetailView = {
         document.getElementById('btn-salvar-avaliacao')?.addEventListener('click', () => {
              Utils.toast('Avaliação salva localmente (Mock). IMC calculado.', 'sucesso');
              // In a real app, this would extract values, call Calc.imc(), save to DB.avaliacoes
+        });
+
+        // Mock Analisar Imagens
+        document.getElementById('btn-analisar-imagens')?.addEventListener('click', async () => {
+            const btnIA = document.getElementById('btn-analisar-imagens');
+            const resultDiv = document.getElementById('analise-imagens-result');
+
+            btnIA.disabled = true;
+            resultDiv.innerHTML = '<em>A IA está analisando as imagens de bioimpedância e postural...</em>';
+
+            try {
+                // Mock delay
+                await new Promise(r => setTimeout(r, 1500));
+
+                const files = document.getElementById('fotos_exames').files;
+                if (files.length === 0 && document.getElementById('fotos_evolucao').files.length === 0) {
+                     resultDiv.innerHTML = '<span style="color:var(--status-orange)">Nenhuma imagem selecionada. Usando dados antropométricos simulados para análise.</span><br>';
+                } else {
+                     resultDiv.innerHTML = '<span style="color:var(--status-green)">Imagens processadas com sucesso!</span><br>';
+                }
+
+                // Simulate AI Image response
+                const AIEngine = (await import('../aiEngine.js')).default;
+                const analiseImg = await AIEngine.analyzeImages([]); // mocking empty for now
+
+                resultDiv.innerHTML += `
+                    <div class="card" style="background-color: #f8fafc; border-left: 4px solid var(--primary-color);">
+                        <p><strong>Feedback da IA (Biofotogrametria e Bioimpedância):</strong></p>
+                        <p>${analiseImg.feedbackVisual}</p>
+                        <p><strong>Composição Sugerida:</strong> Massa Magra ~${analiseImg.estimativaMassaMagra}%, Gordura ~${analiseImg.estimativaGordura}%</p>
+                    </div>
+                `;
+
+            } catch (e) {
+                resultDiv.innerHTML = `<span style="color:red">Erro: ${e.message}</span>`;
+            } finally {
+                btnIA.disabled = false;
+            }
         });
     }
 };

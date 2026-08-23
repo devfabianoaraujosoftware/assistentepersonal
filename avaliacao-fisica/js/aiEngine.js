@@ -65,6 +65,23 @@ class MockAIService {
         }
     });
 
+    // Dynamic generation based on new fields
+    if (context.aluno.medicamentos && context.aluno.medicamentos.length > 0) {
+        const meds = context.aluno.medicamentos.map(m => m.nome).join(', ');
+        alertas.push({ nivel: 'amarelo', mensagem: `Atenção aos medicamentos: ${meds}. Podem mascarar percepção de esforço ou alterar frequência cardíaca.`, id: 'MED_WARN' });
+    }
+
+    if (context.aluno.hidrataçãoLitros < 2) {
+         sugestoes.push({ categoria: 'Nutrição', mensagem: 'Hidratação informada parece baixa. Sugerir aumento gradativo de água.' });
+    }
+
+    let cuidaPersonal = "Acompanhar execução no primeiro mês; Focar em técnica ao invés de carga.";
+    if (context.aluno.lesoes && context.aluno.lesoes.length > 0) {
+        cuidaPersonal = `Cuidado especial com as áreas lesionadas (${context.aluno.lesoes.map(l => l.local).join(', ')}). Evitar sobrecarga nessas articulações.`;
+    }
+
+    let relatorioEvolucao = `Esperado ganho de força inicial e adaptação neural nas primeiras 4 semanas. Foco em consistência para atingir o objetivo de ${context.aluno.objetivos.join(', ')}.`;
+
     // Default static insights if rules don't trigger much
     if (alertas.length === 0) {
         alertas.push({ nivel: 'verde', mensagem: 'Sem alertas relevantes identificados pelos dados disponíveis.', id: 'DEFAULT_OK' });
@@ -75,8 +92,21 @@ class MockAIService {
         resumo: `Aluno ${context.aluno.experiencia} focando em ${context.aluno.objetivos.join(', ') || 'Saúde Geral'}.`,
         alertas,
         sugestoes,
+        cuidadosPersonal: cuidaPersonal,
+        relatorioEvolucao: relatorioEvolucao,
         geradoEm: new Date().toISOString()
     };
+  }
+
+  async analyzeImages(imagesBase64Array) {
+      await this._delay(1500); // Simulate API call to Vision LLM
+
+      // Mocked response for demonstration
+      return {
+          estimativaMassaMagra: (Math.random() * (45 - 30) + 30).toFixed(1),
+          estimativaGordura: (Math.random() * (30 - 10) + 10).toFixed(1),
+          feedbackVisual: "Análise postural indica leve protrusão de ombros e anteriorização da pelve. Assimetria discreta no membro inferior direito. O exame de bioimpedância está consistente com a estrutura atual."
+      };
   }
 
   async generateTraining(alunoId, avaliacaoId) {

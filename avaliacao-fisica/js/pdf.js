@@ -33,37 +33,84 @@ export const PDFService = {
         doc.text("Prescrição de Treinamento", 20, 120);
         doc.setFontSize(12);
 
+        let currentY = 130;
         if (treino && treino.estrutura) {
-            let y = 130;
             treino.estrutura.forEach(dia => {
-                if (y > 270) {
+                if (currentY > 270) {
                     doc.addPage();
-                    y = 20;
+                    currentY = 20;
                 }
                 doc.setFont(undefined, 'bold');
-                doc.text(`Treino ${dia.identificador} - ${dia.nome}`, 20, y);
+                doc.text(`Treino ${dia.identificador} - ${dia.nome}`, 20, currentY);
                 doc.setFont(undefined, 'normal');
-                y += 10;
+                currentY += 10;
 
                 dia.exercicios.forEach(ex => {
-                    if (y > 270) {
+                    if (currentY > 270) {
                         doc.addPage();
-                        y = 20;
+                        currentY = 20;
                     }
-                    doc.text(`• ${ex.nome} | ${ex.series}x${ex.repeticoes} | Descanso: ${ex.descanso}`, 25, y);
-                    y += 10;
+                    doc.text(`• ${ex.nome} | ${ex.series}x${ex.repeticoes} | Descanso: ${ex.descanso}`, 25, currentY);
+                    currentY += 10;
                 });
-                y += 5;
+                currentY += 5;
             });
         } else {
              doc.text("Nenhum treino prescrito.", 20, 130);
+             currentY = 140;
         }
 
-        // Rodapé
-        doc.setFontSize(10);
-        doc.setTextColor(150, 150, 150);
-        doc.text(`Gerado em: ${new Date().toLocaleDateString('pt-BR')}`, 20, 290);
+        if (analise) {
+            if (currentY > 240) { doc.addPage(); currentY = 20; }
+            doc.setFontSize(16);
+            doc.text("Feedback da IA (Alertas e Dicas)", 20, currentY);
+            currentY += 10;
+            doc.setFontSize(12);
 
-        doc.save(`Relatorio_${aluno.nome.replace(/\s+/g, '_')}.pdf`);
+            let feedbackStr = '';
+            if (analise.cuidadosPersonal) feedbackStr += `Cuidados do Personal: ${analise.cuidadosPersonal}\n`;
+            if (analise.relatorioEvolucao) feedbackStr += `Previsão de Evolução: ${analise.relatorioEvolucao}\n`;
+
+            if (analise.alertas && analise.alertas.length > 0) {
+                feedbackStr += `\nAlertas:\n` + analise.alertas.map(a => `- ${a.mensagem}`).join('\n');
+            }
+            if (analise.sugestoes && analise.sugestoes.length > 0) {
+                feedbackStr += `\n\nSugestões:\n` + analise.sugestoes.map(s => `- ${s.mensagem}`).join('\n');
+            }
+
+            const splitFeedback = doc.splitTextToSize(feedbackStr, 170);
+            doc.text(splitFeedback, 20, currentY);
+        }
+
+        // Rodapé com infos do personal
+        // Import DB to get configs
+        import('./database.js').then(module => {
+            const DB = module.default;
+            const config = DB.getConfig() || {};
+            const p = config.personal || {};
+
+            doc.setFontSize(10);
+            doc.setTextColor(150, 150, 150);
+            const rodapeY = 285;
+
+            if (p.nomeProfissional) {
+                doc.text(`Profissional: ${p.nomeProfissional} ${p.especialidade ? '('+p.especialidade+')' : ''}`, 20, rodapeY);
+            }
+            if (p.frase) {
+                doc.text(p.frase, 20, rodapeY + 5);
+            }
+
+            doc.text(`Gerado em: ${new Date().toLocaleDateString('pt-BR')}`, 150, rodapeY + 5);
+
+            // Optional: Include logo if exists in PDF (basic base64 parsing requires careful handling in jsPDF)
+            if (config.system && config.system.logoBase64) {
+                 try {
+                     // Add image to top right
+                     doc.addImage(config.system.logoBase64, 'JPEG', 150, 10, 40, 20); // simplified positioning
+                 } catch(e) { console.warn("Failed to add logo to PDF"); }
+            }
+
+            doc.save(`Relatorio_${aluno.nome.replace(/\s+/g, '_')}.pdf`);
+        });
     }
 };

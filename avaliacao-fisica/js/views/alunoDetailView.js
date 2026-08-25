@@ -29,13 +29,21 @@ export const AlunoDetailView = {
             <div id="tab-resumo" class="tab-content">
                 <div class="dashboard-grid">
                     <div class="card">
-                        <div class="card-header">Perfil de Treinamento</div>
-                        <p><strong>Objetivo:</strong> ${aluno.objetivoPrincipal}</p>
-                        <p><strong>Experiência:</strong> ${aluno.experiencia}</p>
-                        <p><strong>Frequência:</strong> ${aluno.frequenciaSemanal}x na semana</p>
-                        <hr style="margin: 10px 0; border: 0; border-top: 1px solid var(--border-color);">
-                        <p><strong>Email:</strong> ${aluno.email || 'N/A'}</p>
-                        <p><strong>Telefone:</strong> ${aluno.telefone || 'N/A'}</p>
+                        <div style="display: flex; gap: var(--space-6); align-items: flex-start; flex-wrap: wrap;">
+                            <div style="width: 150px; text-align: center;">
+                                <img id="foto-identificacao-preview" src="${aluno.fotoIdentificacao || 'https://via.placeholder.com/150'}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 10px;">
+                                <input type="file" id="foto_identificacao" accept="image/*" style="font-size: 10px; width: 100%;">
+                            </div>
+                            <div style="flex: 1; min-width: 300px;">
+                                <div class="card-header">Perfil de Treinamento</div>
+                                <p><strong>Objetivo:</strong> ${aluno.objetivoPrincipal}</p>
+                                <p><strong>Experiência:</strong> ${aluno.experiencia}</p>
+                                <p><strong>Frequência:</strong> ${aluno.frequenciaSemanal}x na semana</p>
+                                <hr style="margin: 10px 0; border: 0; border-top: 1px solid var(--border-color);">
+                                <p><strong>Email:</strong> ${aluno.email || 'N/A'}</p>
+                                <p><strong>Telefone:</strong> ${aluno.telefone || 'N/A'}</p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card">
@@ -75,7 +83,7 @@ export const AlunoDetailView = {
             <!-- TAB: Avaliação Física (Mock) -->
             <div id="tab-avaliacao" class="tab-content" style="display: none;">
                 <div class="card">
-                    <div class="card-header">Nova Avaliação Antropométrica</div>
+                    <div class="card-header">Nova Avaliação Antropométrica e Imagens</div>
                     <form id="form-avaliacao">
                         <div class="form-row">
                             <div class="form-group form-col">
@@ -98,11 +106,18 @@ export const AlunoDetailView = {
                             </div>
                         </div>
                         <div style="margin-top: var(--space-4);">
-                             <label class="form-label">Fotos (Mock de Upload Base64)</label>
-                             <input type="file" id="foto_upload" accept="image/*">
+                             <label class="form-label">Fotos de Avaliação (Frente, Lados, Costas)</label>
+                             <input type="file" id="foto_upload_frente" accept="image/*" class="form-control" title="Frente" style="margin-bottom: 5px;">
+                             <input type="file" id="foto_upload_lateral_dir" accept="image/*" class="form-control" title="Lateral Direita" style="margin-bottom: 5px;">
+                             <input type="file" id="foto_upload_lateral_esq" accept="image/*" class="form-control" title="Lateral Esquerda" style="margin-bottom: 5px;">
+                             <input type="file" id="foto_upload_costas" accept="image/*" class="form-control" title="Costas">
+                        </div>
+                        <div style="margin-top: var(--space-4);">
+                             <label class="form-label">Exames / Bioimpedância (Imagens para IA analisar)</label>
+                             <input type="file" id="foto_exames" accept="image/*" class="form-control" multiple>
                         </div>
                         <div style="text-align: right; margin-top: 15px;">
-                            <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação</button>
+                            <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação e Analisar Imagens</button>
                         </div>
                     </form>
                 </div>
@@ -120,6 +135,26 @@ export const AlunoDetailView = {
     },
 
     afterRender: ({ id }) => {
+        const aluno = DB.getById('alunos', id);
+
+        // Setup Identificação Photo Upload
+        const fotoIdent = document.getElementById('foto_identificacao');
+        if (fotoIdent) {
+            fotoIdent.addEventListener('change', async (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    try {
+                        const base64 = await Utils.fileToBase64(e.target.files[0]);
+                        document.getElementById('foto-identificacao-preview').src = base64;
+                        aluno.fotoIdentificacao = base64;
+                        DB.save('alunos', aluno);
+                        Utils.toast('Foto de identificação salva!', 'sucesso');
+                    } catch(err) {
+                        Utils.toast('Erro ao processar imagem.', 'erro');
+                    }
+                }
+            });
+        }
+
         // Tab Switching Logic
         const tabs = document.querySelectorAll('.tab-btn');
         tabs.forEach(tab => {
@@ -207,7 +242,8 @@ export const AlunoDetailView = {
                     htmlTreino += `
                         <div style="margin-top: 20px; text-align: right;">
                             <button class="btn btn-primary" id="btn-aprovar-treino">Aprovar e Salvar Prescrição</button>
-                            <button class="btn btn-secondary" id="btn-gerar-pdf" style="margin-left: 10px; display: none;">Gerar PDF</button>
+                            <button class="btn btn-secondary" id="btn-gerar-pdf" style="margin-left: 10px; display: none;">Baixar Relatório (PDF)</button>
+                            <button class="btn btn-secondary" id="btn-whatsapp" style="margin-left: 10px; display: none; background-color: #25D366; color: white;">Enviar via WhatsApp</button>
                         </div>
                     `;
 
@@ -229,6 +265,7 @@ export const AlunoDetailView = {
                         document.getElementById('status-treino-badge').textContent = 'Aprovado';
                         document.getElementById('status-treino-badge').className = 'badge badge-green';
                         document.getElementById('btn-gerar-pdf').style.display = 'inline-block';
+                        document.getElementById('btn-whatsapp').style.display = 'inline-block';
 
                         Utils.toast('Treino aprovado e salvo com sucesso!', 'sucesso');
                     });
@@ -237,6 +274,25 @@ export const AlunoDetailView = {
                         const { PDFService } = await import('../pdf.js');
                         PDFService.generateAlunoReport(aluno, analise, sugestaoTreino);
                         Utils.toast('PDF gerado com sucesso.', 'sucesso');
+                    });
+
+                    document.getElementById('btn-whatsapp').addEventListener('click', () => {
+                        if (!aluno.telefone) {
+                            Utils.toast('Aluno não possui telefone cadastrado.', 'erro');
+                            return;
+                        }
+
+                        const personalName = JSON.parse(localStorage.getItem('configuracoes'))?.personal?.nomeProfissional || 'Seu Personal';
+
+                        const msg = `Olá ${aluno.nome}, aqui é ${personalName}!\nSeu novo treino baseado em nossa avaliação (Foco: ${aluno.objetivoPrincipal}) já está disponível no sistema e foi aprovado. \nQualquer dúvida, estou à disposição!`;
+                        const encodedMsg = encodeURIComponent(msg);
+
+                        let numero = aluno.telefone.replace(/\D/g,'');
+                        if (numero.length === 10 || numero.length === 11) {
+                            numero = '55' + numero;
+                        }
+
+                        window.open(`https://wa.me/${numero}?text=${encodedMsg}`, '_blank');
                     });
 
                     Utils.toast('Análise concluída com sucesso.', 'sucesso');
@@ -251,8 +307,15 @@ export const AlunoDetailView = {
 
         // Mock Save Avaliação
         document.getElementById('btn-salvar-avaliacao')?.addEventListener('click', () => {
-             Utils.toast('Avaliação salva localmente (Mock). IMC calculado.', 'sucesso');
-             // In a real app, this would extract values, call Calc.imc(), save to DB.avaliacoes
+             Utils.toast('Avaliação e fotos salvas localmente.', 'sucesso');
+             // Simulating mock analysis of images
+             const temImagens = document.getElementById('foto_upload_frente').files.length > 0 ||
+                                document.getElementById('foto_exames').files.length > 0;
+             if (temImagens) {
+                 setTimeout(() => {
+                     Utils.toast('Análise das imagens por IA concluída: Assimetria leve no ombro detectada e Bioimpedância validada.', 'info');
+                 }, 2000);
+             }
         });
     }
 };

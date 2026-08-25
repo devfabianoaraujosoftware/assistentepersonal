@@ -113,23 +113,41 @@ export const AlunoFormView = {
                             <label class="form-label">Nível de Estresse (0-10)</label>
                             <input type="number" id="estresse_nivel" min="0" max="10" class="form-control">
                         </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Alimentação</label>
+                            <select id="alimentacao" class="form-control">
+                                <option value="boa">Boa / Equilibrada</option>
+                                <option value="regular">Regular</option>
+                                <option value="ruim">Ruim / Desregulada</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Hidratação (L/dia)</label>
+                            <input type="number" step="0.1" id="hidratacao" class="form-control" placeholder="Ex: 2.5">
+                        </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group form-col">
-                            <label class="form-label">PAR-Q+ (Possui restrição médica declarada?)</label>
+                            <label class="form-label">PAR-Q+ (Restrição médica?)</label>
                             <select id="parq_restricao" class="form-control">
                                 <option value="false">Não</option>
-                                <option value="true">Sim (Exige liberação médica)</option>
+                                <option value="true">Sim (Exige liberação)</option>
                             </select>
                         </div>
                         <div class="form-group form-col">
-                            <label class="form-label">Lesões Prévias (Resumo)</label>
+                            <label class="form-label">Lesões Prévias</label>
                             <input type="text" id="lesoes_resumo" class="form-control" placeholder="Ex: Ombro direito, lombar">
                         </div>
                         <div class="form-group form-col">
+                            <label class="form-label">Cirurgias</label>
+                            <input type="text" id="cirurgias_resumo" class="form-control" placeholder="Ex: LCA Joelho Direito">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
                             <label class="form-label">Medicamentos de Uso Contínuo</label>
-                            <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana">
+                            <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana (Descreva para IA analisar)">
                         </div>
                     </div>
 
@@ -165,8 +183,11 @@ export const AlunoFormView = {
                 // Anamnese fields
                 sono: { horas: parseInt(document.getElementById('sono_horas').value) || 8 },
                 estresse: parseInt(document.getElementById('estresse_nivel').value) || 5,
+                alimentacao: document.getElementById('alimentacao').value,
+                hidratacao: parseFloat(document.getElementById('hidratacao').value) || 2.0,
                 parq: { possuiRestricao: document.getElementById('parq_restricao').value === 'true' },
                 lesoes: document.getElementById('lesoes_resumo').value ? [{ local: document.getElementById('lesoes_resumo').value }] : [],
+                cirurgias: document.getElementById('cirurgias_resumo').value ? [{ nome: document.getElementById('cirurgias_resumo').value }] : [],
                 medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : []
             };
 

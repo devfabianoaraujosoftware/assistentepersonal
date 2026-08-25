@@ -17,6 +17,17 @@ const ConfiguracoesView = {
                     <div class="card-header">Dados Profissionais (Usados nos Relatórios PDF)</div>
                     <div class="form-row">
                         <div class="form-group form-col">
+                            <label class="form-label">Logo (Imagem)</label>
+                            <input type="file" id="cfg_logo" class="form-control" accept="image/*">
+                            <img id="cfg_logo_preview" src="${p.logoBase64 || ''}" style="max-height: 100px; margin-top: 10px; display: ${p.logoBase64 ? 'block' : 'none'};">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor Principal do Sistema</label>
+                            <input type="color" id="cfg_cor" class="form-control" value="${p.primaryColor || '#2563eb'}" style="height: 40px; padding: 2px;">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
                             <label class="form-label">Nome Profissional</label>
                             <input type="text" id="cfg_nome" class="form-control" value="${p.nomeProfissional || ''}" required>
                         </div>
@@ -50,9 +61,27 @@ const ConfiguracoesView = {
         const Utils = (await import('./utils.js')).default;
         const DB = (await import('./database.js')).default;
 
+        const logoInput = document.getElementById('cfg_logo');
+        const logoPreview = document.getElementById('cfg_logo_preview');
+        let currentLogoBase64 = config.personal.logoBase64 || '';
+
+        logoInput.addEventListener('change', async (e) => {
+            if (e.target.files && e.target.files[0]) {
+                try {
+                    currentLogoBase64 = await Utils.fileToBase64(e.target.files[0]);
+                    logoPreview.src = currentLogoBase64;
+                    logoPreview.style.display = 'block';
+                } catch (error) {
+                    Utils.toast('Erro ao carregar a imagem', 'erro');
+                }
+            }
+        });
+
         document.getElementById('config-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const config = DB.getConfig() || { personal: {} };
+            const newColor = document.getElementById('cfg_cor').value;
+
             config.personal = {
                 ...config.personal,
                 nomeProfissional: document.getElementById('cfg_nome').value,
@@ -60,9 +89,25 @@ const ConfiguracoesView = {
                 telefone: document.getElementById('cfg_telefone').value,
                 especialidade: document.getElementById('cfg_especialidade').value,
                 frase: document.getElementById('cfg_frase').value,
+                logoBase64: currentLogoBase64,
+                primaryColor: newColor
             };
             DB.saveConfig(config);
+
+            // Apply new settings immediately
             document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            document.documentElement.style.setProperty('--primary-color', newColor);
+
+            const sidebarLogo = document.getElementById('sidebar-logo');
+            if (sidebarLogo) {
+                if (currentLogoBase64) {
+                    sidebarLogo.src = currentLogoBase64;
+                    sidebarLogo.style.display = 'block';
+                } else {
+                    sidebarLogo.style.display = 'none';
+                }
+            }
+
             Utils.toast('Configurações salvas com sucesso!', 'sucesso');
         });
     }
@@ -160,12 +205,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start router
     const router = new Router(routes, 'router-view');
 
-    // Set global username from config
+    // Set global username and visual settings from config
     import('./database.js').then(module => {
         const DB = module.default;
         const config = DB.getConfig();
-        if (config && config.personal && config.personal.nomeProfissional) {
-            document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+        if (config && config.personal) {
+            if (config.personal.nomeProfissional) {
+                document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            }
+            if (config.personal.primaryColor) {
+                document.documentElement.style.setProperty('--primary-color', config.personal.primaryColor);
+            }
+            if (config.personal.logoBase64) {
+                const sidebarHeader = document.querySelector('.sidebar-header');
+                const img = document.createElement('img');
+                img.id = 'sidebar-logo';
+                img.src = config.personal.logoBase64;
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '60px';
+                img.style.marginBottom = '10px';
+
+                // Prepend image before MESTRE text
+                if (sidebarHeader.firstChild) {
+                   sidebarHeader.insertBefore(img, sidebarHeader.firstChild);
+                } else {
+                   sidebarHeader.appendChild(img);
+                }
+            } else {
+                const sidebarHeader = document.querySelector('.sidebar-header');
+                const img = document.createElement('img');
+                img.id = 'sidebar-logo';
+                img.style.display = 'none';
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '60px';
+                img.style.marginBottom = '10px';
+                sidebarHeader.insertBefore(img, sidebarHeader.firstChild);
+            }
         }
     });
 });

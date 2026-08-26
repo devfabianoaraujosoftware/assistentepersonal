@@ -34,6 +34,27 @@
       "condicao": "aluno.sono.horas < 6 && aluno.estresse > 7",
       "acao": "Aluno relatou baixo sono e alto estresse. Risco aumentado de fadiga e overtraining. Monitorar RPE.",
       "nivel": "laranja"
+    },
+    {
+      "id": "RULE006",
+      "categoria": "medicamento",
+      "condicao": "aluno.medicamentos.some(m => m.toLowerCase().includes('losartana') || m.toLowerCase().includes('captopril') || m.toLowerCase().includes('atenolol'))",
+      "acao": "Uso de anti-hipertensivo detectado. Atenção: pode mascarar a frequência cardíaca de esforço ou causar hipotensão pós-exercício. Evite manobra de Valsalva.",
+      "nivel": "laranja"
+    },
+    {
+      "id": "RULE007",
+      "categoria": "nutricao",
+      "condicao": "aluno.alimentacao === 'Deficitaria' && aluno.objetivos.includes('Hipertrofia')",
+      "acao": "Alimentação classificada como deficitária. Sugerir adequação calórica com nutricionista para otimizar hipertrofia.",
+      "nivel": "amarelo"
+    },
+    {
+      "id": "RULE008",
+      "categoria": "saude",
+      "condicao": "aluno.hidratacao < 2.0",
+      "acao": "Hidratação reportada está abaixo do ideal para praticantes de atividade física (menos de 2L/dia).",
+      "nivel": "amarelo"
     }
   ]
 }

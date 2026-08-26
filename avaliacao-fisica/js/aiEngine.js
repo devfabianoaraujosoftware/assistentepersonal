@@ -39,7 +39,12 @@ class MockAIService {
             frequenciaSemanal: parseInt(aluno.frequenciaSemanal) || 3,
             sono: aluno.sono || { horas: 8 },
             estresse: parseInt(aluno.estresse) || 5,
-            objetivos: aluno.objetivos || []
+            objetivos: aluno.objetivos || [],
+            alimentacao: aluno.alimentacao || 'Equilibrada',
+            hidratacao: parseFloat(aluno.hidratacao) || 2.0,
+            cirurgias: aluno.cirurgias || [],
+            doencas: aluno.doencas || [],
+            medicamentos: aluno.medicamentos || []
         }
     };
 
@@ -88,6 +93,11 @@ class MockAIService {
      const dias = parseInt(aluno.frequenciaSemanal) || 3;
      let estrutura = [];
 
+     // Generate expected evolution mock text
+     const projecao = aluno.experiencia === 'Iniciante'
+        ? "Adaptação neuromuscular nas primeiras 4-6 semanas. Ganho de força rápido."
+        : "Foco em progressão de carga (sobrecarga progressiva) ou variação de estímulos tencionais e metabólicos.";
+
      // Very simple logic to mock workout splitting
      if (dias <= 2) {
          // Full body
@@ -101,8 +111,11 @@ class MockAIService {
          // Bro split mock
          estrutura.push(this._createDay('A', 'Peito e Tríceps', exerciciosBD, ['Peitoral', 'Tríceps']));
          estrutura.push(this._createDay('B', 'Costas e Bíceps', exerciciosBD, ['Costas', 'Bíceps']));
-         estrutura.push(this._createDay('C', 'Pernas', exerciciosBD, ['Quadríceps', 'Posterior', 'Panturrilha']));
+         estrutura.push(this._createDay('C', 'Pernas (Ênfase Quadríceps)', exerciciosBD, ['Quadríceps', 'Panturrilha']));
          estrutura.push(this._createDay('D', 'Ombros e Core', exerciciosBD, ['Ombros', 'Core', 'Abdômen']));
+         if (dias >= 5) {
+             estrutura.push(this._createDay('E', 'Pernas (Ênfase Posterior e Glúteos)', exerciciosBD, ['Posterior', 'Glúteos']));
+         }
      }
 
      return {
@@ -111,7 +124,9 @@ class MockAIService {
          status: 'Rascunho', // Must be approved by Personal
          frequencia: dias,
          estrutura,
-         justificativa: "Estrutura sugerida com base na frequência semanal e nível de experiência. Cargas e ajustes finos requerem revisão presencial."
+         justificativa: "Estrutura sugerida com base na frequência semanal e nível de experiência. Acompanhe a percepção subjetiva de esforço (PSE).",
+         cuidados: "Atenção a eventuais restrições posturais ou uso de medicações que alteram a frequência cardíaca.",
+         evolucaoPrevista: projecao
      };
   }
 

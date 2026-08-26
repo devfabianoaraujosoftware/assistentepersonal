@@ -76,6 +76,10 @@ export const AlunoFormView = {
                             <input type="text" id="telefone" class="form-control">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="form-label">Foto de Perfil do Aluno (Upload)</label>
+                        <input type="file" id="foto_perfil" class="form-control" accept="image/*">
+                    </div>
 
                     <div class="card-header" style="margin-top: 20px;">Perfil de Treinamento e Anamnese Básica</div>
 
@@ -117,20 +121,47 @@ export const AlunoFormView = {
 
                     <div class="form-row">
                         <div class="form-group form-col">
-                            <label class="form-label">PAR-Q+ (Possui restrição médica declarada?)</label>
-                            <select id="parq_restricao" class="form-control">
-                                <option value="false">Não</option>
-                                <option value="true">Sim (Exige liberação médica)</option>
+                            <label class="form-label">Alimentação</label>
+                            <select id="alimentacao" class="form-control">
+                                <option value="Equilibrada">Equilibrada</option>
+                                <option value="Deficitaria">Deficitária</option>
+                                <option value="Excesso">Excesso Calórico</option>
                             </select>
                         </div>
                         <div class="form-group form-col">
-                            <label class="form-label">Lesões Prévias (Resumo)</label>
-                            <input type="text" id="lesoes_resumo" class="form-control" placeholder="Ex: Ombro direito, lombar">
+                            <label class="form-label">Hidratação (Litros/dia)</label>
+                            <input type="number" step="0.1" id="hidratacao" class="form-control" placeholder="Ex: 2.5">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">PAR-Q+ (Restrição médica?)</label>
+                            <select id="parq_restricao" class="form-control">
+                                <option value="false">Não</option>
+                                <option value="true">Sim (Exige liberação)</option>
+                            </select>
                         </div>
                         <div class="form-group form-col">
-                            <label class="form-label">Medicamentos de Uso Contínuo</label>
-                            <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana">
+                            <label class="form-label">Lesões Prévias</label>
+                            <input type="text" id="lesoes_resumo" class="form-control" placeholder="Ex: Ombro, lombar">
                         </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cirurgias (Resumo)</label>
+                            <input type="text" id="cirurgias_resumo" class="form-control" placeholder="Ex: LCA Joelho Direito">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Doenças Crônicas</label>
+                            <input type="text" id="doencas_resumo" class="form-control" placeholder="Ex: Diabetes, Hipertensão">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Medicamentos de Uso Contínuo (Separados por vírgula)</label>
+                        <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana, Metformina, Sibutramina">
                     </div>
 
                     <div class="form-group">
@@ -148,10 +179,17 @@ export const AlunoFormView = {
         `;
     },
     afterRender: () => {
-        document.getElementById('aluno-form').addEventListener('submit', (e) => {
+        document.getElementById('aluno-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            let fotoBase64 = null;
+            const fotoInput = document.getElementById('foto_perfil');
+            if(fotoInput.files.length > 0) {
+                fotoBase64 = await Utils.fileToBase64(fotoInput.files[0]);
+            }
+
             const novoAluno = {
+                fotoPerfilBase64: fotoBase64,
                 nome: document.getElementById('nome').value,
                 dataNascimento: document.getElementById('dataNascimento').value,
                 email: document.getElementById('email').value,
@@ -165,9 +203,13 @@ export const AlunoFormView = {
                 // Anamnese fields
                 sono: { horas: parseInt(document.getElementById('sono_horas').value) || 8 },
                 estresse: parseInt(document.getElementById('estresse_nivel').value) || 5,
+                alimentacao: document.getElementById('alimentacao').value,
+                hidratacao: parseFloat(document.getElementById('hidratacao').value) || 2.0,
                 parq: { possuiRestricao: document.getElementById('parq_restricao').value === 'true' },
                 lesoes: document.getElementById('lesoes_resumo').value ? [{ local: document.getElementById('lesoes_resumo').value }] : [],
-                medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : []
+                cirurgias: document.getElementById('cirurgias_resumo').value ? document.getElementById('cirurgias_resumo').value.split(',').map(c => c.trim()) : [],
+                doencas: document.getElementById('doencas_resumo').value ? document.getElementById('doencas_resumo').value.split(',').map(d => d.trim()) : [],
+                medicamentos: document.getElementById('medicamentos_resumo').value ? document.getElementById('medicamentos_resumo').value.split(',').map(m => m.trim()) : []
             };
 
             const salvo = DB.save('alunos', novoAluno);

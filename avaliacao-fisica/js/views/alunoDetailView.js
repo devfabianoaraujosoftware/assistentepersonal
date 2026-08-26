@@ -98,8 +98,19 @@ export const AlunoDetailView = {
                             </div>
                         </div>
                         <div style="margin-top: var(--space-4);">
-                             <label class="form-label">Fotos (Mock de Upload Base64)</label>
-                             <input type="file" id="foto_upload" accept="image/*">
+                             <label class="form-label">Fotos de Postura (Frente, Lateral Direita, Lateral Esquerda, Costas)</label>
+                             <div class="form-row">
+                                <input type="file" id="foto_postura_frente" accept="image/*" class="form-col form-control" title="Frente">
+                                <input type="file" id="foto_postura_dir" accept="image/*" class="form-col form-control" title="Lateral Direita">
+                             </div>
+                             <div class="form-row" style="margin-top: 10px;">
+                                <input type="file" id="foto_postura_esq" accept="image/*" class="form-col form-control" title="Lateral Esquerda">
+                                <input type="file" id="foto_postura_costas" accept="image/*" class="form-col form-control" title="Costas">
+                             </div>
+                        </div>
+                        <div style="margin-top: var(--space-4);">
+                             <label class="form-label">Fotos de Exames ou Bioimpedância (Opcional)</label>
+                             <input type="file" id="foto_exame" accept="image/*" class="form-control" title="Exame/Bioimpedância">
                         </div>
                         <div style="text-align: right; margin-top: 15px;">
                             <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação</button>
@@ -208,6 +219,7 @@ export const AlunoDetailView = {
                         <div style="margin-top: 20px; text-align: right;">
                             <button class="btn btn-primary" id="btn-aprovar-treino">Aprovar e Salvar Prescrição</button>
                             <button class="btn btn-secondary" id="btn-gerar-pdf" style="margin-left: 10px; display: none;">Gerar PDF</button>
+                            <button class="btn btn-secondary" id="btn-whatsapp" style="margin-left: 10px; display: none; background-color: #25D366; color: white;">Enviar via WhatsApp</button>
                         </div>
                     `;
 
@@ -229,6 +241,7 @@ export const AlunoDetailView = {
                         document.getElementById('status-treino-badge').textContent = 'Aprovado';
                         document.getElementById('status-treino-badge').className = 'badge badge-green';
                         document.getElementById('btn-gerar-pdf').style.display = 'inline-block';
+                        document.getElementById('btn-whatsapp').style.display = 'inline-block';
 
                         Utils.toast('Treino aprovado e salvo com sucesso!', 'sucesso');
                     });
@@ -237,6 +250,19 @@ export const AlunoDetailView = {
                         const { PDFService } = await import('../pdf.js');
                         PDFService.generateAlunoReport(aluno, analise, sugestaoTreino);
                         Utils.toast('PDF gerado com sucesso.', 'sucesso');
+                    });
+
+                    document.getElementById('btn-whatsapp').addEventListener('click', () => {
+                        const config = DB.getConfig();
+                        const pInfo = config && config.personal ? config.personal.nomeProfissional : 'seu Personal';
+                        const text = encodeURIComponent(`Olá ${aluno.nome}, aqui é ${pInfo}! Seu novo treino já está disponível. Aguarde o envio do PDF em anexo e confira as orientações.`);
+                        const phone = aluno.telefone ? aluno.telefone.replace(/\D/g, '') : '';
+
+                        if (phone) {
+                            window.open(`https://wa.me/55${phone}?text=${text}`, '_blank');
+                        } else {
+                            Utils.toast('Aluno não possui telefone cadastrado.', 'erro');
+                        }
                     });
 
                     Utils.toast('Análise concluída com sucesso.', 'sucesso');

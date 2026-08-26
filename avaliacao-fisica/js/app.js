@@ -39,6 +39,25 @@ const ConfiguracoesView = {
                         <label class="form-label">Frase Profissional (Rodapé)</label>
                         <input type="text" id="cfg_frase" class="form-control" value="${p.frase || ''}">
                     </div>
+
+                    <div class="card-header" style="margin-top: 20px;">Personalização do Sistema</div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor Primária do Sistema</label>
+                            <input type="color" id="cfg_cor" class="form-control" value="${p.corPrimaria || '#2563eb'}" style="height: 40px; padding: 2px;">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Logomarca (Upload)</label>
+                            <input type="file" id="cfg_logo" class="form-control" accept="image/*">
+                            ${p.logoBase64 ? '<img src="'+p.logoBase64+'" style="max-height: 50px; margin-top: 10px;">' : ''}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Foto de Perfil (Personal Trainer)</label>
+                        <input type="file" id="cfg_foto" class="form-control" accept="image/*">
+                        ${p.fotoPerfilBase64 ? '<img src="'+p.fotoPerfilBase64+'" style="max-height: 50px; margin-top: 10px; border-radius: 50%;">' : ''}
+                    </div>
+
                     <div style="text-align: right; margin-top: var(--space-4);">
                         <button type="submit" class="btn btn-primary">Salvar Configurações</button>
                     </div>
@@ -53,6 +72,19 @@ const ConfiguracoesView = {
         document.getElementById('config-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const config = DB.getConfig() || { personal: {} };
+
+            const processFile = async (fileInputId) => {
+                const fileInput = document.getElementById(fileInputId);
+                if (fileInput.files.length > 0) {
+                    return await Utils.fileToBase64(fileInput.files[0]);
+                }
+                return null;
+            };
+
+            const logoBase64 = await processFile('cfg_logo');
+            const fotoBase64 = await processFile('cfg_foto');
+            const corPrimaria = document.getElementById('cfg_cor').value;
+
             config.personal = {
                 ...config.personal,
                 nomeProfissional: document.getElementById('cfg_nome').value,
@@ -60,10 +92,23 @@ const ConfiguracoesView = {
                 telefone: document.getElementById('cfg_telefone').value,
                 especialidade: document.getElementById('cfg_especialidade').value,
                 frase: document.getElementById('cfg_frase').value,
+                corPrimaria: corPrimaria,
             };
+
+            if (logoBase64) config.personal.logoBase64 = logoBase64;
+            if (fotoBase64) config.personal.fotoPerfilBase64 = fotoBase64;
+
             DB.saveConfig(config);
+
+            // Update UI immediately
             document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            document.documentElement.style.setProperty('--primary-color', corPrimaria);
+            Utils.updateSidebarLogo(config.personal.logoBase64);
+
             Utils.toast('Configurações salvas com sucesso!', 'sucesso');
+
+            // Reload view to show new images
+            window.location.reload();
         });
     }
 };
@@ -160,12 +205,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start router
     const router = new Router(routes, 'router-view');
 
-    // Set global username from config
+    // Set global settings from config
     import('./database.js').then(module => {
         const DB = module.default;
-        const config = DB.getConfig();
-        if (config && config.personal && config.personal.nomeProfissional) {
-            document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
-        }
+        import('./utils.js').then(utilsModule => {
+            const Utils = utilsModule.default;
+            const config = DB.getConfig();
+            if (config && config.personal) {
+                if (config.personal.nomeProfissional) {
+                    document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+                }
+                if (config.personal.corPrimaria) {
+                    document.documentElement.style.setProperty('--primary-color', config.personal.corPrimaria);
+                }
+                if (config.personal.logoBase64) {
+                    Utils.updateSidebarLogo(config.personal.logoBase64);
+                }
+            }
+        });
     });
 });

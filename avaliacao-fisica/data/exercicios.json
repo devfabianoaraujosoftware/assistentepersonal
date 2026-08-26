@@ -10,7 +10,8 @@
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX002", "EX003"],
       "observacoes": "Manter escápulas retraídas.",
-      "restricoes": ["ombro_lesao"]
+      "restricoes": ["ombro_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=sqOw2Y6uDWQ"
     },
     {
       "id": "EX002",
@@ -178,7 +179,60 @@
       "objetivos": ["condicionamento", "resistencia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=ASdvN_XEl_c"
+    },
+    {
+      "id": "EX016",
+      "nome": "Burpee (Crossfit/Funcional)",
+      "grupoMuscular": ["Corpo Inteiro", "Core", "Peitoral"],
+      "tipo": "cardio",
+      "equipamento": "peso corporal",
+      "nivel": ["intermediario", "avancado"],
+      "objetivos": ["condicionamento", "emagrecimento"],
+      "substitutos": [],
+      "observacoes": "Alta intensidade.",
+      "restricoes": ["joelho_lesao", "ombro_lesao", "lombar_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=TU8QYVW0gDU"
+    },
+    {
+      "id": "EX017",
+      "nome": "Alongamento de Isquiotibiais",
+      "grupoMuscular": ["Posterior"],
+      "tipo": "alongamento",
+      "equipamento": "peso corporal",
+      "nivel": ["iniciante", "intermediario", "avancado"],
+      "objetivos": ["mobilidade", "saude"],
+      "substitutos": [],
+      "observacoes": "Não forçar além do limite de dor.",
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=LqG2E351UxE"
+    },
+    {
+      "id": "EX018",
+      "nome": "Agachamento Búlgaro (Treino em Casa)",
+      "grupoMuscular": ["Quadríceps", "Glúteos"],
+      "tipo": "multiarticular",
+      "equipamento": "peso corporal",
+      "nivel": ["intermediario", "avancado"],
+      "objetivos": ["hipertrofia", "mobilidade"],
+      "substitutos": [],
+      "observacoes": "Pode usar uma cadeira de apoio.",
+      "restricoes": ["joelho_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=2C-uNgKwPLE"
+    },
+    {
+      "id": "EX019",
+      "nome": "Mobilidade de Ombro com Bastão",
+      "grupoMuscular": ["Ombros"],
+      "tipo": "mobilidade",
+      "equipamento": "bastao",
+      "nivel": ["iniciante", "intermediario", "avancado"],
+      "objetivos": ["mobilidade", "prevencao_lesao"],
+      "substitutos": [],
+      "observacoes": "Movimentos lentos e controlados.",
+      "restricoes": ["ombro_lesao_aguda"],
+      "videoUrl": "https://www.youtube.com/watch?v=M-k1e6k1ZCQ"
     }
   ]
 }

@@ -77,6 +77,13 @@ export const AlunoFormView = {
                         </div>
                     </div>
 
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Foto de Perfil do Aluno</label>
+                            <input type="file" id="foto_perfil" class="form-control" accept="image/*">
+                        </div>
+                    </div>
+
                     <div class="card-header" style="margin-top: 20px;">Perfil de Treinamento e Anamnese Básica</div>
 
                     <div class="form-row">
@@ -113,6 +120,30 @@ export const AlunoFormView = {
                             <label class="form-label">Nível de Estresse (0-10)</label>
                             <input type="number" id="estresse_nivel" min="0" max="10" class="form-control">
                         </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Hidratação (Litros/dia)</label>
+                            <input type="number" step="0.1" id="hidratacao" min="0" max="10" class="form-control" placeholder="Ex: 2.5">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Dieta / Nutrição</label>
+                            <select id="dieta_tipo" class="form-control">
+                                <option value="Não faz dieta">Não faz dieta restrita</option>
+                                <option value="Hipercalórica">Hipercalórica (Ganho)</option>
+                                <option value="Hipocalórica">Hipocalórica (Déficit)</option>
+                                <option value="Normocalórica">Normocalórica (Manutenção)</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Metas de Macros (G/dia) - Proteína / Carbo / Gordura</label>
+                            <div style="display:flex; gap: 5px;">
+                                <input type="number" id="macro_p" class="form-control" placeholder="P" style="width: 33%">
+                                <input type="number" id="macro_c" class="form-control" placeholder="C" style="width: 33%">
+                                <input type="number" id="macro_g" class="form-control" placeholder="G" style="width: 33%">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-row">
@@ -148,10 +179,22 @@ export const AlunoFormView = {
         `;
     },
     afterRender: () => {
-        document.getElementById('aluno-form').addEventListener('submit', (e) => {
+        document.getElementById('aluno-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // Handle image to base64
+            let fotoPerfilBase64 = null;
+            const fotoInput = document.getElementById('foto_perfil');
+            if (fotoInput.files && fotoInput.files[0]) {
+                fotoPerfilBase64 = await new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onload = e => resolve(e.target.result);
+                    reader.readAsDataURL(fotoInput.files[0]);
+                });
+            }
+
             const novoAluno = {
+                fotoPerfil: fotoPerfilBase64,
                 nome: document.getElementById('nome').value,
                 dataNascimento: document.getElementById('dataNascimento').value,
                 email: document.getElementById('email').value,
@@ -165,6 +208,13 @@ export const AlunoFormView = {
                 // Anamnese fields
                 sono: { horas: parseInt(document.getElementById('sono_horas').value) || 8 },
                 estresse: parseInt(document.getElementById('estresse_nivel').value) || 5,
+                hidratacao: parseFloat(document.getElementById('hidratacao').value) || 0,
+                dieta: {
+                    tipo: document.getElementById('dieta_tipo').value,
+                    proteina: parseInt(document.getElementById('macro_p').value) || 0,
+                    carbo: parseInt(document.getElementById('macro_c').value) || 0,
+                    gordura: parseInt(document.getElementById('macro_g').value) || 0,
+                },
                 parq: { possuiRestricao: document.getElementById('parq_restricao').value === 'true' },
                 lesoes: document.getElementById('lesoes_resumo').value ? [{ local: document.getElementById('lesoes_resumo').value }] : [],
                 medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : []

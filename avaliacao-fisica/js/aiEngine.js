@@ -31,6 +31,8 @@ class MockAIService {
     if (!aluno) throw new Error("Aluno não encontrado para análise.");
 
     // Safely structure data for rules evaluation to mock AI behavior
+    const avaliacao = DB.getAll('avaliacoes').find(a => a.alunoId === alunoId) || {};
+
     const context = {
         aluno: {
             lesoes: aluno.lesoes || [],
@@ -39,7 +41,12 @@ class MockAIService {
             frequenciaSemanal: parseInt(aluno.frequenciaSemanal) || 3,
             sono: aluno.sono || { horas: 8 },
             estresse: parseInt(aluno.estresse) || 5,
-            objetivos: aluno.objetivos || []
+            objetivos: aluno.objetivos || [],
+            hidratacao: aluno.hidratacao || 0,
+            dieta: aluno.dieta || {},
+            medicamentos: aluno.medicamentos || [],
+            peso: avaliacao.peso || 70, // Fallback used in some rules
+            fotoExame: avaliacao.fotoExame || null
         }
     };
 
@@ -70,11 +77,18 @@ class MockAIService {
         alertas.push({ nivel: 'verde', mensagem: 'Sem alertas relevantes identificados pelos dados disponíveis.', id: 'DEFAULT_OK' });
     }
 
+    if (context.aluno.fotoExame) {
+        sugestoes.push({ categoria: "imagem_analisada", mensagem: "Imagem de Bioimpedância/Exame detectada. A IA (Mock) nota uma distribuição muscular assimétrica que requer atenção unilateral no treino."});
+    }
+
+    const relatorioEvolucao = `Com adesão à frequência de ${context.aluno.frequenciaSemanal}x na semana e hidratação adequada, estima-se adaptação neurológica inicial em 3-4 semanas e mudanças estruturais visíveis em 8-12 semanas.`;
+
     return {
         confianca: 'MODERADA',
         resumo: `Aluno ${context.aluno.experiencia} focando em ${context.aluno.objetivos.join(', ') || 'Saúde Geral'}.`,
         alertas,
         sugestoes,
+        relatorioEvolucao,
         geradoEm: new Date().toISOString()
     };
   }
@@ -130,7 +144,7 @@ class MockAIService {
                   repeticoes: "8-12",
                   carga: "A definir (RIR 2)",
                   descanso: "90s",
-                  observacao: exSelecionado.observacoes || "Controlar excêntrica."
+                  observacao: (exSelecionado.observacoes ? exSelecionado.observacoes + " " : "") + "Controlar excêntrica."
               });
           }
       });

@@ -34,6 +34,34 @@
       "condicao": "aluno.sono.horas < 6 && aluno.estresse > 7",
       "acao": "Aluno relatou baixo sono e alto estresse. Risco aumentado de fadiga e overtraining. Monitorar RPE.",
       "nivel": "laranja"
+    },
+    {
+      "id": "RULE006",
+      "categoria": "nutricao",
+      "condicao": "aluno.hidratacao < 2",
+      "acao": "Atenção: Hidratação relatada está baixa (menos de 2L/dia). Risco de queda de performance e cãibras.",
+      "nivel": "amarelo"
+    },
+    {
+      "id": "RULE007",
+      "categoria": "nutricao",
+      "condicao": "aluno.dieta && aluno.dieta.proteina > 0 && aluno.dieta.proteina < 1.2 * (aluno.peso || 70)",
+      "acao": "Sugestão: Ingestão de proteínas pode estar abaixo do ideal para hipertrofia (Considerar > 1.6g/kg).",
+      "nivel": "verde"
+    },
+    {
+      "id": "RULE008",
+      "categoria": "saude",
+      "condicao": "aluno.medicamentos.some(m => m.nome.toLowerCase().includes('losartana') || m.nome.toLowerCase().includes('captopril'))",
+      "acao": "Medicamento anti-hipertensivo detectado. Atenção à hipotensão pós-exercício. Evitar manobra de Valsalva.",
+      "nivel": "laranja"
+    },
+    {
+      "id": "RULE009",
+      "categoria": "saude",
+      "condicao": "aluno.medicamentos.some(m => m.nome.toLowerCase().includes('estatina'))",
+      "acao": "Estatina detectada. O aluno pode apresentar maior suscetibilidade a dores musculares (mialgia). Monitorar recuperação.",
+      "nivel": "amarelo"
     }
   ]
 }

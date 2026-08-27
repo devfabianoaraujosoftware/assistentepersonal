@@ -4,181 +4,239 @@
       "id": "EX001",
       "nome": "Supino Reto",
       "grupoMuscular": ["Peitoral", "Tríceps", "Deltoide anterior"],
+      "categoria": "Musculação",
       "tipo": "multiarticular",
       "equipamento": "barra",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX002", "EX003"],
       "observacoes": "Manter escápulas retraídas.",
-      "restricoes": ["ombro_lesao"]
+      "restricoes": ["ombro_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=sqOw2Y6uDWQ"
     },
     {
       "id": "EX002",
       "nome": "Supino Inclinado com Halteres",
       "grupoMuscular": ["Peitoral", "Tríceps", "Deltoide anterior"],
+      "categoria": "Musculação",
       "tipo": "multiarticular",
       "equipamento": "halteres",
       "nivel": ["intermediario", "avancado"],
       "objetivos": ["hipertrofia"],
       "substitutos": ["EX001"],
       "observacoes": "",
-      "restricoes": ["ombro_lesao"]
+      "restricoes": ["ombro_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=0G2_XV7slIg"
     },
     {
       "id": "EX003",
       "nome": "Peck Deck (Voador)",
       "grupoMuscular": ["Peitoral"],
+      "categoria": "Musculação",
       "tipo": "uniarticular",
       "equipamento": "maquina",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=eGjt4jcEA_0"
     },
     {
       "id": "EX004",
       "nome": "Puxada Frontal",
       "grupoMuscular": ["Costas", "Bíceps"],
+      "categoria": "Musculação",
       "tipo": "multiarticular",
       "equipamento": "maquina",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX005"],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=CAwf7n6Luuc"
     },
     {
       "id": "EX005",
       "nome": "Remada Curvada",
       "grupoMuscular": ["Costas", "Bíceps", "Lombar"],
+      "categoria": "Musculação",
       "tipo": "multiarticular",
       "equipamento": "barra",
       "nivel": ["intermediario", "avancado"],
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX004"],
       "observacoes": "Atenção à postura da lombar.",
-      "restricoes": ["lombar_lesao"]
+      "restricoes": ["lombar_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=G8l_8chR5BE"
     },
     {
       "id": "EX006",
       "nome": "Desenvolvimento com Halteres",
       "grupoMuscular": ["Ombros", "Tríceps"],
+      "categoria": "Musculação",
       "tipo": "multiarticular",
       "equipamento": "halteres",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["ombro_lesao", "cervical_lesao"]
+      "restricoes": ["ombro_lesao", "cervical_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=qEwKCR5JCog"
     },
     {
       "id": "EX007",
       "nome": "Elevação Lateral",
       "grupoMuscular": ["Ombros"],
+      "categoria": "Musculação",
       "tipo": "uniarticular",
       "equipamento": "halteres",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=3VcKaXpzqRo"
     },
     {
       "id": "EX008",
       "nome": "Rosca Direta",
       "grupoMuscular": ["Bíceps"],
+      "categoria": "Musculação",
       "tipo": "uniarticular",
       "equipamento": "barra",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["cotovelo_lesao"]
+      "restricoes": ["cotovelo_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=ykJmrZ5s0oo"
     },
     {
       "id": "EX009",
       "nome": "Tríceps Pulley",
       "grupoMuscular": ["Tríceps"],
+      "categoria": "Musculação",
       "tipo": "uniarticular",
       "equipamento": "cabo",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["cotovelo_lesao"]
+      "restricoes": ["cotovelo_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=2-LAMcpzODU"
     },
     {
       "id": "EX010",
       "nome": "Agachamento Livre",
       "grupoMuscular": ["Quadríceps", "Glúteos", "Posterior"],
+      "categoria": "Musculação",
       "tipo": "multiarticular",
       "equipamento": "barra",
       "nivel": ["intermediario", "avancado"],
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX011"],
       "observacoes": "Essencial técnica correta.",
-      "restricoes": ["joelho_lesao", "lombar_lesao"]
+      "restricoes": ["joelho_lesao", "lombar_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=bEv6CCg2BC8"
     },
     {
       "id": "EX011",
       "nome": "Leg Press 45",
       "grupoMuscular": ["Quadríceps", "Glúteos"],
+      "categoria": "Musculação",
       "tipo": "multiarticular",
       "equipamento": "maquina",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["hipertrofia", "forca"],
       "substitutos": ["EX010"],
       "observacoes": "Não estender completamente os joelhos.",
-      "restricoes": ["joelho_lesao"]
+      "restricoes": ["joelho_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=IZxyjW7qjqI"
     },
     {
       "id": "EX012",
       "nome": "Cadeira Extensora",
       "grupoMuscular": ["Quadríceps"],
+      "categoria": "Musculação",
       "tipo": "uniarticular",
       "equipamento": "maquina",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": ["LCA_lesao"]
+      "restricoes": ["LCA_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=YyvSfVjQeL0"
     },
     {
       "id": "EX013",
       "nome": "Mesa Flexora",
       "grupoMuscular": ["Posterior"],
+      "categoria": "Musculação",
       "tipo": "uniarticular",
       "equipamento": "maquina",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=1Tq3QdKuwF0"
     },
     {
       "id": "EX014",
       "nome": "Panturrilha em Pé",
       "grupoMuscular": ["Panturrilha"],
+      "categoria": "Musculação",
       "tipo": "uniarticular",
       "equipamento": "maquina",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["hipertrofia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=-M4-G8p8fmc"
     },
     {
       "id": "EX015",
       "nome": "Prancha Abdominal",
       "grupoMuscular": ["Core", "Abdômen"],
+      "categoria": "Funcional",
       "tipo": "isometria",
       "equipamento": "peso corporal",
       "nivel": ["iniciante", "intermediario", "avancado"],
       "objetivos": ["condicionamento", "resistencia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=pSHjTRCQxIw"
+    },
+    {
+      "id": "EX016",
+      "nome": "Burpee",
+      "grupoMuscular": ["Corpo Inteiro"],
+      "categoria": "Crossfit",
+      "tipo": "multiarticular",
+      "equipamento": "peso corporal",
+      "nivel": ["intermediario", "avancado"],
+      "objetivos": ["condicionamento", "resistencia"],
+      "substitutos": [],
+      "observacoes": "Mantenha o ritmo.",
+      "restricoes": ["joelho_lesao", "ombro_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=TU8QYVW0gDU"
+    },
+    {
+      "id": "EX017",
+      "nome": "Alongamento Peitoral Porta",
+      "grupoMuscular": ["Peitoral"],
+      "categoria": "Alongamento",
+      "tipo": "isometria",
+      "equipamento": "nenhum",
+      "nivel": ["iniciante"],
+      "objetivos": ["mobilidade"],
+      "substitutos": [],
+      "observacoes": "Segure 30s.",
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=7_W0j0a3Z7w"
     }
   ]
 }

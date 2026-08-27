@@ -12,9 +12,15 @@ export const AlunoDetailView = {
         const idade = Calc.idade(aluno.dataNascimento);
 
         return `
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: var(--space-6)">
-                <a href="#/alunos" class="btn btn-secondary">← Voltar</a>
-                <h1>${aluno.nome} <span class="badge badge-green">${idade} anos</span></h1>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-6)">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a href="#/alunos" class="btn btn-secondary">← Voltar</a>
+                    ${aluno.fotoPerfil ? `<img src="${aluno.fotoPerfil}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">` : ''}
+                    <h1>${aluno.nome} <span class="badge badge-green">${idade} anos</span></h1>
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="btn-whatsapp-report">Enviar Relatório WhatsApp</button>
+                </div>
             </div>
 
             <!-- Tabs Navigation -->
@@ -66,6 +72,20 @@ export const AlunoDetailView = {
                     </div>
                 </div>
                 <div class="card">
+                    <div class="card-header">Nutrição e Hidratação</div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <p><strong>Dieta:</strong> ${aluno.dieta?.tipo || 'Não informada'}</p>
+                            <p><strong>Hidratação:</strong> ${aluno.hidratacao || 'Não informada'} Litros/dia</p>
+                        </div>
+                        <div class="form-col">
+                            <p><strong>Proteína:</strong> ${aluno.dieta?.proteina || 0}g</p>
+                            <p><strong>Carboidratos:</strong> ${aluno.dieta?.carbo || 0}g</p>
+                            <p><strong>Gorduras:</strong> ${aluno.dieta?.gordura || 0}g</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
                     <div class="card-header">Histórico Médico</div>
                     <p><strong>Lesões:</strong> ${aluno.lesoes && aluno.lesoes.length > 0 ? aluno.lesoes.map(l => l.local).join(', ') : 'Nenhuma relatada'}</p>
                     <p><strong>Medicamentos:</strong> ${aluno.medicamentos && aluno.medicamentos.length > 0 ? aluno.medicamentos.map(m => m.nome).join(', ') : 'Nenhum relatado'}</p>
@@ -98,8 +118,12 @@ export const AlunoDetailView = {
                             </div>
                         </div>
                         <div style="margin-top: var(--space-4);">
-                             <label class="form-label">Fotos (Mock de Upload Base64)</label>
-                             <input type="file" id="foto_upload" accept="image/*">
+                             <label class="form-label">Imagem de Exame / Bioimpedância (Mock IA Analysis)</label>
+                             <input type="file" id="exame_upload" accept="image/*">
+                        </div>
+                        <div style="margin-top: var(--space-4);">
+                             <label class="form-label">Fotos de Avaliação (Antes / Depois)</label>
+                             <input type="file" id="foto_upload" accept="image/*" multiple>
                         </div>
                         <div style="text-align: right; margin-top: 15px;">
                             <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação</button>
@@ -155,12 +179,22 @@ export const AlunoDetailView = {
                             <strong>Status da Análise:</strong> Concluída (Confiança: ${analise.confianca})<br>
                             <small>${analise.resumo}</small>
                         </div>
+                        <div style="margin-bottom: 15px; padding: 10px; background: #f0fdf4; border-radius: 4px;">
+                            <strong>Relatório Previsto de Evolução:</strong><br>
+                            ${analise.relatorioEvolucao}
+                        </div>
                     `;
 
                     if (analise.alertas.length > 0) {
                         htmlAnalise += `<strong>Alertas de Segurança:</strong><br>`;
                         analise.alertas.forEach(a => {
                             htmlAnalise += `<div class="alert-item alert-${a.nivel}">${a.mensagem}</div>`;
+                        });
+                    }
+                    if (analise.sugestoes.length > 0) {
+                        htmlAnalise += `<strong>Sugestões IA:</strong><br>`;
+                        analise.sugestoes.forEach(a => {
+                            htmlAnalise += `<div class="alert-item alert-blue">${a.mensagem}</div>`;
                         });
                     }
 
@@ -250,9 +284,29 @@ export const AlunoDetailView = {
         }
 
         // Mock Save Avaliação
-        document.getElementById('btn-salvar-avaliacao')?.addEventListener('click', () => {
-             Utils.toast('Avaliação salva localmente (Mock). IMC calculado.', 'sucesso');
-             // In a real app, this would extract values, call Calc.imc(), save to DB.avaliacoes
+        document.getElementById('btn-salvar-avaliacao')?.addEventListener('click', async () => {
+
+            // Mock saving the exam image flag to trigger the AI rule
+            const exameInput = document.getElementById('exame_upload');
+            const data = {
+                alunoId: id,
+                peso: document.getElementById('peso').value,
+                fotoExame: (exameInput && exameInput.files.length > 0) ? true : false
+            };
+            DB.save('avaliacoes', data);
+
+            Utils.toast('Avaliação salva localmente. Recarregue a página e clique em Processar com IA Mestre para ver resultados.', 'sucesso');
+        });
+
+        // WhatsApp Report Button
+        document.getElementById('btn-whatsapp-report')?.addEventListener('click', () => {
+            const phoneNumber = aluno.telefone ? aluno.telefone.replace(/\D/g, '') : '';
+            if (!phoneNumber) {
+                Utils.toast('Aluno não possui telefone cadastrado.', 'erro');
+                return;
+            }
+            const text = `Olá ${aluno.nome}, aqui está um resumo do seu planejamento na Mestre OS. Seu treino de ${aluno.objetivoPrincipal} está pronto e será acompanhado de perto!`;
+            window.open(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(text)}`, '_blank');
         });
     }
 };

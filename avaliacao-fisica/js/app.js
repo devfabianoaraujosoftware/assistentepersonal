@@ -25,6 +25,18 @@ const ConfiguracoesView = {
                             <input type="email" id="cfg_email" class="form-control" value="${p.email || ''}">
                         </div>
                     </div>
+                    <div class="card-header" style="margin-top: 20px;">Identidade Visual</div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor Principal do Sistema</label>
+                            <input type="color" id="cfg_cor" class="form-control" value="${p.corPrincipal || '#2563eb'}" style="height: 40px; padding: 2px;">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Logomarca (Upload)</label>
+                            <input type="file" id="cfg_logo" class="form-control" accept="image/*">
+                            ${p.logo ? `<img src="${p.logo}" alt="Logo Atual" style="max-height: 50px; margin-top: 10px;">` : ''}
+                        </div>
+                    </div>
                     <div class="form-row">
                         <div class="form-group form-col">
                             <label class="form-label">Telefone / WhatsApp</label>
@@ -60,11 +72,46 @@ const ConfiguracoesView = {
                 telefone: document.getElementById('cfg_telefone').value,
                 especialidade: document.getElementById('cfg_especialidade').value,
                 frase: document.getElementById('cfg_frase').value,
+                corPrincipal: document.getElementById('cfg_cor').value
             };
+
+            const logoInput = document.getElementById('cfg_logo');
+            if (logoInput.files && logoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    config.personal.logo = evt.target.result;
+                    saveAndApplyConfig(config, DB, Utils);
+                };
+                reader.readAsDataURL(logoInput.files[0]);
+            } else {
+                saveAndApplyConfig(config, DB, Utils);
+            }
+        });
+
+        function saveAndApplyConfig(config, DB, Utils) {
             DB.saveConfig(config);
             document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+
+            if (config.personal.corPrincipal) {
+                document.documentElement.style.setProperty('--primary-color', config.personal.corPrincipal);
+            }
+            if (config.personal.logo) {
+                const sidebarHeader = document.querySelector('.sidebar-header');
+                let logoImg = sidebarHeader.querySelector('.sidebar-logo');
+                if (!logoImg) {
+                    logoImg = document.createElement('img');
+                    logoImg.className = 'sidebar-logo';
+                    logoImg.style.maxWidth = '100%';
+                    logoImg.style.maxHeight = '80px';
+                    logoImg.style.marginBottom = '10px';
+                    logoImg.style.borderRadius = '8px';
+                    sidebarHeader.insertBefore(logoImg, sidebarHeader.firstChild);
+                }
+                logoImg.src = config.personal.logo;
+            }
+
             Utils.toast('Configurações salvas com sucesso!', 'sucesso');
-        });
+        }
     }
 };
 
@@ -164,8 +211,26 @@ document.addEventListener('DOMContentLoaded', () => {
     import('./database.js').then(module => {
         const DB = module.default;
         const config = DB.getConfig();
-        if (config && config.personal && config.personal.nomeProfissional) {
-            document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+        if (config && config.personal) {
+            if (config.personal.nomeProfissional) {
+                document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            }
+            if (config.personal.corPrincipal) {
+                document.documentElement.style.setProperty('--primary-color', config.personal.corPrincipal);
+            }
+            if (config.personal.logo) {
+                const sidebarHeader = document.querySelector('.sidebar-header');
+                if (sidebarHeader) {
+                    const logoImg = document.createElement('img');
+                    logoImg.className = 'sidebar-logo';
+                    logoImg.src = config.personal.logo;
+                    logoImg.style.maxWidth = '100%';
+                    logoImg.style.maxHeight = '80px';
+                    logoImg.style.marginBottom = '10px';
+                    logoImg.style.borderRadius = '8px';
+                    sidebarHeader.insertBefore(logoImg, sidebarHeader.firstChild);
+                }
+            }
         }
     });
 });

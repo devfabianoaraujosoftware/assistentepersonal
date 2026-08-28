@@ -39,6 +39,17 @@ const ConfiguracoesView = {
                         <label class="form-label">Frase Profissional (Rodapé)</label>
                         <input type="text" id="cfg_frase" class="form-control" value="${p.frase || ''}">
                     </div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor do Sistema</label>
+                            <input type="color" id="cfg_cor" class="form-control" value="${p.corSistema || '#2563eb'}" style="height: 40px;">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Logomarca (Upload de Imagem)</label>
+                            <input type="file" id="cfg_logo" class="form-control" accept="image/*">
+                            ${p.logoBase64 ? `<img src="${p.logoBase64}" alt="Logomarca atual" style="max-height: 50px; margin-top: 10px;">` : ''}
+                        </div>
+                    </div>
                     <div style="text-align: right; margin-top: var(--space-4);">
                         <button type="submit" class="btn btn-primary">Salvar Configurações</button>
                     </div>
@@ -50,9 +61,21 @@ const ConfiguracoesView = {
         const Utils = (await import('./utils.js')).default;
         const DB = (await import('./database.js')).default;
 
-        document.getElementById('config-form').addEventListener('submit', (e) => {
+        document.getElementById('config-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const config = DB.getConfig() || { personal: {} };
+
+            let logoBase64 = config.personal.logoBase64 || '';
+            const logoInput = document.getElementById('cfg_logo');
+            if (logoInput.files && logoInput.files[0]) {
+                logoBase64 = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.onerror = (e) => reject(e);
+                    reader.readAsDataURL(logoInput.files[0]);
+                });
+            }
+
             config.personal = {
                 ...config.personal,
                 nomeProfissional: document.getElementById('cfg_nome').value,
@@ -60,9 +83,24 @@ const ConfiguracoesView = {
                 telefone: document.getElementById('cfg_telefone').value,
                 especialidade: document.getElementById('cfg_especialidade').value,
                 frase: document.getElementById('cfg_frase').value,
+                corSistema: document.getElementById('cfg_cor').value,
+                logoBase64: logoBase64
             };
             DB.saveConfig(config);
+
+            // Apply immediately
             document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            if (config.personal.corSistema) {
+                document.documentElement.style.setProperty('--primary-color', config.personal.corSistema);
+            }
+            if (config.personal.logoBase64) {
+                 const logoDiv = document.querySelector('.sidebar-header');
+                 if (logoDiv) {
+                     logoDiv.innerHTML = `<img src="${config.personal.logoBase64}" alt="Logo" style="max-height: 40px; margin-bottom: 5px; display: block; margin-left: auto; margin-right: auto;">
+                                          MESTRE<div style="font-size: 0.75rem; font-weight: normal; color: var(--text-light)">Personal Trainer OS</div>`;
+                 }
+            }
+
             Utils.toast('Configurações salvas com sucesso!', 'sucesso');
         });
     }
@@ -160,12 +198,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start router
     const router = new Router(routes, 'router-view');
 
-    // Set global username from config
+    // Set global username, color and logo from config
     import('./database.js').then(module => {
         const DB = module.default;
-        const config = DB.getConfig();
-        if (config && config.personal && config.personal.nomeProfissional) {
-            document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
-        }
+        // Make sure DB is initialized before accessing config
+        DB.init().then(() => {
+            const config = DB.getConfig();
+            if (config && config.personal) {
+                if (config.personal.nomeProfissional) {
+                    document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+                }
+                if (config.personal.corSistema) {
+                    document.documentElement.style.setProperty('--primary-color', config.personal.corSistema);
+                }
+                if (config.personal.logoBase64) {
+                    const logoDiv = document.querySelector('.sidebar-header');
+                    if (logoDiv) {
+                        logoDiv.innerHTML = `<img src="${config.personal.logoBase64}" alt="Logo" style="max-height: 40px; margin-bottom: 5px; display: block; margin-left: auto; margin-right: auto;">
+                                             MESTRE<div style="font-size: 0.75rem; font-weight: normal; color: var(--text-light)">Personal Trainer OS</div>`;
+                    }
+                }
+            }
+        });
     });
 });

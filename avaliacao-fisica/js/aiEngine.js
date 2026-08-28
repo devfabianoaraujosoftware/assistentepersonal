@@ -39,7 +39,11 @@ class MockAIService {
             frequenciaSemanal: parseInt(aluno.frequenciaSemanal) || 3,
             sono: aluno.sono || { horas: 8 },
             estresse: parseInt(aluno.estresse) || 5,
-            objetivos: aluno.objetivos || []
+            objetivos: aluno.objetivoPrincipal ? [aluno.objetivoPrincipal] : [],
+            hidratacao: aluno.hidratacao || 0,
+            nutricao: aluno.nutricao || { proteina: 0, carbo: 0, gordura: 0 },
+            cirurgias: aluno.cirurgias || '',
+            medicamentos: aluno.medicamentos || []
         }
     };
 
@@ -70,11 +74,20 @@ class MockAIService {
         alertas.push({ nivel: 'verde', mensagem: 'Sem alertas relevantes identificados pelos dados disponíveis.', id: 'DEFAULT_OK' });
     }
 
+    // Simulate Image Analysis if photos are present
+    const analiseImagens = [];
+    if (aluno.fotoPerfil || document.getElementById('foto_frontal')?.files?.length > 0) {
+        analiseImagens.push("IA (Mock): Identificado possível desvio postural leve (ombro direito mais alto).");
+        analiseImagens.push("IA (Mock): Padrão de gordura concentrado em região abdominal (Biofotogrametria sugerida).");
+    }
+
     return {
-        confianca: 'MODERADA',
-        resumo: `Aluno ${context.aluno.experiencia} focando em ${context.aluno.objetivos.join(', ') || 'Saúde Geral'}.`,
+        confianca: 'ALTA',
+        resumo: `Aluno ${context.aluno.experiencia} focando em ${context.aluno.objetivos.join(', ') || 'Saúde Geral'}. Evolução prevista: Melhora de condicionamento em 4 semanas; ganho de massa magra perceptível em 8-12 semanas se aderir à dieta.`,
         alertas,
         sugestoes,
+        cuidados: "Atenção constante à execução devido ao histórico do aluno. Priorize aquecimento e mobilidade antes das cargas principais.",
+        analiseImagens,
         geradoEm: new Date().toISOString()
     };
   }
@@ -130,7 +143,8 @@ class MockAIService {
                   repeticoes: "8-12",
                   carga: "A definir (RIR 2)",
                   descanso: "90s",
-                  observacao: exSelecionado.observacoes || "Controlar excêntrica."
+                  observacao: exSelecionado.observacoes || "Controlar excêntrica.",
+                  linkVideo: exSelecionado.linkVideo || ""
               });
           }
       });

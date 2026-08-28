@@ -19,22 +19,34 @@ export const PDFService = {
         doc.text(`Objetivo: ${aluno.objetivoPrincipal}`, 20, 50);
         doc.text(`Frequência Semanal: ${aluno.frequenciaSemanal} dias`, 20, 60);
 
+        let y = 80;
+
         doc.setFontSize(16);
-        doc.text("Resumo IA", 20, 80);
+        doc.text("Resumo IA & Cuidados", 20, y);
+        y += 10;
         doc.setFontSize(12);
         if (analise) {
             const splitResumo = doc.splitTextToSize(analise.resumo, 170);
-            doc.text(splitResumo, 20, 90);
+            doc.text(splitResumo, 20, y);
+            y += splitResumo.length * 7 + 5;
+
+            if (analise.cuidados) {
+                const splitCuidados = doc.splitTextToSize(`Cuidados: ${analise.cuidados}`, 170);
+                doc.text(splitCuidados, 20, y);
+                y += splitCuidados.length * 7 + 5;
+            }
         } else {
-            doc.text("Nenhuma análise de IA gerada.", 20, 90);
+            doc.text("Nenhuma análise de IA gerada.", 20, y);
+            y += 10;
         }
 
+        y += 10;
         doc.setFontSize(16);
-        doc.text("Prescrição de Treinamento", 20, 120);
+        doc.text("Prescrição de Treinamento", 20, y);
+        y += 10;
         doc.setFontSize(12);
 
         if (treino && treino.estrutura) {
-            let y = 130;
             treino.estrutura.forEach(dia => {
                 if (y > 270) {
                     doc.addPage();
@@ -46,17 +58,29 @@ export const PDFService = {
                 y += 10;
 
                 dia.exercicios.forEach(ex => {
-                    if (y > 270) {
+                    if (y > 260) { // Check space for multi-line
                         doc.addPage();
                         y = 20;
                     }
-                    doc.text(`• ${ex.nome} | ${ex.series}x${ex.repeticoes} | Descanso: ${ex.descanso}`, 25, y);
-                    y += 10;
+                    doc.text(`• ${ex.nome} | ${ex.series}x${ex.repeticoes} | ${ex.carga} | Descanso: ${ex.descanso}`, 25, y);
+                    y += 7;
+                    if (ex.linkVideo) {
+                        doc.setTextColor(0, 0, 255);
+                        doc.textWithLink(`  Vídeo Instrucional: ${ex.linkVideo}`, 25, y, { url: ex.linkVideo });
+                        doc.setTextColor(0, 0, 0);
+                        y += 7;
+                    }
+                    if (ex.observacao) {
+                        const splitObs = doc.splitTextToSize(`  Obs: ${ex.observacao}`, 160);
+                        doc.text(splitObs, 25, y);
+                        y += splitObs.length * 5;
+                    }
+                    y += 3;
                 });
                 y += 5;
             });
         } else {
-             doc.text("Nenhum treino prescrito.", 20, 130);
+             doc.text("Nenhum treino prescrito.", 20, y);
         }
 
         // Rodapé

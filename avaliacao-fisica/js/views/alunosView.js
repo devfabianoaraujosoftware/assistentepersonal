@@ -77,6 +77,11 @@ export const AlunoFormView = {
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label class="form-label">Foto de Identificação (Upload)</label>
+                        <input type="file" id="fotoPerfil" class="form-control" accept="image/*">
+                    </div>
+
                     <div class="card-header" style="margin-top: 20px;">Perfil de Treinamento e Anamnese Básica</div>
 
                     <div class="form-row">
@@ -113,23 +118,53 @@ export const AlunoFormView = {
                             <label class="form-label">Nível de Estresse (0-10)</label>
                             <input type="number" id="estresse_nivel" min="0" max="10" class="form-control">
                         </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Hidratação (Litros/dia)</label>
+                            <input type="number" step="0.1" id="hidratacao" class="form-control">
+                        </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group form-col">
-                            <label class="form-label">PAR-Q+ (Possui restrição médica declarada?)</label>
+                            <label class="form-label">Nutrição: Proteína (g/dia)</label>
+                            <input type="number" id="nutri_proteina" class="form-control">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Nutrição: Carboidrato (g/dia)</label>
+                            <input type="number" id="nutri_carbo" class="form-control">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Nutrição: Gordura (g/dia)</label>
+                            <input type="number" id="nutri_gordura" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">PAR-Q+ (Restrição declarada?)</label>
                             <select id="parq_restricao" class="form-control">
                                 <option value="false">Não</option>
                                 <option value="true">Sim (Exige liberação médica)</option>
                             </select>
                         </div>
                         <div class="form-group form-col">
-                            <label class="form-label">Lesões Prévias (Resumo)</label>
+                            <label class="form-label">Lesões Prévias</label>
                             <input type="text" id="lesoes_resumo" class="form-control" placeholder="Ex: Ombro direito, lombar">
                         </div>
                         <div class="form-group form-col">
+                            <label class="form-label">Cirurgias</label>
+                            <input type="text" id="cirurgias" class="form-control" placeholder="Ex: LCA Joelho Direito (2019)">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-col">
                             <label class="form-label">Medicamentos de Uso Contínuo</label>
-                            <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana">
+                            <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana, Ritalina">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Restrições para Exercício</label>
+                            <input type="text" id="restricoes_ex" class="form-control" placeholder="Ex: Evitar alto impacto">
                         </div>
                     </div>
 
@@ -148,10 +183,22 @@ export const AlunoFormView = {
         `;
     },
     afterRender: () => {
-        document.getElementById('aluno-form').addEventListener('submit', (e) => {
+        document.getElementById('aluno-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            let fotoBase64 = '';
+            const fotoInput = document.getElementById('fotoPerfil');
+            if (fotoInput.files && fotoInput.files[0]) {
+                fotoBase64 = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.onerror = (e) => reject(e);
+                    reader.readAsDataURL(fotoInput.files[0]);
+                });
+            }
+
             const novoAluno = {
+                fotoPerfil: fotoBase64,
                 nome: document.getElementById('nome').value,
                 dataNascimento: document.getElementById('dataNascimento').value,
                 email: document.getElementById('email').value,
@@ -165,8 +212,16 @@ export const AlunoFormView = {
                 // Anamnese fields
                 sono: { horas: parseInt(document.getElementById('sono_horas').value) || 8 },
                 estresse: parseInt(document.getElementById('estresse_nivel').value) || 5,
+                hidratacao: parseFloat(document.getElementById('hidratacao').value) || 2,
+                nutricao: {
+                    proteina: parseInt(document.getElementById('nutri_proteina').value) || 0,
+                    carbo: parseInt(document.getElementById('nutri_carbo').value) || 0,
+                    gordura: parseInt(document.getElementById('nutri_gordura').value) || 0
+                },
                 parq: { possuiRestricao: document.getElementById('parq_restricao').value === 'true' },
                 lesoes: document.getElementById('lesoes_resumo').value ? [{ local: document.getElementById('lesoes_resumo').value }] : [],
+                cirurgias: document.getElementById('cirurgias').value || '',
+                restricoes: document.getElementById('restricoes_ex').value || '',
                 medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : []
             };
 

@@ -31,8 +31,43 @@
     {
       "id": "RULE005",
       "categoria": "saude",
-      "condicao": "aluno.sono.horas < 6 && aluno.estresse > 7",
-      "acao": "Aluno relatou baixo sono e alto estresse. Risco aumentado de fadiga e overtraining. Monitorar RPE.",
+      "condicao": "aluno.sono && aluno.sono.horas < 6 && aluno.estresse > 7",
+      "acao": "Aluno relatou baixo sono e alto estresse. Risco aumentado de fadiga e overtraining. Monitorar RPE e reduzir volume.",
+      "nivel": "laranja"
+    },
+    {
+      "id": "RULE006",
+      "categoria": "hidratacao",
+      "condicao": "aluno.hidratacao && aluno.hidratacao < 2",
+      "acao": "Atenção: Consumo de água inferior a 2L/dia. Risco de cãibras e queda de performance. Orientar aumento da ingestão hídrica.",
+      "nivel": "amarelo"
+    },
+    {
+      "id": "RULE007",
+      "categoria": "nutricao",
+      "condicao": "aluno.nutricao && aluno.nutricao.proteina < 60 && aluno.objetivos && aluno.objetivos.includes('Hipertrofia')",
+      "acao": "Alerta Nutricional: Ingestão de proteína relatada muito baixa para o objetivo de hipertrofia. Sugerir encaminhamento a nutricionista.",
+      "nivel": "laranja"
+    },
+    {
+      "id": "RULE008",
+      "categoria": "medicamento",
+      "condicao": "aluno.medicamentos && aluno.medicamentos.some(m => m.nome.toLowerCase().includes('losartana') || m.nome.toLowerCase().includes('atenolol'))",
+      "acao": "Aluno faz uso de anti-hipertensivo (ex: Losartana/Atenolol). Evitar isometrias prolongadas e manobra de Valsalva. Acompanhar PA.",
+      "nivel": "laranja"
+    },
+    {
+      "id": "RULE009",
+      "categoria": "medicamento",
+      "condicao": "aluno.medicamentos && aluno.medicamentos.some(m => m.nome.toLowerCase().includes('ritalina') || m.nome.toLowerCase().includes('venvanse'))",
+      "acao": "Uso de estimulantes do SNC (Ritalina/Venvanse). Pode elevar FC basal e mascarar fadiga. Cuidado com intensidade cardiovascular extrema.",
+      "nivel": "amarelo"
+    },
+    {
+      "id": "RULE010",
+      "categoria": "cirurgia",
+      "condicao": "aluno.cirurgias && aluno.cirurgias.toLowerCase().includes('joelho')",
+      "acao": "Histórico de cirurgia no joelho. Evitar exercícios de alto impacto inicialmente (ex: saltos, pliometria). Foco em fortalecimento de vasto medial e estabilidade.",
       "nivel": "laranja"
     }
   ]

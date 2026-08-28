@@ -97,10 +97,34 @@ export const AlunoDetailView = {
                                 <input type="number" step="0.1" id="gordura" class="form-control">
                             </div>
                         </div>
-                        <div style="margin-top: var(--space-4);">
-                             <label class="form-label">Fotos (Mock de Upload Base64)</label>
-                             <input type="file" id="foto_upload" accept="image/*">
+                        <div class="card-header" style="margin-top: 20px;">Análise Postural (Biofotogrametria)</div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Frontal</label>
+                                <input type="file" id="foto_frontal" accept="image/*" class="form-control">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Lateral Direita</label>
+                                <input type="file" id="foto_lat_dir" accept="image/*" class="form-control">
+                            </div>
                         </div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Lateral Esquerda</label>
+                                <input type="file" id="foto_lat_esq" accept="image/*" class="form-control">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto Costas</label>
+                                <input type="file" id="foto_costas" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="card-header" style="margin-top: 20px;">Exames Complementares</div>
+                        <div class="form-group">
+                             <label class="form-label">Upload Laudo de Bioimpedância ou Exame de Sangue (Imagem)</label>
+                             <input type="file" id="exame_upload" accept="image/*" class="form-control">
+                        </div>
+
                         <div style="text-align: right; margin-top: 15px;">
                             <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação</button>
                         </div>
@@ -158,9 +182,16 @@ export const AlunoDetailView = {
                     `;
 
                     if (analise.alertas.length > 0) {
-                        htmlAnalise += `<strong>Alertas de Segurança:</strong><br>`;
+                        htmlAnalise += `<strong>Alertas e Cuidados (Segurança):</strong><br>`;
                         analise.alertas.forEach(a => {
                             htmlAnalise += `<div class="alert-item alert-${a.nivel}">${a.mensagem}</div>`;
+                        });
+                    }
+
+                    if (analise.sugestoes.length > 0) {
+                        htmlAnalise += `<br><strong>Insights de Avaliação:</strong><br>`;
+                        analise.sugestoes.forEach(s => {
+                            htmlAnalise += `<div class="alert-item alert-green">[${s.categoria.toUpperCase()}] ${s.mensagem}</div>`;
                         });
                     }
 
@@ -208,6 +239,7 @@ export const AlunoDetailView = {
                         <div style="margin-top: 20px; text-align: right;">
                             <button class="btn btn-primary" id="btn-aprovar-treino">Aprovar e Salvar Prescrição</button>
                             <button class="btn btn-secondary" id="btn-gerar-pdf" style="margin-left: 10px; display: none;">Gerar PDF</button>
+                            <button class="btn btn-secondary" id="btn-enviar-whatsapp" style="margin-left: 10px; display: none; background-color: #25D366; color: white;">Enviar WhatsApp</button>
                         </div>
                     `;
 
@@ -229,6 +261,7 @@ export const AlunoDetailView = {
                         document.getElementById('status-treino-badge').textContent = 'Aprovado';
                         document.getElementById('status-treino-badge').className = 'badge badge-green';
                         document.getElementById('btn-gerar-pdf').style.display = 'inline-block';
+                        document.getElementById('btn-enviar-whatsapp').style.display = 'inline-block';
 
                         Utils.toast('Treino aprovado e salvo com sucesso!', 'sucesso');
                     });
@@ -237,6 +270,16 @@ export const AlunoDetailView = {
                         const { PDFService } = await import('../pdf.js');
                         PDFService.generateAlunoReport(aluno, analise, sugestaoTreino);
                         Utils.toast('PDF gerado com sucesso.', 'sucesso');
+                    });
+
+                    document.getElementById('btn-enviar-whatsapp').addEventListener('click', () => {
+                        if (!aluno.telefone) {
+                            Utils.toast('Aluno não possui telefone cadastrado.', 'erro');
+                            return;
+                        }
+                        const phone = aluno.telefone.replace(/\D/g, '');
+                        const msg = `Olá ${aluno.nome}, sua avaliação e novo treino já estão disponíveis! Converse com seu personal para receber o arquivo PDF.`;
+                        window.open(`https://wa.me/55${phone}?text=${encodeURIComponent(msg)}`, '_blank');
                     });
 
                     Utils.toast('Análise concluída com sucesso.', 'sucesso');

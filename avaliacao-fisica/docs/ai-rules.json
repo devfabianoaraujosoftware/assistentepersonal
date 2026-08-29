@@ -34,6 +34,41 @@
       "condicao": "aluno.sono.horas < 6 && aluno.estresse > 7",
       "acao": "Aluno relatou baixo sono e alto estresse. Risco aumentado de fadiga e overtraining. Monitorar RPE.",
       "nivel": "laranja"
+    },
+    {
+      "id": "RULE006",
+      "categoria": "medicacao",
+      "condicao": "aluno.medicamentos && aluno.medicamentos.some(m => m.nome.toLowerCase().includes('losartana'))",
+      "acao": "Paciente hipertenso. Evitar isometria prolongada e manobra de Valsalva.",
+      "nivel": "laranja"
+    },
+    {
+      "id": "RULE007",
+      "categoria": "medicacao",
+      "condicao": "aluno.medicamentos && aluno.medicamentos.some(m => m.nome.toLowerCase().includes('atenolol'))",
+      "acao": "Uso de Betabloqueador identificado. Controle a intensidade pela Escala de Borg, não pela FC.",
+      "nivel": "laranja"
+    },
+    {
+      "id": "RULE008",
+      "categoria": "hidratacao",
+      "condicao": "aluno.hidratacao && aluno.hidratacao < 2000",
+      "acao": "Hidratação baixa (menos de 2L/dia). Alerta para aumento do risco de lesões e menor desempenho.",
+      "nivel": "amarelo"
+    },
+    {
+      "id": "RULE009",
+      "categoria": "alimentacao",
+      "condicao": "aluno.alimentacao && aluno.alimentacao.proteina === 'baixa'",
+      "acao": "Ingestão de proteína relatada como baixa. A recuperação muscular estará comprometida.",
+      "nivel": "amarelo"
+    },
+    {
+      "id": "RULE010",
+      "categoria": "medico",
+      "condicao": "aluno.cirurgias && aluno.cirurgias.length > 0",
+      "acao": "Relato de cirurgias prévias. Avaliar restrições articulares/musculares nos locais afetados.",
+      "nivel": "laranja"
     }
   ]
 }

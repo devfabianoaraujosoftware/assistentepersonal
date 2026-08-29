@@ -1,0 +1,48 @@
+{
+  "dietas": [
+    {
+      "objetivo": "Hipertrofia",
+      "recomendacao": "Superávit calórico (consumir mais do que gasta).",
+      "macronutrientes": {
+        "proteina": "1.6g a 2.2g por kg de peso corporal. Fundamental para a síntese proteica muscular.",
+        "carboidrato": "4g a 7g por kg. Principal fonte de energia para os treinos de força.",
+        "gordura": "0.8g a 1g por kg. Necessário para regulação hormonal."
+      },
+      "suplementacao_sugerida": "Whey Protein (para praticidade de bater proteína diária), Creatina (3 a 5g/dia, comprovada para ganho de força), Hipercalórico (se houver dificuldade de comer grandes volumes).",
+      "hidratacao": "No mínimo 35ml a 40ml por kg de peso. A hidratação intracelular é essencial para a hipertrofia."
+    },
+    {
+      "objetivo": "Emagrecimento",
+      "recomendacao": "Déficit calórico (gastar mais do que consome). O treino de força mantém a massa magra durante o emagrecimento.",
+      "macronutrientes": {
+        "proteina": "2.0g a 2.4g por kg. Mais alta para proteger a massa muscular e aumentar a saciedade.",
+        "carboidrato": "2g a 3g por kg. Pode ser ciclado. Priorizar baixo índice glicêmico para saciedade.",
+        "gordura": "0.8g a 1g por kg."
+      },
+      "suplementacao_sugerida": "Whey Protein, Creatina (ajuda na força durante restrição calórica). Cafeína pode ajudar levemente no desempenho.",
+      "hidratacao": "40ml por kg. Ajuda na saciedade e controle de retenção hídrica."
+    },
+    {
+      "objetivo": "Força",
+      "recomendacao": "Manutenção ou leve superávit calórico. O sistema nervoso central exige boa energia.",
+      "macronutrientes": {
+        "proteina": "1.6g a 2g por kg.",
+        "carboidrato": "Alta disponibilidade necessária antes dos treinos pesados.",
+        "gordura": "1g por kg."
+      },
+      "suplementacao_sugerida": "Creatina é essencial. Carboidrato em gel pode ajudar durante o treino se houver fadiga excessiva.",
+      "hidratacao": "35ml a 40ml por kg."
+    },
+    {
+      "objetivo": "Saúde",
+      "recomendacao": "Manutenção calórica, focando em dieta equilibrada, colorida e rica em fibras e micronutrientes.",
+      "macronutrientes": {
+        "proteina": "1.2g a 1.6g por kg.",
+        "carboidrato": "Adequado ao nível de atividade física do dia.",
+        "gordura": "0.8g a 1g por kg. Gorduras boas (azeite, castanhas)."
+      },
+      "suplementacao_sugerida": "Omega 3 (se baixo consumo de peixes), Vitamina D3 (se houver deficiência exames de sangue).",
+      "hidratacao": "35ml por kg."
+    }
+  ]
+}

@@ -39,7 +39,11 @@ class MockAIService {
             frequenciaSemanal: parseInt(aluno.frequenciaSemanal) || 3,
             sono: aluno.sono || { horas: 8 },
             estresse: parseInt(aluno.estresse) || 5,
-            objetivos: aluno.objetivos || []
+            objetivos: aluno.objetivoPrincipal ? [aluno.objetivoPrincipal] : [],
+            medicamentos: aluno.medicamentos || [],
+            hidratacao: aluno.hidratacao || 0,
+            alimentacao: aluno.alimentacao || {},
+            cirurgias: aluno.cirurgias || []
         }
     };
 
@@ -70,11 +74,23 @@ class MockAIService {
         alertas.push({ nivel: 'verde', mensagem: 'Sem alertas relevantes identificados pelos dados disponíveis.', id: 'DEFAULT_OK' });
     }
 
+    // Analyze Dieta based on objective
+    const dietas = DB.getAll('dietas');
+    const dietaRecomendada = dietas.find(d => d.objetivo.toLowerCase() === (aluno.objetivoPrincipal || '').toLowerCase()) || dietas[0];
+
+    // Generate evolution prediction
+    let previsaoEvolucao = `Com base no perfil (${aluno.experiencia}) e foco (${aluno.objetivoPrincipal || 'Saúde'}), espera-se adaptação neuromotora nas primeiras 4 semanas. Evolução hipertrófica notável a partir da 8ª a 12ª semana se a aderência à dieta for mantida.`;
+    if (context.aluno.sono.horas < 6 || context.aluno.estresse > 7 || context.aluno.alimentacao.proteina === 'baixa') {
+        previsaoEvolucao += " O ritmo de evolução pode ser reduzido pelos fatores de recuperação (sono/estresse/alimentação).";
+    }
+
     return {
         confianca: 'MODERADA',
         resumo: `Aluno ${context.aluno.experiencia} focando em ${context.aluno.objetivos.join(', ') || 'Saúde Geral'}.`,
         alertas,
         sugestoes,
+        dietaRecomendada,
+        previsaoEvolucao,
         geradoEm: new Date().toISOString()
     };
   }
@@ -130,7 +146,8 @@ class MockAIService {
                   repeticoes: "8-12",
                   carga: "A definir (RIR 2)",
                   descanso: "90s",
-                  observacao: exSelecionado.observacoes || "Controlar excêntrica."
+                  observacao: exSelecionado.observacoes || "Controlar excêntrica.",
+                  video: exSelecionado.video || ""
               });
           }
       });

@@ -6,7 +6,7 @@ import Storage from './storage.js';
  */
 class Database {
   constructor() {
-    this.collections = ['alunos', 'avaliacoes', 'treinos', 'exercicios', 'configuracoes'];
+    this.collections = ['alunos', 'avaliacoes', 'treinos', 'exercicios', 'configuracoes', 'medicamentos', 'dietas'];
     this.init();
   }
 
@@ -42,6 +42,24 @@ class Database {
         if(response.ok) {
           const data = await response.json();
           Storage.set('configuracoes', data);
+        }
+      }
+
+      const medicamentos = Storage.get('medicamentos');
+      if (!medicamentos || medicamentos.length === 0) {
+        const response = await fetch('./data/medicamentos.json');
+        if (response.ok) {
+          const data = await response.json();
+          Storage.set('medicamentos', data.medicamentos);
+        }
+      }
+
+      const dietas = Storage.get('dietas');
+      if (!dietas || dietas.length === 0) {
+        const response = await fetch('./data/dietas.json');
+        if (response.ok) {
+          const data = await response.json();
+          Storage.set('dietas', data.dietas);
         }
       }
     } catch (e) {

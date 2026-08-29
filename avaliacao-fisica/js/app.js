@@ -39,6 +39,20 @@ const ConfiguracoesView = {
                         <label class="form-label">Frase Profissional (Rodapé)</label>
                         <input type="text" id="cfg_frase" class="form-control" value="${p.frase || ''}">
                     </div>
+
+                    <div class="card-header" style="margin-top: 20px;">Aparência do Sistema</div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor Primária do Sistema</label>
+                            <input type="color" id="cfg_cor" class="form-control" value="${p.corPrimaria || '#2563eb'}" style="height: 50px;">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Logomarca (Upload)</label>
+                            <input type="file" id="cfg_logo" class="form-control" accept="image/*">
+                            ${p.logoBase64 ? `<img src="${p.logoBase64}" alt="Logo" style="margin-top: 10px; max-height: 50px;">` : ''}
+                        </div>
+                    </div>
+
                     <div style="text-align: right; margin-top: var(--space-4);">
                         <button type="submit" class="btn btn-primary">Salvar Configurações</button>
                     </div>
@@ -50,9 +64,20 @@ const ConfiguracoesView = {
         const Utils = (await import('./utils.js')).default;
         const DB = (await import('./database.js')).default;
 
-        document.getElementById('config-form').addEventListener('submit', (e) => {
+        document.getElementById('config-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const config = DB.getConfig() || { personal: {} };
+
+            const fileInput = document.getElementById('cfg_logo');
+            let logoBase64 = config.personal.logoBase64 || '';
+            if (fileInput.files && fileInput.files[0]) {
+                 try {
+                     logoBase64 = await Utils.fileToBase64(fileInput.files[0]);
+                 } catch(err) {
+                     console.error("Failed to read logo", err);
+                 }
+            }
+
             config.personal = {
                 ...config.personal,
                 nomeProfissional: document.getElementById('cfg_nome').value,
@@ -60,9 +85,30 @@ const ConfiguracoesView = {
                 telefone: document.getElementById('cfg_telefone').value,
                 especialidade: document.getElementById('cfg_especialidade').value,
                 frase: document.getElementById('cfg_frase').value,
+                corPrimaria: document.getElementById('cfg_cor').value,
+                logoBase64: logoBase64
             };
             DB.saveConfig(config);
+
+            // Apply new settings immediately
             document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            if (config.personal.corPrimaria) {
+                document.documentElement.style.setProperty('--primary-color', config.personal.corPrimaria);
+            }
+            const sidebarHeader = document.querySelector('.sidebar-header');
+            if (config.personal.logoBase64) {
+                // Check if image exists, otherwise create it
+                let img = sidebarHeader.querySelector('img');
+                if (!img) {
+                    img = document.createElement('img');
+                    img.style.maxHeight = '40px';
+                    img.style.display = 'block';
+                    img.style.margin = '0 auto 10px auto';
+                    sidebarHeader.insertBefore(img, sidebarHeader.firstChild);
+                }
+                img.src = config.personal.logoBase64;
+            }
+
             Utils.toast('Configurações salvas com sucesso!', 'sucesso');
         });
     }
@@ -164,8 +210,25 @@ document.addEventListener('DOMContentLoaded', () => {
     import('./database.js').then(module => {
         const DB = module.default;
         const config = DB.getConfig();
-        if (config && config.personal && config.personal.nomeProfissional) {
-            document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+        if (config && config.personal) {
+            if (config.personal.nomeProfissional) {
+                document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            }
+            if (config.personal.corPrimaria) {
+                document.documentElement.style.setProperty('--primary-color', config.personal.corPrimaria);
+            }
+            if (config.personal.logoBase64) {
+                const sidebarHeader = document.querySelector('.sidebar-header');
+                let img = sidebarHeader.querySelector('img');
+                if (!img) {
+                    img = document.createElement('img');
+                    img.style.maxHeight = '40px';
+                    img.style.display = 'block';
+                    img.style.margin = '0 auto 10px auto';
+                    sidebarHeader.insertBefore(img, sidebarHeader.firstChild);
+                }
+                img.src = config.personal.logoBase64;
+            }
         }
     });
 });

@@ -1,0 +1,34 @@
+{
+  "medicamentos": [
+    {
+      "nome": "Losartana",
+      "indicacao": "Hipertensão",
+      "efeitos_no_treino": "Pode causar tontura no início do treino ou ao levantar rapidamente. Não impede o treino.",
+      "cuidados": "Monitorar PA. Evitar exercícios isométricos prolongados ou apneia (Manobra de Valsalva)."
+    },
+    {
+      "nome": "Atenolol",
+      "indicacao": "Hipertensão / Arritmia (Betabloqueador)",
+      "efeitos_no_treino": "Limita a frequência cardíaca máxima (FCmax). Percepção de esforço (Borg) é um método melhor para controlar a intensidade.",
+      "cuidados": "Cuidado com intensidades altas prescritas apenas por FC. Risco de hipotensão pós-exercício."
+    },
+    {
+      "nome": "Omeprazol",
+      "indicacao": "Gastrite / Refluxo",
+      "efeitos_no_treino": "Pode causar desconforto gástrico se houver ingestão de líquidos logo antes de exercícios de alta intensidade.",
+      "cuidados": "Sem impacto direto no desempenho muscular."
+    },
+    {
+      "nome": "Corticosteroides",
+      "indicacao": "Inflamação / Asma / Doenças autoimunes",
+      "efeitos_no_treino": "Uso crônico pode causar perda de massa óssea e muscular, e retenção de líquidos.",
+      "cuidados": "Importante focar em exercícios de força (hipertrofia e fortalecimento ósseo), mas progredindo lentamente devido ao risco de lesão tendínea."
+    },
+    {
+       "nome": "Estatina (ex: Sinvastatina)",
+       "indicacao": "Colesterol elevado",
+       "efeitos_no_treino": "Pode causar dor muscular (mialgia) ou fraqueza muscular, dificultando a recuperação.",
+       "cuidados": "Prestar atenção à recuperação entre os treinos. Caso o aluno relate dores excessivas pós-treino, reduzir volume."
+    }
+  ]
+}

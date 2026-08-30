@@ -31,6 +31,9 @@ class MockAIService {
     if (!aluno) throw new Error("Aluno não encontrado para análise.");
 
     // Safely structure data for rules evaluation to mock AI behavior
+    const avaliacoes = DB.getAll('avaliacoes').filter(a => a.alunoId === alunoId);
+    const ultimaAvaliacao = avaliacoes.length > 0 ? avaliacoes[avaliacoes.length - 1] : null;
+
     const context = {
         aluno: {
             lesoes: aluno.lesoes || [],
@@ -39,7 +42,12 @@ class MockAIService {
             frequenciaSemanal: parseInt(aluno.frequenciaSemanal) || 3,
             sono: aluno.sono || { horas: 8 },
             estresse: parseInt(aluno.estresse) || 5,
-            objetivos: aluno.objetivos || []
+            objetivos: [aluno.objetivoPrincipal] || [],
+            medicamentos: aluno.medicamentos || [],
+            alimentacao: aluno.alimentacao || 'Boa',
+            hidratacao: aluno.hidratacao || 2.0,
+            cirurgias: aluno.cirurgias || '',
+            avaliacao: ultimaAvaliacao
         }
     };
 
@@ -118,9 +126,25 @@ class MockAIService {
   _createDay(identificador, nome, db, gruposFoco) {
       const dia = { identificador, nome, exercicios: [] };
 
+      // Add a mobility/stretching exercise at the beginning of each day
+      const mobilidade = db.filter(ex => ex.grupoMuscular.includes('Mobilidade') || ex.tipo === 'alongamento' || ex.tipo === 'mobilidade');
+      if (mobilidade.length > 0) {
+          const exMob = mobilidade[Math.floor(Math.random() * mobilidade.length)];
+          dia.exercicios.push({
+              exercicioId: exMob.id,
+              nome: exMob.nome,
+              series: 2,
+              repeticoes: "10-15 (ou 30s)",
+              carga: "Peso Corporal",
+              descanso: "30s",
+              observacao: exMob.observacoes || "Aquecimento e Mobilidade.",
+              videoUrl: exMob.videoUrl || ""
+          });
+      }
+
       gruposFoco.forEach(grupo => {
           // Find 1-2 exercises for the muscle group
-          const possiveis = db.filter(ex => ex.grupoMuscular.includes(grupo));
+          const possiveis = db.filter(ex => ex.grupoMuscular.includes(grupo) && ex.tipo !== 'alongamento' && ex.tipo !== 'mobilidade');
           if(possiveis.length > 0) {
               const exSelecionado = possiveis[Math.floor(Math.random() * possiveis.length)];
               dia.exercicios.push({
@@ -130,7 +154,8 @@ class MockAIService {
                   repeticoes: "8-12",
                   carga: "A definir (RIR 2)",
                   descanso: "90s",
-                  observacao: exSelecionado.observacoes || "Controlar excêntrica."
+                  observacao: exSelecionado.observacoes || "Controlar excêntrica.",
+                  videoUrl: exSelecionado.videoUrl || ""
               });
           }
       });

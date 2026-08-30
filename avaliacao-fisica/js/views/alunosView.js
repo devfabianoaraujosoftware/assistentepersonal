@@ -76,6 +76,12 @@ export const AlunoFormView = {
                             <input type="text" id="telefone" class="form-control">
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Foto do Aluno (Upload de Imagem)</label>
+                            <input type="file" id="foto_aluno" accept="image/*" class="form-control">
+                        </div>
+                    </div>
 
                     <div class="card-header" style="margin-top: 20px;">Perfil de Treinamento e Anamnese Básica</div>
 
@@ -128,8 +134,27 @@ export const AlunoFormView = {
                             <input type="text" id="lesoes_resumo" class="form-control" placeholder="Ex: Ombro direito, lombar">
                         </div>
                         <div class="form-group form-col">
+                            <label class="form-label">Cirurgias Prévias</label>
+                            <input type="text" id="cirurgias_resumo" class="form-control" placeholder="Ex: Apendicite, Joelho">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-col">
                             <label class="form-label">Medicamentos de Uso Contínuo</label>
-                            <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana">
+                            <input type="text" id="medicamentos_resumo" class="form-control" placeholder="Ex: Losartana, Betabloqueador">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Alimentação (Qualidade geral)</label>
+                            <select id="alimentacao_qualidade" class="form-control">
+                                <option value="Boa">Boa (Equilibrada)</option>
+                                <option value="Regular">Regular (Pula refeições)</option>
+                                <option value="Ruim">Ruim (Muito ultraprocessado)</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Hidratação (Litros/dia)</label>
+                            <input type="number" step="0.1" id="hidratacao_litros" min="0" class="form-control" placeholder="Ex: 2.5">
                         </div>
                     </div>
 
@@ -148,10 +173,17 @@ export const AlunoFormView = {
         `;
     },
     afterRender: () => {
-        document.getElementById('aluno-form').addEventListener('submit', (e) => {
+        document.getElementById('aluno-form').addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            let fotoAlunoBase64 = null;
+            const fotoAlunoFile = document.getElementById('foto_aluno').files[0];
+            if (fotoAlunoFile) {
+                fotoAlunoBase64 = await Utils.fileToBase64(fotoAlunoFile);
+            }
+
             const novoAluno = {
+                foto: fotoAlunoBase64,
                 nome: document.getElementById('nome').value,
                 dataNascimento: document.getElementById('dataNascimento').value,
                 email: document.getElementById('email').value,
@@ -167,7 +199,10 @@ export const AlunoFormView = {
                 estresse: parseInt(document.getElementById('estresse_nivel').value) || 5,
                 parq: { possuiRestricao: document.getElementById('parq_restricao').value === 'true' },
                 lesoes: document.getElementById('lesoes_resumo').value ? [{ local: document.getElementById('lesoes_resumo').value }] : [],
-                medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : []
+                cirurgias: document.getElementById('cirurgias_resumo').value,
+                medicamentos: document.getElementById('medicamentos_resumo').value ? [{ nome: document.getElementById('medicamentos_resumo').value }] : [],
+                alimentacao: document.getElementById('alimentacao_qualidade').value,
+                hidratacao: parseFloat(document.getElementById('hidratacao_litros').value) || 0
             };
 
             const salvo = DB.save('alunos', novoAluno);

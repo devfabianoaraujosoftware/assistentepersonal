@@ -178,7 +178,73 @@
       "objetivos": ["condicionamento", "resistencia"],
       "substitutos": [],
       "observacoes": "",
-      "restricoes": []
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=pSHjTRCQxIw"
+    },
+    {
+      "id": "EX016",
+      "nome": "Alongamento de Isquiotibiais",
+      "grupoMuscular": ["Mobilidade", "Posterior"],
+      "tipo": "alongamento",
+      "equipamento": "peso corporal",
+      "nivel": ["iniciante", "intermediario", "avancado"],
+      "objetivos": ["mobilidade", "saude"],
+      "substitutos": [],
+      "observacoes": "Sustentar por 30s.",
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=1b-c6Qk6G5Q"
+    },
+    {
+      "id": "EX017",
+      "nome": "Burpee",
+      "grupoMuscular": ["Cardio", "Corpo Inteiro", "Crossfit"],
+      "tipo": "multiarticular",
+      "equipamento": "peso corporal",
+      "nivel": ["intermediario", "avancado"],
+      "objetivos": ["condicionamento", "emagrecimento"],
+      "substitutos": [],
+      "observacoes": "Atenção ao impacto.",
+      "restricoes": ["joelho_lesao", "ombro_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=TU8QYVW0gDU"
+    },
+    {
+      "id": "EX018",
+      "nome": "Kettlebell Swing",
+      "grupoMuscular": ["Posterior", "Glúteos", "Funcional", "Crossfit"],
+      "tipo": "multiarticular",
+      "equipamento": "kettlebell",
+      "nivel": ["intermediario", "avancado"],
+      "objetivos": ["potencia", "condicionamento"],
+      "substitutos": [],
+      "observacoes": "Movimento de quadril, não agachamento.",
+      "restricoes": ["lombar_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=YSxHifyI6s8"
+    },
+    {
+      "id": "EX019",
+      "nome": "Flexão de Braço (Treino em Casa)",
+      "grupoMuscular": ["Peitoral", "Tríceps", "Ombros", "Treino em Casa"],
+      "tipo": "multiarticular",
+      "equipamento": "peso corporal",
+      "nivel": ["iniciante", "intermediario", "avancado"],
+      "objetivos": ["hipertrofia", "forca"],
+      "substitutos": [],
+      "observacoes": "Manter core contraído.",
+      "restricoes": ["ombro_lesao"],
+      "videoUrl": "https://www.youtube.com/watch?v=IODxDxX7oi4"
+    },
+    {
+      "id": "EX020",
+      "nome": "Mobilidade de Tornozelo na Parede",
+      "grupoMuscular": ["Mobilidade", "Panturrilha"],
+      "tipo": "mobilidade",
+      "equipamento": "peso corporal",
+      "nivel": ["iniciante", "intermediario", "avancado"],
+      "objetivos": ["mobilidade"],
+      "substitutos": [],
+      "observacoes": "Não tirar o calcanhar do chão.",
+      "restricoes": [],
+      "videoUrl": "https://www.youtube.com/watch?v=R2jQhKjG5vU"
     }
   ]
 }

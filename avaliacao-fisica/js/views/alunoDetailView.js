@@ -12,9 +12,14 @@ export const AlunoDetailView = {
         const idade = Calc.idade(aluno.dataNascimento);
 
         return `
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: var(--space-6)">
-                <a href="#/alunos" class="btn btn-secondary">← Voltar</a>
-                <h1>${aluno.nome} <span class="badge badge-green">${idade} anos</span></h1>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-6)">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a href="#/alunos" class="btn btn-secondary">← Voltar</a>
+                    <h1>${aluno.nome} <span class="badge badge-green">${idade} anos</span></h1>
+                </div>
+                <div>
+                    <button id="btn-enviar-wpp" class="btn btn-secondary" style="background-color: #25D366; color: white; border: none;">Enviar Relatório WhatsApp</button>
+                </div>
             </div>
 
             <!-- Tabs Navigation -->
@@ -97,12 +102,53 @@ export const AlunoDetailView = {
                                 <input type="number" step="0.1" id="gordura" class="form-control">
                             </div>
                         </div>
-                        <div style="margin-top: var(--space-4);">
-                             <label class="form-label">Fotos (Mock de Upload Base64)</label>
-                             <input type="file" id="foto_upload" accept="image/*">
+
+                        <div class="card-header" style="margin-top: 20px;">Fotos de Avaliação Postural e Exames</div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Frente</label>
+                                <input type="file" id="foto_frente" accept="image/*" class="form-control">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Costas</label>
+                                <input type="file" id="foto_costas" accept="image/*" class="form-control">
+                            </div>
                         </div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Lateral Direita</label>
+                                <input type="file" id="foto_lateral_dir" accept="image/*" class="form-control">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Lateral Esquerda</label>
+                                <input type="file" id="foto_lateral_esq" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Exames / Bioimpedância (Foto/Print)</label>
+                                <input type="file" id="foto_exames" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="card-header" style="margin-top: 20px;">Detalhes Nutricionais (Informados pelo aluno)</div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Proteína (g/dia aprox.)</label>
+                                <input type="number" step="0.1" id="nutri_proteina" class="form-control" placeholder="Ex: 120">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Carboidrato (g/dia aprox.)</label>
+                                <input type="number" step="0.1" id="nutri_carbo" class="form-control" placeholder="Ex: 200">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Gordura (g/dia aprox.)</label>
+                                <input type="number" step="0.1" id="nutri_gordura" class="form-control" placeholder="Ex: 60">
+                            </div>
+                        </div>
+
                         <div style="text-align: right; margin-top: 15px;">
-                            <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação</button>
+                            <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação & Exportar Dados</button>
                         </div>
                     </form>
                 </div>
@@ -187,11 +233,12 @@ export const AlunoDetailView = {
                             <h3 style="margin-top: 20px; color: var(--primary-color);">Treino ${dia.identificador} - ${dia.nome}</h3>
                             <div class="table-responsive">
                                 <table class="table">
-                                    <thead><tr><th>Exercício</th><th>Séries</th><th>Reps</th><th>Carga/RIR</th><th>Obs</th></tr></thead>
+                                    <thead><tr><th>Exercício</th><th>Vídeo</th><th>Séries</th><th>Reps</th><th>Carga/RIR</th><th>Obs</th></tr></thead>
                                     <tbody>
                                         ${dia.exercicios.map((ex, eIndex) => `
                                             <tr>
                                                 <td>${ex.nome}</td>
+                                                <td>${ex.videoUrl ? `<a href="${ex.videoUrl}" target="_blank" style="color:red; text-decoration:none;">▶ YouTube</a>` : '-'}</td>
                                                 <td><input type="number" id="t_${dIndex}_${eIndex}_series" value="${ex.series}" style="width: 50px;"></td>
                                                 <td><input type="text" id="t_${dIndex}_${eIndex}_reps" value="${ex.repeticoes}" style="width: 80px;"></td>
                                                 <td>${ex.carga}</td>
@@ -249,10 +296,71 @@ export const AlunoDetailView = {
             });
         }
 
-        // Mock Save Avaliação
-        document.getElementById('btn-salvar-avaliacao')?.addEventListener('click', () => {
-             Utils.toast('Avaliação salva localmente (Mock). IMC calculado.', 'sucesso');
-             // In a real app, this would extract values, call Calc.imc(), save to DB.avaliacoes
+        // Save Avaliação and Export JSON
+        document.getElementById('btn-salvar-avaliacao')?.addEventListener('click', async () => {
+            const peso = document.getElementById('peso').value;
+            const altura = document.getElementById('altura').value;
+            const cintura = document.getElementById('cintura').value;
+            const gordura = document.getElementById('gordura').value;
+
+            const proteina = document.getElementById('nutri_proteina').value;
+            const carbo = document.getElementById('nutri_carbo').value;
+            const gorduraNutri = document.getElementById('nutri_gordura').value;
+
+            // Gather photos
+            let fotos = {};
+            const files = ['foto_frente', 'foto_costas', 'foto_lateral_dir', 'foto_lateral_esq', 'foto_exames'];
+            for (let f of files) {
+                const fileInput = document.getElementById(f);
+                if (fileInput && fileInput.files[0]) {
+                    fotos[f] = await Utils.fileToBase64(fileInput.files[0]);
+                }
+            }
+
+            const avaliacao = {
+                id: DB.generateId('AVA'),
+                alunoId: id,
+                data: new Date().toISOString(),
+                antropometria: {
+                    peso, altura, cintura, gordura
+                },
+                nutricaoDetalhada: {
+                    proteina, carbo, gordura: gorduraNutri
+                },
+                fotos
+            };
+
+            DB.save('avaliacoes', avaliacao);
+            Utils.toast('Avaliação salva localmente com fotos e dados nutricionais.', 'sucesso');
+
+            // Export the student data including this evaluation as a JSON file
+            const aluno = DB.getById('alunos', id);
+            const exportData = {
+                aluno,
+                avaliacao
+            };
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", `aluno_${id}_dados_completos.json`);
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        });
+
+        // WhatsApp button logic in top header
+        document.getElementById('btn-enviar-wpp')?.addEventListener('click', () => {
+            const aluno = DB.getById('alunos', id);
+            if (!aluno || !aluno.telefone) {
+                Utils.toast('Telefone do aluno não cadastrado.', 'erro');
+                return;
+            }
+
+            const msg = `Olá ${aluno.nome}, seu relatório de avaliação e treinos foi atualizado! Seu número de cadastro é: ${aluno.id}. Acesse nosso aplicativo para conferir.`;
+            const phone = aluno.telefone.replace(/\D/g, ''); // Remove non-numeric
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
         });
     }
 };

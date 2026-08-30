@@ -34,6 +34,34 @@
       "condicao": "aluno.sono.horas < 6 && aluno.estresse > 7",
       "acao": "Aluno relatou baixo sono e alto estresse. Risco aumentado de fadiga e overtraining. Monitorar RPE.",
       "nivel": "laranja"
+    },
+    {
+      "id": "RULE006",
+      "categoria": "medicacao",
+      "condicao": "aluno.medicamentos && aluno.medicamentos.some(m => m.nome.toLowerCase().includes('betabloqueador') || m.nome.toLowerCase().includes('atenolol') || m.nome.toLowerCase().includes('propranolol'))",
+      "acao": "Uso de betabloqueadores detectado. A frequência cardíaca será mascarada (reduzida). Não usar zonas de FC para prescrever intensidade, usar escala de percepção de esforço (Borg).",
+      "nivel": "vermelho"
+    },
+    {
+      "id": "RULE007",
+      "categoria": "nutricao",
+      "condicao": "aluno.alimentacao === 'Ruim' || (aluno.avaliacao && aluno.avaliacao.nutricaoDetalhada && parseFloat(aluno.avaliacao.nutricaoDetalhada.proteina) < 1.6 * parseFloat(aluno.avaliacao.antropometria.peso))",
+      "acao": "Ingestão proteica ou qualidade alimentar insuficientes para o objetivo de hipertrofia. Sugerir orientação com nutricionista validada no app do aluno.",
+      "nivel": "amarelo"
+    },
+    {
+      "id": "RULE008",
+      "categoria": "hidratacao",
+      "condicao": "aluno.hidratacao < 2.0",
+      "acao": "Hidratação muito baixa reportada (< 2L/dia). Desidratação pode prejudicar a performance e a recuperação.",
+      "nivel": "laranja"
+    },
+    {
+      "id": "RULE009",
+      "categoria": "cirurgia",
+      "condicao": "aluno.cirurgias && aluno.cirurgias.length > 0",
+      "acao": "Histórico de cirurgias detectado. Exigir liberação médica específica dependendo da área cirúrgica e tempo de pós-operatório.",
+      "nivel": "laranja"
     }
   ]
 }

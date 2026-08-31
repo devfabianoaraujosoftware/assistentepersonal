@@ -14,7 +14,19 @@ const ConfiguracoesView = {
             <h1>Configurações do Personal Trainer</h1>
             <div class="card">
                 <form id="config-form">
-                    <div class="card-header">Dados Profissionais (Usados nos Relatórios PDF)</div>
+                    <div class="card-header">Identidade Visual</div>
+                    <div class="form-row">
+                        <div class="form-group form-col">
+                            <label class="form-label">Cor Principal</label>
+                            <input type="color" id="cfg_cor" class="form-control" value="${p.corPrincipal || '#2563eb'}" style="height: 40px; cursor: pointer;">
+                        </div>
+                        <div class="form-group form-col">
+                            <label class="form-label">Logomarca (Upload)</label>
+                            <input type="file" id="cfg_logo" class="form-control" accept="image/*">
+                            ${p.logoData ? `<img src="${p.logoData}" alt="Logo Preview" style="max-height: 50px; margin-top: 10px;">` : ''}
+                        </div>
+                    </div>
+                    <div class="card-header" style="margin-top: 20px;">Dados Profissionais (Usados nos Relatórios PDF)</div>
                     <div class="form-row">
                         <div class="form-group form-col">
                             <label class="form-label">Nome Profissional</label>
@@ -50,9 +62,22 @@ const ConfiguracoesView = {
         const Utils = (await import('./utils.js')).default;
         const DB = (await import('./database.js')).default;
 
-        document.getElementById('config-form').addEventListener('submit', (e) => {
+        document.getElementById('config-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const config = DB.getConfig() || { personal: {} };
+
+            const logoFile = document.getElementById('cfg_logo').files[0];
+            let logoData = config.personal.logoData;
+
+            if (logoFile) {
+                try {
+                    logoData = await Utils.fileToBase64(logoFile);
+                } catch (err) {
+                    console.error("Error reading logo file:", err);
+                    Utils.toast('Erro ao carregar logomarca.', 'erro');
+                }
+            }
+
             config.personal = {
                 ...config.personal,
                 nomeProfissional: document.getElementById('cfg_nome').value,
@@ -60,9 +85,39 @@ const ConfiguracoesView = {
                 telefone: document.getElementById('cfg_telefone').value,
                 especialidade: document.getElementById('cfg_especialidade').value,
                 frase: document.getElementById('cfg_frase').value,
+                corPrincipal: document.getElementById('cfg_cor').value,
+                logoData: logoData
             };
             DB.saveConfig(config);
             document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+
+            // Apply visual changes immediately
+            if (config.personal.corPrincipal) {
+                document.documentElement.style.setProperty('--primary-color', config.personal.corPrincipal);
+            }
+
+            const sidebarHeader = document.querySelector('.sidebar-header');
+            if (config.personal.logoData) {
+                let logoImg = document.getElementById('sidebar-logo');
+                if (!logoImg) {
+                    logoImg = document.createElement('img');
+                    logoImg.id = 'sidebar-logo';
+                    logoImg.style.maxHeight = '40px';
+                    logoImg.style.marginBottom = '5px';
+                    sidebarHeader.insertBefore(logoImg, sidebarHeader.firstChild);
+                }
+                logoImg.src = config.personal.logoData;
+                const titleText = sidebarHeader.childNodes;
+                for (let i = 0; i < titleText.length; i++) {
+                   if (titleText[i].nodeType === Node.TEXT_NODE && titleText[i].textContent.trim().includes('MESTRE')) {
+                       titleText[i].textContent = '';
+                   }
+                }
+            } else {
+                 let logoImg = document.getElementById('sidebar-logo');
+                 if(logoImg) logoImg.remove();
+            }
+
             Utils.toast('Configurações salvas com sucesso!', 'sucesso');
         });
     }
@@ -160,12 +215,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start router
     const router = new Router(routes, 'router-view');
 
-    // Set global username from config
+    // Set global username from config and apply branding
     import('./database.js').then(module => {
         const DB = module.default;
         const config = DB.getConfig();
-        if (config && config.personal && config.personal.nomeProfissional) {
-            document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+        if (config && config.personal) {
+            if (config.personal.nomeProfissional) {
+                document.getElementById('header-user-name').textContent = config.personal.nomeProfissional;
+            }
+            if (config.personal.corPrincipal) {
+                document.documentElement.style.setProperty('--primary-color', config.personal.corPrincipal);
+            }
+            if (config.personal.logoData) {
+                const sidebarHeader = document.querySelector('.sidebar-header');
+                const logoImg = document.createElement('img');
+                logoImg.id = 'sidebar-logo';
+                logoImg.src = config.personal.logoData;
+                logoImg.style.maxHeight = '40px';
+                logoImg.style.marginBottom = '5px';
+                sidebarHeader.insertBefore(logoImg, sidebarHeader.firstChild);
+
+                // Hide the text 'MESTRE' if logo is present
+                const titleText = sidebarHeader.childNodes;
+                for (let i = 0; i < titleText.length; i++) {
+                   if (titleText[i].nodeType === Node.TEXT_NODE && titleText[i].textContent.trim().includes('MESTRE')) {
+                       titleText[i].textContent = '';
+                   }
+                }
+            }
         }
     });
 });

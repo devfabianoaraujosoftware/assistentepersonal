@@ -97,12 +97,46 @@ export const AlunoDetailView = {
                                 <input type="number" step="0.1" id="gordura" class="form-control">
                             </div>
                         </div>
-                        <div style="margin-top: var(--space-4);">
-                             <label class="form-label">Fotos (Mock de Upload Base64)</label>
-                             <input type="file" id="foto_upload" accept="image/*">
+                        <div class="card-header" style="margin-top: 20px;">Fotos Posturais (Upload)</div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Frente</label>
+                                <input type="file" id="foto_frente" accept="image/*" class="form-control">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Lateral Direita</label>
+                                <input type="file" id="foto_lateral_dir" accept="image/*" class="form-control">
+                            </div>
                         </div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Lateral Esquerda</label>
+                                <input type="file" id="foto_lateral_esq" accept="image/*" class="form-control">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Costas</label>
+                                <input type="file" id="foto_costas" accept="image/*" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="card-header" style="margin-top: 20px;">Exames e Bioimpedância (Mock Análise de Imagem IA)</div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Foto/PDF do Exame de Bioimpedância</label>
+                                <input type="file" id="foto_bioimpedancia" accept="image/*,.pdf" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="card-header" style="margin-top: 20px;">Análise de Medicações (IA)</div>
+                        <div class="form-row">
+                             <div class="form-group form-col" style="flex: 3;">
+                                <label class="form-label">Medicações em uso (Separadas por vírgula)</label>
+                                <input type="text" id="avaliacao_medicacoes" class="form-control" value="${aluno.medicacoes ? aluno.medicacoes.map(m=>m.nome).join(', ') : ''}" placeholder="Ex: Losartana, Ritalina, Roacutan">
+                             </div>
+                        </div>
+
                         <div style="text-align: right; margin-top: 15px;">
-                            <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação</button>
+                            <button type="button" id="btn-salvar-avaliacao" class="btn btn-primary">Salvar Avaliação & Medicações</button>
                         </div>
                     </form>
                 </div>
@@ -116,10 +150,61 @@ export const AlunoDetailView = {
                     </div>
                 </div>
             </div>
+
+            <!-- TAB: Nutrição & Suplementação (Mock) -->
+            <div id="tab-nutricao" class="tab-content" style="display: none;">
+                <div class="card">
+                    <div class="card-header">Orientação Alimentar e Suplementação (Validação IA)</div>
+                    <form id="form-nutricao">
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Meta de Hidratação Diária (L)</label>
+                                <input type="number" step="0.1" id="nutricao_hidratacao" class="form-control" value="3.0">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Objetivo de Macros</label>
+                                <select id="nutricao_objetivo" class="form-control">
+                                    <option value="Hipertrofia" ${aluno.objetivoPrincipal === 'Hipertrofia' ? 'selected' : ''}>Hipertrofia</option>
+                                    <option value="Emagrecimento" ${aluno.objetivoPrincipal === 'Emagrecimento' ? 'selected' : ''}>Emagrecimento</option>
+                                    <option value="Ganho de Peso" ${aluno.objetivoPrincipal === 'Força' ? 'selected' : ''}>Ganho de Peso</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group form-col">
+                                <label class="form-label">Proteína (g/kg)</label>
+                                <input type="number" step="0.1" id="nutricao_proteina" class="form-control" value="2.0">
+                            </div>
+                            <div class="form-group form-col">
+                                <label class="form-label">Carboidrato (g/kg)</label>
+                                <input type="number" step="0.1" id="nutricao_carbo" class="form-control" value="4.0">
+                            </div>
+                             <div class="form-group form-col">
+                                <label class="form-label">Gordura (g/kg)</label>
+                                <input type="number" step="0.1" id="nutricao_gordura" class="form-control" value="1.0">
+                            </div>
+                        </div>
+                        <div style="text-align: right; margin-top: 15px;">
+                            <button type="button" id="btn-analisar-nutricao" class="btn btn-primary">Analisar com IA</button>
+                        </div>
+                        <div id="nutricao-feedback" style="margin-top: 20px; padding: 15px; background: #f8fafc; border-radius: 8px; display: none;"></div>
+                    </form>
+                </div>
+            </div>
         `;
     },
 
     afterRender: ({ id }) => {
+        // Adicionar botão da tab de Nutrição no topo se não existir
+        const tabHeader = document.querySelector('.tab-header');
+        if (tabHeader && !document.querySelector('[data-tab="nutricao"]')) {
+            const nutricaoTab = document.createElement('button');
+            nutricaoTab.className = 'tab-btn';
+            nutricaoTab.dataset.tab = 'nutricao';
+            nutricaoTab.textContent = 'Nutrição & Suplementação';
+            tabHeader.appendChild(nutricaoTab);
+        }
+
         // Tab Switching Logic
         const tabs = document.querySelectorAll('.tab-btn');
         tabs.forEach(tab => {
@@ -177,8 +262,11 @@ export const AlunoDetailView = {
                             <span>Sugestão de Treino - Rascunho IA</span>
                             <span class="badge badge-orange" id="status-treino-badge">Pendente de Revisão</span>
                         </div>
-                        <p style="background: #f8fafc; padding: 10px; border-radius: 4px; font-size: 0.9em;">
+                        <p style="background: #f8fafc; padding: 10px; border-radius: 4px; font-size: 0.9em; margin-bottom: 10px;">
                             <strong>Justificativa da IA:</strong> ${sugestaoTreino.justificativa}
+                        </p>
+                        <p style="background: #eef2ff; padding: 10px; border-radius: 4px; font-size: 0.9em; color: var(--primary-color);">
+                            <strong>Relatório Previsto da Evolução:</strong> ${sugestaoTreino.relatorioPrevisto}
                         </p>
                     `;
 
@@ -187,14 +275,14 @@ export const AlunoDetailView = {
                             <h3 style="margin-top: 20px; color: var(--primary-color);">Treino ${dia.identificador} - ${dia.nome}</h3>
                             <div class="table-responsive">
                                 <table class="table">
-                                    <thead><tr><th>Exercício</th><th>Séries</th><th>Reps</th><th>Carga/RIR</th><th>Obs</th></tr></thead>
+                                    <thead><tr><th>Exercício</th><th>Séries</th><th>Reps</th><th>Carga</th><th>Obs</th></tr></thead>
                                     <tbody>
                                         ${dia.exercicios.map((ex, eIndex) => `
                                             <tr>
-                                                <td>${ex.nome}</td>
+                                                <td>${ex.nome} ${ex.video ? `<br><a href="${ex.video}" target="_blank" style="font-size:0.8em;">(Ver Vídeo)</a>` : ''}</td>
                                                 <td><input type="number" id="t_${dIndex}_${eIndex}_series" value="${ex.series}" style="width: 50px;"></td>
                                                 <td><input type="text" id="t_${dIndex}_${eIndex}_reps" value="${ex.repeticoes}" style="width: 80px;"></td>
-                                                <td>${ex.carga}</td>
+                                                <td><input type="text" id="t_${dIndex}_${eIndex}_carga" value="${ex.carga}" style="width: 100px;"></td>
                                                 <td><input type="text" id="t_${dIndex}_${eIndex}_obs" value="${ex.observacao}" style="width: 100%;"></td>
                                             </tr>
                                         `).join('')}
@@ -219,6 +307,7 @@ export const AlunoDetailView = {
                             dia.exercicios.forEach((ex, eIndex) => {
                                 ex.series = document.getElementById(`t_${dIndex}_${eIndex}_series`).value;
                                 ex.repeticoes = document.getElementById(`t_${dIndex}_${eIndex}_reps`).value;
+                                ex.carga = document.getElementById(`t_${dIndex}_${eIndex}_carga`).value;
                                 ex.observacao = document.getElementById(`t_${dIndex}_${eIndex}_obs`).value;
                             });
                         });
@@ -250,9 +339,56 @@ export const AlunoDetailView = {
         }
 
         // Mock Save Avaliação
-        document.getElementById('btn-salvar-avaliacao')?.addEventListener('click', () => {
-             Utils.toast('Avaliação salva localmente (Mock). IMC calculado.', 'sucesso');
-             // In a real app, this would extract values, call Calc.imc(), save to DB.avaliacoes
+        document.getElementById('btn-salvar-avaliacao')?.addEventListener('click', async () => {
+             const medsInput = document.getElementById('avaliacao_medicacoes').value;
+             let medicacoes = [];
+             if (medsInput) {
+                 medicacoes = medsInput.split(',').map(m => ({ nome: m.trim() }));
+             }
+
+             // Update current student (Mock)
+             const alunoToUpdate = DB.getById('alunos', id);
+             if(alunoToUpdate) {
+                 alunoToUpdate.medicacoes = medicacoes;
+                 DB.save('alunos', alunoToUpdate);
+             }
+
+             Utils.toast('Avaliação e Medicações salvas. Pronta para Análise da IA.', 'sucesso');
+        });
+
+        // Mock Nutrition Analysis
+        document.getElementById('btn-analisar-nutricao')?.addEventListener('click', async () => {
+            const btn = document.getElementById('btn-analisar-nutricao');
+            btn.disabled = true;
+            btn.textContent = 'Analisando...';
+
+            const hidratacao = document.getElementById('nutricao_hidratacao').value;
+            const objetivo = document.getElementById('nutricao_objetivo').value;
+            const proteina = document.getElementById('nutricao_proteina').value;
+            const carbo = document.getElementById('nutricao_carbo').value;
+            const gordura = document.getElementById('nutricao_gordura').value;
+
+            // Simulate call to AI Engine
+            const feedback = await AIEngine.analyzeNutrition({
+                hidratacao, objetivo, proteina, carbo, gordura
+            });
+
+            const feedbackDiv = document.getElementById('nutricao-feedback');
+            feedbackDiv.style.display = 'block';
+            feedbackDiv.innerHTML = `
+                <strong style="color: var(--primary-color);">Feedback da IA:</strong>
+                <p style="margin-top: 10px;">${feedback}</p>
+            `;
+
+            // Save to DB mock
+            const alunoToUpdate = DB.getById('alunos', id);
+            if (alunoToUpdate) {
+                alunoToUpdate.nutricao = { hidratacao, objetivo, proteina, carbo, gordura, feedback };
+                DB.save('alunos', alunoToUpdate);
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Analisar com IA';
         });
     }
 };

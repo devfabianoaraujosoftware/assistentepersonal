@@ -34,6 +34,27 @@
       "condicao": "aluno.sono.horas < 6 && aluno.estresse > 7",
       "acao": "Aluno relatou baixo sono e alto estresse. Risco aumentado de fadiga e overtraining. Monitorar RPE.",
       "nivel": "laranja"
+    },
+    {
+      "id": "RULE006",
+      "categoria": "medicacao",
+      "condicao": "aluno.medicacoes && aluno.medicacoes.some(m => m.nome.toLowerCase().includes('losartana') || m.nome.toLowerCase().includes('atenolol'))",
+      "acao": "Aluno em uso de anti-hipertensivo/beta-bloqueador. A frequência cardíaca pode não subir proporcionalmente ao esforço. Usar a Escala de Percepção de Esforço (RPE) para controle de intensidade, em vez de FC Max.",
+      "nivel": "laranja"
+    },
+    {
+      "id": "RULE007",
+      "categoria": "medicacao",
+      "condicao": "aluno.medicacoes && aluno.medicacoes.some(m => m.nome.toLowerCase().includes('roacutan') || m.nome.toLowerCase().includes('isotretinoína'))",
+      "acao": "Uso de isotretinoína relatado. Atenção redobrada à hidratação contínua e monitorar dores articulares (mialgia/artralgia) induzidas pelo medicamento. Reduzir cargas se houver dor nas articulações.",
+      "nivel": "amarelo"
+    },
+    {
+      "id": "RULE008",
+      "categoria": "avaliacao",
+      "condicao": "aluno.temFotosRecentes === true",
+      "acao": "Fotos posturais analisadas: Desvio identificado no ombro direito. Sugerir exercícios de mobilidade torácica antes do treino de superiores.",
+      "nivel": "amarelo"
     }
   ]
 }

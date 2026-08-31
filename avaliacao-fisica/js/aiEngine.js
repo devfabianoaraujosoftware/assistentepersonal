@@ -39,7 +39,9 @@ class MockAIService {
             frequenciaSemanal: parseInt(aluno.frequenciaSemanal) || 3,
             sono: aluno.sono || { horas: 8 },
             estresse: parseInt(aluno.estresse) || 5,
-            objetivos: aluno.objetivos || []
+            objetivos: aluno.objetivos || [],
+            medicacoes: aluno.medicacoes || [],
+            temFotosRecentes: true // Mock that we have uploaded photos in the previous step
         }
     };
 
@@ -105,13 +107,16 @@ class MockAIService {
          estrutura.push(this._createDay('D', 'Ombros e Core', exerciciosBD, ['Ombros', 'Core', 'Abdômen']));
      }
 
+     const relatorioEvolucao = `Com dedicação a este plano de ${dias}x por semana e adesão à orientação nutricional, a expectativa é de adaptação neuromuscular nas primeiras 4 semanas e resultados morfológicos visíveis em 8 a 12 semanas.`;
+
      return {
          alunoId,
          dataInicio: new Date().toISOString(),
          status: 'Rascunho', // Must be approved by Personal
          frequencia: dias,
          estrutura,
-         justificativa: "Estrutura sugerida com base na frequência semanal e nível de experiência. Cargas e ajustes finos requerem revisão presencial."
+         justificativa: "Estrutura sugerida com base na frequência semanal, nível de experiência e avaliações físicas/posturais. Atenção aos cuidados reportados na análise de medicações.",
+         relatorioPrevisto: relatorioEvolucao
      };
   }
 
@@ -128,13 +133,42 @@ class MockAIService {
                   nome: exSelecionado.nome,
                   series: 3,
                   repeticoes: "8-12",
-                  carga: "A definir (RIR 2)",
+                  carga: "Moderada (RIR 2)",
                   descanso: "90s",
-                  observacao: exSelecionado.observacoes || "Controlar excêntrica."
+                  observacao: exSelecionado.observacoes || "Controlar excêntrica.",
+                  video: exSelecionado.video || ""
               });
           }
       });
       return dia;
+  }
+
+  async analyzeNutrition({ hidratacao, objetivo, proteina, carbo, gordura }) {
+      await this._delay(1000); // Simulate processing
+
+      let feedback = "";
+      if (objetivo === 'Hipertrofia') {
+          if (proteina < 1.6) {
+              feedback += "Proteína abaixo do recomendado para hipertrofia (sugestão: 1.6 a 2.2 g/kg). ";
+          }
+          if (carbo < 3.0) {
+              feedback += "Carboidratos baixos podem comprometer a performance no treino de força e a recuperação. ";
+          }
+      } else if (objetivo === 'Emagrecimento') {
+          if (proteina < 2.0) {
+              feedback += "Em déficit calórico, manter a proteína alta (2.0 a 2.5 g/kg) ajuda na manutenção da massa magra. ";
+          }
+      }
+
+      if (hidratacao < 2.5) {
+          feedback += "Atenção: A hidratação está baixa. Aumentar a ingestão de água é fundamental para todas as vias metabólicas. ";
+      }
+
+      if (feedback === "") {
+          feedback = "Os macros e a hidratação estão adequados para o objetivo selecionado. Ótima distribuição!";
+      }
+
+      return feedback;
   }
 }
 

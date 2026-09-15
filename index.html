@@ -852,6 +852,69 @@
       border-color: var(--color-primary);
     }
 
+    /* BARRA DE PROGRESSO DO FORMULÁRIO DE AVALIAÇÃO */
+    .form-progress-stepper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .form-progress-stepper::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--border-color);
+      z-index: 1;
+      transform: translateY(-50%);
+    }
+
+    .form-step-indicator {
+      position: relative;
+      z-index: 2;
+      background: #FFFFFF;
+      padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-alt);
+      border: 2px solid var(--border-color);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .form-step-indicator.active .step-circle {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #FFFFFF;
+    }
+
+    .step-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .form-step-indicator.active .step-label {
+      color: var(--color-primary);
+    }
+
     /* ANEXOS DE FOTOS E DOCUMENTOS */
     .attach-grid {
       display: grid;
@@ -1062,6 +1125,103 @@
       color: #A0AEC0;
     }
 
+    /* ==========================================================================
+       CRO & UX/UI NOVO: QUIZ INTERATIVO DE AUTOAVALIAÇÃO DE AUTONOMIA
+       ========================================================================== */
+    .quiz-card {
+      background: #FFFFFF;
+      border: 2px solid var(--accent-gold);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-lg);
+      max-width: 860px;
+      margin: 40px auto 0 auto;
+      position: relative;
+    }
+
+    .quiz-step { display: none; }
+    .quiz-step.active { display: block; }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .quiz-option-btn {
+      background: var(--bg-alt);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .quiz-option-btn:hover {
+      border-color: var(--color-primary);
+      background: var(--bg-teal-light);
+      transform: translateX(4px);
+    }
+
+    .quiz-progress-bar-bg {
+      height: 8px;
+      background: var(--border-color);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .quiz-progress-fill {
+      height: 100%;
+      background: var(--btn-primary-bg);
+      width: 33%;
+      transition: width 0.3s ease;
+    }
+
+    /* TOAST DE PROVA SOCIAL DINÂMICA (CRO) */
+    .social-proof-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 28px;
+      background: #FFFFFF;
+      border-left: 5px solid var(--btn-primary-bg);
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      z-index: 9998;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transform: translateY(120%);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      max-width: 340px;
+    }
+
+    .social-proof-toast.visible {
+      transform: translateY(0);
+    }
+
+    .social-proof-toast-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--bg-teal-light);
+      color: var(--color-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
     /* UTILITY ANIMATIONS */
     .reveal {
       opacity: 0;
@@ -1225,6 +1385,94 @@
       <div style="margin-top: 40px; background: var(--color-primary); color: #FFFFFF; padding: 32px; border-radius: var(--radius-lg); border-left: 6px solid var(--accent-gold);" class="text-center">
         <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 8px;">Isso não significa que você precisa aceitar a perda de capacidade física como algo inevitável.</h3>
         <p style="font-size: 1.1rem; color: #E2EFF1;">O treinamento de força bem planejado e individualizado desenvolve os músculos e articulações para resgatar sua total segurança cotidiana.</p>
+      </div>
+
+      <!-- QUIZ INTERATIVO DE AUTOAVALIAÇÃO (CRO & MARKETING DIGITAL) -->
+      <div class="quiz-card" id="quizAutonomia">
+        <div class="quiz-progress-bar-bg">
+          <div class="quiz-progress-fill" id="quizProgress"></div>
+        </div>
+
+        <!-- ETAPA 1 -->
+        <div class="quiz-step active" id="quizStep1">
+          <span class="badge-gold">Pergunta 1 de 3</span>
+          <h3 style="font-family: var(--font-heading); color: var(--color-primary); font-size: 1.5rem; margin-top: 8px;">
+            Como você se sente ao levantar de uma cadeira ou poltrona baixa?
+          </h3>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option-btn" onclick="nextQuizStep(2, 'Facilidade sem apoio')">
+              <span>🟢 Levanto com facilidade e sem precisar de apoio</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <button type="button" class="quiz-option-btn" onclick="nextQuizStep(2, 'Preciso de apoio dos braços')">
+              <span>🟡 Preciso apoiar as mãos nos braços da cadeira</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <button type="button" class="quiz-option-btn" onclick="nextQuizStep(2, 'Sinto dor ou muita dificuldade')">
+              <span>🔴 Sinto dor nos joelhos/coluna ou preciso de ajuda</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- ETAPA 2 -->
+        <div class="quiz-step" id="quizStep2">
+          <span class="badge-gold">Pergunta 2 de 3</span>
+          <h3 style="font-family: var(--font-heading); color: var(--color-primary); font-size: 1.5rem; margin-top: 8px;">
+            Ao subir um lance de escadas, qual é a sua principal percepção?
+          </h3>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option-btn" onclick="nextQuizStep(3, 'Subo com firmeza')">
+              <span>🟢 Subo sem dor e com firmeza nos degraus</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <button type="button" class="quiz-option-btn" onclick="nextQuizStep(3, 'Seguro fortemente no corrimão')">
+              <span>🟡 Preciso segurar firme no corrimão para ter estabilidade</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <button type="button" class="quiz-option-btn" onclick="nextQuizStep(3, 'Evito escadas por insegurança')">
+              <span>🔴 Evito escadas sempre que possível por dor ou medo de cair</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- ETAPA 3 -->
+        <div class="quiz-step" id="quizStep3">
+          <span class="badge-gold">Pergunta 3 de 3</span>
+          <h3 style="font-family: var(--font-heading); color: var(--color-primary); font-size: 1.5rem; margin-top: 8px;">
+            Qual o seu objetivo mais importante nos próximos meses?
+          </h3>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option-btn" onclick="finishQuiz('Ganhar mais força e autonomia para passeios e tarefas')">
+              <span>💪 Ganhar mais força para caminhar e fazer compras sozinho(a)</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <button type="button" class="quiz-option-btn" onclick="finishQuiz('Melhorar equilíbrio e afastar o medo de quedas')">
+              <span>⚖️ Melhorar o equilíbrio e afastar o risco de tropeços</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <button type="button" class="quiz-option-btn" onclick="finishQuiz('Ter energia para brincar com os netos e viajar')">
+              <span>❤️ Ter disposição para curtir a família e viajar sem dor</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- RESULTADO DO QUIZ -->
+        <div class="quiz-step" id="quizResult">
+          <span class="badge-gold">Diagnóstico Preliminar Concluído</span>
+          <h3 style="font-family: var(--font-heading); color: var(--color-primary); font-size: 1.6rem; margin-top: 8px;">
+            Você tem um excelente potencial de ganho funcional com o Método VIVER MAIS!
+          </h3>
+          <p style="color: var(--text-muted); font-size: 1.05rem; margin: 12px 0 20px 0;">
+            Com base nas suas respostas, um programa individualizado de fortalecimento focado nas suas articulações pode proporcionar resultados visíveis em poucas semanas.
+          </p>
+          <a href="#avaliacao" class="btn-cta-green" onclick="fillFormFromQuiz()">
+            <span>RECEBER MINHA AVALIAÇÃO PERSONALIZADA AGORA</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -1595,6 +1843,22 @@
       </div>
 
       <div class="anamnese-card">
+        <!-- BARRA DE PROGRESSO VISUAL DA AVALIAÇÃO -->
+        <div class="form-progress-stepper">
+          <div class="form-step-indicator active">
+            <div class="step-circle">1</div>
+            <div class="step-label">Dados Pessoais</div>
+          </div>
+          <div class="form-step-indicator active">
+            <div class="step-circle">2</div>
+            <div class="step-label">Saúde & Objetivos</div>
+          </div>
+          <div class="form-step-indicator active">
+            <div class="step-circle">3</div>
+            <div class="step-label">Fotos & Exames</div>
+          </div>
+        </div>
+
         <form id="formAvaliacao" onsubmit="handleFormSubmit(event)">
           <div class="form-grid">
             <div class="form-group">
@@ -1795,6 +2059,15 @@
     </div>
   </footer>
 
+  <!-- NOTIFICAÇÃO DE PROVA SOCIAL DINÂMICA (CRO) -->
+  <div class="social-proof-toast" id="socialProofToast">
+    <div class="social-proof-toast-icon">✓</div>
+    <div>
+      <p id="socialProofText" style="font-size: 0.88rem; font-weight: 700; color: var(--color-primary); margin: 0;"></p>
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">há alguns minutos • Fortaleza / CE</p>
+    </div>
+  </div>
+
   <!-- 23. BOTÃO FLUTUANTE ORIGINAL DO WHATSAPP (5585999279151) -->
   <a href="https://wa.me/5585999279151?text=Ol%C3%A1!%20Gostaria%20de%20conhecer%20a%20Consultoria%20VIVER%20MAIS%20para%20treinamento%20especializado%2060%2B." target="_blank" class="whatsapp-float" aria-label="Falar pelo WhatsApp">
     <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor">
@@ -1932,6 +2205,66 @@
       window.open(waUrl, '_blank');
     }
 
+    /* LÓGICA DO QUIZ INTERATIVO (CRO) */
+    let quizAnswers = [];
+
+    function nextQuizStep(nextStepNum, answerText) {
+      quizAnswers.push(answerText);
+
+      // Esconde etapas atuais
+      document.querySelectorAll('.quiz-step').forEach(step => step.classList.remove('active'));
+
+      const nextEl = document.getElementById('quizStep' + nextStepNum);
+      if (nextEl) nextEl.classList.add('active');
+
+      const progressEl = document.getElementById('quizProgress');
+      if (progressEl) {
+        progressEl.style.width = (nextStepNum * 33) + '%';
+      }
+    }
+
+    function finishQuiz(answerText) {
+      quizAnswers.push(answerText);
+
+      document.querySelectorAll('.quiz-step').forEach(step => step.classList.remove('active'));
+
+      const resultEl = document.getElementById('quizResult');
+      if (resultEl) resultEl.classList.add('active');
+
+      const progressEl = document.getElementById('quizProgress');
+      if (progressEl) progressEl.style.width = '100%';
+    }
+
+    function fillFormFromQuiz() {
+      const objInput = document.getElementById('inputObjetivo');
+      if (objInput && quizAnswers.length > 0) {
+        objInput.value = `Respostas do Quiz: 1) Cadeira: ${quizAnswers[0] || 'N/A'}; 2) Escada: ${quizAnswers[1] || 'N/A'}; 3) Objetivo principal: ${quizAnswers[2] || 'N/A'}`;
+      }
+    }
+
+    /* PROVA SOCIAL DINÂMICA (CRO) */
+    const socialProofMessages = [
+      "Dra. Tereza M. agendou uma avaliação de treino.",
+      "Sr. Roberto S. (68 anos) iniciou o Plano Evolução.",
+      "Maria de Fátima solicitou contato do especialista.",
+      "Dona Lucia V. (71 anos) concluiu o quiz de autonomia.",
+      "Carlos Eduardo contratou o Plano Autonomia para a mãe."
+    ];
+
+    function showSocialProofToast() {
+      const toast = document.getElementById('socialProofToast');
+      const textEl = document.getElementById('socialProofText');
+      if (!toast || !textEl) return;
+
+      const randomMsg = socialProofMessages[Math.floor(Math.random() * socialProofMessages.length)];
+      textEl.innerText = randomMsg;
+      toast.classList.add('visible');
+
+      setTimeout(() => {
+        toast.classList.remove('visible');
+      }, 4500);
+    }
+
     /* 29. ANIMAÇÕES REVEAL ON SCROLL */
     document.addEventListener("DOMContentLoaded", function() {
       const observer = new IntersectionObserver((entries) => {
@@ -1943,6 +2276,10 @@
       }, { threshold: 0.1 });
 
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+      // Dispara prova social após 6 segundos e depois a cada 18 segundos
+      setTimeout(showSocialProofToast, 6000);
+      setInterval(showSocialProofToast, 18000);
     });
   </script>
 </body>

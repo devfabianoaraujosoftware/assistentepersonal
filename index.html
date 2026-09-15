@@ -3,559 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="VIVER MAIS | Consultoria de Treinamento Especializado em Musculação para Idosos 60+. Força, segurança e independência para a maturidade.">
-  <title>VIVER MAIS | Consultoria de Treinamento Especializado 60+</title>
+  <meta name="description" content="VIVER MAIS | Treinamento Especializado para Longevidade, Força e Autonomia 60+. Programa individualizado de musculação para idosos.">
+  <title>VIVER MAIS | Treinamento Especializado para Longevidade, Força e Autonomia 60+</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     /* ==========================================================================
-       DESIGN SYSTEM - VIVER MAIS (CLEAN, CLEAN & SENIOR ACCESSIBLE UI/UX)
+       SEÇÃO: MÉTODO VIVER MAIS 60+ (5 PILARES)
        ========================================================================== */
-    :root {
-      /* Fundo Principal */
-      --bg-main: #FFFFFF;
-      --bg-soft: #F9FBFC;
-      --bg-teal-light: #F0F6F7;
-      --bg-gold-light: #FAF6EF;
-
-      /* Cores da Marca */
-      --color-primary: #174A52;       /* Azul-petróleo */
-      --color-primary-dark: #0F3238;  /* Azul-petróleo Escuro */
-      --color-primary-light: #22646E;
-
-      /* Botão Principal */
-      --btn-primary-bg: #5E8C61;      /* Verde #5E8C61 */
-      --btn-primary-hover: #4B734E;
-      --btn-primary-text: #FFFFFF;
-
-      /* Detalhes Dourados */
-      --accent-gold: #C5A45D;         /* Dourado Discreto */
-      --accent-gold-dark: #A38243;
-
-      /* Texto */
-      --text-main: #333333;         /* Cinza Escuro */
-      --text-muted: #555555;
-      --text-light: #777777;
-
-      /* Bordas e Sombras Suaves */
-      --border-color: #E2E8F0;
-      --border-soft: #EEF2F6;
-      --shadow-sm: 0 4px 12px rgba(23, 74, 82, 0.04);
-      --shadow-md: 0 8px 24px rgba(23, 74, 82, 0.07);
-      --shadow-lg: 0 16px 36px rgba(23, 74, 82, 0.10);
-
-      /* Tipografia Base (Fonte grande e legível) */
-      --font-base: 19px;
-      --font-heading: 'Outfit', sans-serif;
-      --font-body: 'Plus Jakarta Sans', sans-serif;
-
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --radius-full: 9999px;
-    }
-
-    /* Acessibilidade de tamanho de fonte para idosos */
-    html {
-      font-size: var(--font-base);
-      scroll-behavior: smooth;
-    }
-
-    html.font-large { font-size: 21px; }
-    html.font-extra-large { font-size: 23px; }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: var(--font-body);
-      background-color: var(--bg-main);
-      color: var(--text-main);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ==========================================================================
-       BARRA DE ACESSIBILIDADE DE FONTE
-       ========================================================================== */
-    .top-accessibility-bar {
-      background-color: var(--color-primary-dark);
-      color: #FFFFFF;
-      padding: 10px 24px;
-      font-size: 0.9rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .accessibility-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-acc {
-      background: rgba(255, 255, 255, 0.15);
-      color: #FFFFFF;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 5px 12px;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 0.9rem;
-      transition: background 0.2s;
-    }
-
-    .btn-acc:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .top-phone-link {
-      color: #FFFFFF;
-      text-decoration: none;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* ==========================================================================
-       HEADER CLEAN & NAVEGAÇÃO
-       ========================================================================== */
-    header.site-header {
-      background-color: var(--color-primary);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: var(--shadow-md);
-      padding: 16px 0;
-    }
-
-    .header-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    /* LOGOMARCA OFICIAL VIVER MAIS */
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
-
-    .logo-icon-box {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary-dark));
-      border: 2px solid var(--accent-gold);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-
-    .logo-text-box {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .brand-title {
-      font-family: var(--font-heading);
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #FFFFFF;
-      line-height: 1;
-      letter-spacing: -0.5px;
-    }
-
-    .brand-title span {
-      color: var(--accent-gold);
-    }
-
-    .brand-sub {
-      font-size: 0.72rem;
-      color: #D0E4E7;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-top: 3px;
-    }
-
-    .nav-menu {
-      display: flex;
-      align-items: center;
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
       gap: 24px;
-      list-style: none;
+      margin-top: 40px;
     }
 
-    .nav-menu a {
-      color: #E2EFF1;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: color 0.2s;
-    }
-
-    .nav-menu a:hover {
-      color: var(--accent-gold);
-    }
-
-    .header-cta {
-      background-color: var(--btn-primary-bg);
-      color: var(--btn-primary-text);
-      padding: 12px 24px;
-      border-radius: var(--radius-full);
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.95rem;
-      border: 2px solid rgba(255,255,255,0.2);
-      transition: all 0.3s ease;
-      white-space: nowrap;
-    }
-
-    .header-cta:hover {
-      background-color: var(--btn-primary-hover);
-      transform: translateY(-2px);
-    }
-
-    .mobile-menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: #FFFFFF;
-      cursor: pointer;
-    }
-
-    /* ==========================================================================
-       ESTILOS DE SEÇÃO CLEAN & ESPAÇOSA
-       ========================================================================== */
-    .container {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    section {
-      padding: 90px 0;
-    }
-
-    .section-bg-soft { background-color: var(--bg-soft); }
-    .section-bg-teal { background-color: var(--bg-teal-light); }
-
-    .badge-gold {
-      display: inline-block;
-      background-color: var(--bg-gold-light);
-      color: var(--accent-gold-dark);
-      border: 1px solid var(--accent-gold);
-      padding: 6px 18px;
-      border-radius: var(--radius-full);
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 18px;
-    }
-
-    .section-title {
-      font-family: var(--font-heading);
-      color: var(--color-primary);
-      font-size: 2.3rem;
-      font-weight: 800;
-      line-height: 1.25;
-      margin-bottom: 18px;
-      letter-spacing: -0.5px;
-    }
-
-    .section-desc {
-      color: var(--text-muted);
-      font-size: 1.15rem;
-      max-width: 760px;
-      margin: 0 auto 48px auto;
-      line-height: 1.6;
-    }
-
-    .text-center { text-align: center; }
-
-    /* BOTÃO PRINCIPAL SOLICITADO: VERDE #5E8C61 COM TEXTO BRANCO */
-    .btn-cta-green {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      background-color: var(--btn-primary-bg); /* #5E8C61 */
-      color: var(--btn-primary-text);         /* Branco */
-      font-family: var(--font-heading);
-      font-size: 1.15rem;
-      font-weight: 800;
-      padding: 20px 40px;
+    .pillar-card {
+      background: #FFFFFF;
+      padding: 34px 22px;
       border-radius: var(--radius-md);
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(94, 140, 97, 0.3);
-      transition: all 0.3s ease;
+      border: 1px solid var(--border-color);
       text-align: center;
-    }
-
-    .btn-cta-green:hover {
-      background-color: var(--btn-primary-hover);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 26px rgba(94, 140, 97, 0.4);
-    }
-
-    .btn-cta-outline {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background-color: transparent;
-      color: var(--color-primary);
-      border: 2px solid var(--color-primary);
-      font-family: var(--font-heading);
-      font-size: 1.05rem;
-      font-weight: 700;
-      padding: 18px 32px;
-      border-radius: var(--radius-md);
-      text-decoration: none;
-      cursor: pointer;
+      box-shadow: var(--shadow-sm);
       transition: all 0.3s ease;
     }
 
-    .btn-cta-outline:hover {
-      background-color: var(--color-primary);
-      color: #FFFFFF;
-    }
-
-    .hero-btn-group {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    /* ==========================================================================
-       HERO SECTION CLEAN
-       ========================================================================== */
-    .hero-section {
-      padding: 70px 0 90px 0;
-      background: linear-gradient(180deg, #FFFFFF 0%, #F0F6F7 100%);
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 50px;
-      align-items: center;
-    }
-
-    .hero-content h1 {
-      font-family: var(--font-heading);
-      color: var(--color-primary);
-      font-size: 2.7rem;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 16px;
-      letter-spacing: -0.5px;
-    }
-
-    .hero-subtitle {
-      font-family: var(--font-heading);
-      font-size: 1.4rem;
-      color: var(--accent-gold-dark);
-      font-weight: 700;
-      margin-bottom: 22px;
-    }
-
-    .hero-text {
-      font-size: 1.15rem;
-      color: var(--text-main);
-      margin-bottom: 36px;
-      line-height: 1.65;
-    }
-
-    .hero-img-box {
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-      border: 5px solid #FFFFFF;
-    }
-
-    .hero-img-box img {
-      width: 100%;
-      height: 100%;
-      max-height: 520px;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* ==========================================================================
-       DIFICULDADES NO DIA A DIA (SENIOR & FAMÍLIA)
-       ========================================================================== */
-    .difficulties-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 28px;
-    }
-
-    .diff-card {
-      background: #FFFFFF;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.3s ease, border-color 0.3s ease;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .diff-card:hover {
+    .pillar-card:hover {
+      border-color: var(--color-primary);
       transform: translateY(-5px);
-      border-color: var(--accent-gold);
       box-shadow: var(--shadow-md);
     }
 
-    .diff-img-box {
-      height: 210px;
-      overflow: hidden;
-    }
-
-    .diff-img-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .diff-body {
-      padding: 28px;
-      flex-grow: 1;
-    }
-
-    .diff-body h3 {
-      font-family: var(--font-heading);
-      color: var(--color-primary);
-      font-size: 1.35rem;
-      margin-bottom: 10px;
-    }
-
-    .diff-body p {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    /* ==========================================================================
-       SEÇÃO PARA FILHOS E FAMILIARES
-       ========================================================================== */
-    .family-card {
-      background: #FFFFFF;
-      border-radius: var(--radius-lg);
-      padding: 50px;
-      box-shadow: var(--shadow-md);
-      border: 1px solid var(--border-color);
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .family-list {
-      list-style: none;
-      margin: 24px 0 32px 0;
-    }
-
-    .family-list li {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--color-primary);
-      margin-bottom: 12px;
-    }
-
-    .family-list span.check {
-      width: 28px;
-      height: 28px;
+    .pillar-icon-box {
+      width: 64px;
+      height: 64px;
       background: var(--bg-teal-light);
       color: var(--color-primary);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.9rem;
+      margin: 0 auto 18px auto;
+      font-size: 1.8rem;
+      border: 2px solid var(--color-primary-light);
     }
 
-    /* ==========================================================================
-       MÉTODO VIVER MAIS 60+
-       ========================================================================== */
-    .method-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-
-    .method-card {
-      background: #FFFFFF;
-      border: 1px solid var(--border-color);
-      padding: 32px 20px;
-      border-radius: var(--radius-md);
-      text-align: center;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s ease;
-    }
-
-    .method-card:hover {
-      border-color: var(--color-primary);
-      transform: translateY(-4px);
-    }
-
-    .method-icon {
-      font-size: 2.2rem;
-      margin-bottom: 14px;
-    }
-
-    .method-title {
+    .pillar-card h3 {
       font-family: var(--font-heading);
       color: var(--color-primary);
       font-size: 1.3rem;
+      font-weight: 800;
       margin-bottom: 8px;
     }
 
-    .method-desc {
+    .pillar-card p {
       font-size: 0.95rem;
       color: var(--text-muted);
     }
 
     /* ==========================================================================
-       PLANOS COM CONDIÇÕES DE SERVIÇO DIFERENTES
+       SEÇÃO: PLANOS COM CONDIÇÕES DE SERVIÇO DIFERENTES
        ========================================================================== */
     .plans-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 32px;
+      margin-top: 40px;
     }
 
     .plan-card {
       background: #FFFFFF;
       border: 2px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 40px 32px;
+      padding: 42px 32px;
       display: flex;
       flex-direction: column;
       position: relative;
@@ -564,14 +88,15 @@
     }
 
     .plan-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-md);
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
       border-color: var(--color-primary);
     }
 
     .plan-card.featured {
       border-color: var(--accent-gold);
       background: linear-gradient(180deg, #FFFFFF 0%, #FAF6EF 100%);
+      box-shadow: var(--shadow-md);
     }
 
     .plan-badge {
@@ -585,6 +110,7 @@
       font-size: 0.8rem;
       padding: 6px 20px;
       border-radius: var(--radius-full);
+      text-transform: uppercase;
       letter-spacing: 1px;
     }
 
@@ -597,8 +123,8 @@
 
     .plan-price {
       font-family: var(--font-heading);
-      font-size: 2.4rem;
-      font-weight: 800;
+      font-size: 2.3rem;
+      font-weight: 900;
       color: var(--color-primary);
       margin: 16px 0 24px 0;
       padding-bottom: 16px;
@@ -616,7 +142,7 @@
       align-items: flex-start;
       gap: 12px;
       margin-bottom: 14px;
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: var(--text-main);
     }
 
@@ -626,7 +152,7 @@
     }
 
     /* ==========================================================================
-       FORMULÁRIO DE ANAMNESE COM ANEXOS
+       FORMULÁRIO DE ANAMNESE E ANEXOS
        ========================================================================== */
     .anamnese-card {
       background: #FFFFFF;
@@ -634,7 +160,7 @@
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-lg);
       border: 1px solid var(--border-color);
-      max-width: 860px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
@@ -655,19 +181,19 @@
     .form-label {
       font-weight: 700;
       color: var(--color-primary);
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     .form-input, .form-select, .form-textarea {
       width: 100%;
-      padding: 16px 18px;
+      padding: 16px;
       border: 2px solid var(--border-color);
       border-radius: var(--radius-sm);
       font-family: var(--font-body);
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: var(--text-main);
       background-color: #FFFFFF;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s ease;
     }
 
     .form-input:focus, .form-select:focus, .form-textarea:focus {
@@ -677,7 +203,7 @@
 
     .attach-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 16px;
       margin: 20px 0;
     }
@@ -690,6 +216,12 @@
       text-align: center;
       cursor: pointer;
       position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .attach-box:hover {
+      background-color: #E2EFF1;
+      border-color: var(--color-primary);
     }
 
     .attach-box input[type="file"] {
@@ -699,14 +231,14 @@
     }
 
     .attach-label {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       color: var(--color-primary);
     }
 
     .attach-file-name {
       margin-top: 6px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--btn-primary-bg);
       font-weight: 700;
       word-break: break-all;
@@ -718,18 +250,16 @@
       background: none;
       border: none;
       color: #C53030;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
       text-decoration: underline;
     }
 
-    /* ==========================================================================
-       FAQ ACCORDION CLEAN
-       ========================================================================== */
+    /* FAQ ACCORDION */
     .faq-container {
-      max-width: 820px;
-      margin: 0 auto;
+      max-width: 840px;
+      margin: 40px auto 0 auto;
     }
 
     .faq-item {
@@ -743,12 +273,12 @@
 
     .faq-btn {
       width: 100%;
-      padding: 22px 28px;
+      padding: 22px 26px;
       text-align: left;
       background: none;
       border: none;
       font-family: var(--font-heading);
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--color-primary);
       display: flex;
@@ -766,35 +296,33 @@
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease, padding 0.3s ease;
-      padding: 0 28px;
+      padding: 0 26px;
       color: var(--text-muted);
-      font-size: 1.05rem;
+      font-size: 1rem;
     }
 
     .faq-item.active .faq-content {
       max-height: 300px;
-      padding: 0 28px 24px 28px;
+      padding: 0 26px 22px 26px;
     }
 
-    /* ==========================================================================
-       CTA FINAL & RODAPÉ
-       ========================================================================== */
+    /* CTA FINAL */
     .cta-final-section {
       background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
       color: #FFFFFF;
       text-align: center;
-      padding: 100px 0;
+      padding: 95px 0;
     }
 
-    .final-tagline {
-      margin-top: 48px;
+    .final-brand-tagline {
+      margin-top: 45px;
       font-family: var(--font-heading);
       font-size: 1.5rem;
       font-weight: 800;
       color: var(--accent-gold);
     }
 
-    /* BOTÃO FLUTUANTE DO WHATSAPP (5585999279151) */
+    /* BOTÃO FLUTUANTE DO WHATSAPP ORIGINAL (5585999279151) */
     .whatsapp-float {
       position: fixed;
       bottom: 28px;
@@ -820,306 +348,934 @@
     footer.site-footer {
       background-color: var(--color-primary-dark);
       color: #E2E8F0;
-      padding: 60px 0 30px 0;
+      padding: 50px 0 30px 0;
       border-top: 4px solid var(--accent-gold);
     }
 
-    /* RESPONSIVIDADE */
+    /* ==========================================================================
+       MEDIA QUERIES - RESPONSIVIDADE COMPLETA PARA SMARTPHONES E TABLETS
+       ========================================================================== */
     @media (max-width: 992px) {
-      .hero-grid, .family-card { grid-template-columns: 1fr; text-align: center; }
-      .nav-menu { display: none; }
-      .nav-menu.mobile-open {
-        display: flex; flex-direction: column;
-        position: absolute; top: 100%; left: 0; right: 0;
-        background-color: var(--color-primary); padding: 20px;
+      .hero-grid,
+      .family-banner-card {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        text-align: center;
       }
-      .mobile-menu-toggle { display: block; }
-      .hero-btn-group { justify-content: center; }
+
+      .family-banner-card {
+        padding: 32px 24px;
+      }
+
+      .hero-cta-group,
+      .hero-trust-bullets {
+        justify-content: center;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-links.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--color-primary-dark);
+        padding: 24px;
+        gap: 18px;
+        box-shadow: var(--shadow-lg);
+        border-bottom: 2px solid var(--accent-gold);
+      }
+
+      .mobile-nav-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
 
-    @media (max-width: 576px) {
-      .form-grid { grid-template-columns: 1fr; }
-      .hero-content h1 { font-size: 2.1rem; }
-      .anamnese-card { padding: 24px 18px; }
-      .btn-cta-green, .btn-cta-outline { width: 100%; }
+    @media (max-width: 640px) {
+      .form-grid,
+      .family-check-list {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-content h1 {
+        font-size: 2.1rem;
+      }
+
+      .section-title {
+        font-size: 1.85rem;
+      }
+
+      .btn-cta-green,
+      .btn-cta-secondary {
+        width: 100%;
+      }
+
+      .anamnese-card {
+        padding: 28px 18px;
+      }
+
+      .accessibility-top-bar {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+    /* ==========================================================================
+       SEÇÃO: AS DIFICULDADES DA VIDA REAL (ESTILO ELEGANTE 6 CARDS)
+       ========================================================================== */
+    .difficulties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .diff-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .diff-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent-gold);
+      box-shadow: var(--shadow-md);
+    }
+
+    .diff-img-wrap {
+      height: 220px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .diff-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .diff-card:hover .diff-img-wrap img {
+      transform: scale(1.06);
+    }
+
+    .diff-tag {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(20, 70, 78, 0.9);
+      color: #FFFFFF;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .diff-body {
+      padding: 30px;
+      flex-grow: 1;
+    }
+
+    .diff-body h3 {
+      font-family: var(--font-heading);
+      color: var(--color-primary);
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .diff-body p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       SEÇÃO PARA FILHOS E FAMILIARES (DESIGNS PREMIUM DE ALTA CONVERSÃO)
+       ========================================================================== */
+    .family-banner-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 50px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-color);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .family-check-list {
+      list-style: none;
+      margin: 28px 0 36px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .family-check-item {
+      background: var(--bg-teal-light);
+      border-left: 4px solid var(--btn-primary-bg);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      color: var(--color-primary);
+      font-size: 1.05rem;
+    }
+    /* ==========================================================================
+       PALETA DE CORES E DESIGN SYSTEM PREMIUM - MARCA VIVER MAIS
+       ========================================================================== */
+    :root {
+      /* Fundo Principal */
+      --bg-main: #FFFFFF;
+      --bg-alt: #F8FAFC;
+      --bg-teal-light: #F0F6F7;
+      --bg-gold-light: #FAF6EF;
+
+      /* Azul-Petróleo (Cabeçalho, Títulos e Elementos Principais) */
+      --color-primary: #14464E;
+      --color-primary-dark: #0A292E;
+      --color-primary-light: #1D5C67;
+
+      /* Verde Principal (Botões e CTAs Obrigatórios #5E8C61) */
+      --btn-primary-bg: #5E8C61;
+      --btn-primary-hover: #4B734E;
+      --btn-primary-text: #FFFFFF;
+
+      /* Dourado Discreto (Detalhes Premium e Destaques) */
+      --accent-gold: #C5A45D;
+      --accent-gold-dark: #A38243;
+      --accent-gold-light: #E8D8B5;
+
+      /* Texto */
+      --text-main: #2D3748;
+      --text-muted: #4A5568;
+      --text-light: #718096;
+
+      /* Bordas e Sombras de Alta Qualidade Visual */
+      --border-color: #E2E8F0;
+      --shadow-sm: 0 4px 14px rgba(20, 70, 78, 0.05);
+      --shadow-md: 0 10px 30px rgba(20, 70, 78, 0.08);
+      --shadow-lg: 0 20px 45px rgba(20, 70, 78, 0.12);
+
+      /* Tipografia */
+      --font-base: 18px;
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 28px;
+      --radius-full: 9999px;
+    }
+
+    /* Acessibilidade de tamanho de fonte para idosos */
+    html {
+      font-size: var(--font-base);
+      scroll-behavior: smooth;
+    }
+
+    html.font-large { font-size: 20px; }
+    html.font-extra-large { font-size: 22px; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================================================
+       BARRA DE ACESSIBILIDADE SENIOR NO TOPO
+       ========================================================================== */
+    .accessibility-top-bar {
+      background-color: var(--color-primary-dark);
+      color: #FFFFFF;
+      padding: 10px 24px;
+      font-size: 0.88rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid rgba(197, 164, 93, 0.3);
+    }
+
+    .accessibility-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .accessibility-controls span {
+      font-weight: 600;
+      color: #E2EFF1;
+    }
+
+    .btn-acc {
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      border: 1px solid rgba(197, 164, 93, 0.5);
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 0.88rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-acc:hover {
+      background: var(--accent-gold);
+      color: var(--color-primary-dark);
+      border-color: var(--accent-gold);
+    }
+
+    .top-phone-link {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .top-phone-link:hover {
+      color: var(--accent-gold);
+    }
+
+    /* ==========================================================================
+       HEADER & LOGOMARCA OFICIAL "VIVER MAIS"
+       ========================================================================== */
+    header.site-header {
+      background-color: var(--color-primary);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow-md);
+      padding: 18px 0;
+    }
+
+    .header-container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .logo-badge {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #1D5C67 0%, #0A292E 100%);
+      border: 2px solid var(--accent-gold);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      flex-shrink: 0;
+    }
+
+    .logo-text-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-title span {
+      color: var(--accent-gold);
+    }
+
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: #D0E4E7;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #E2EFF1;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-gold);
+    }
+
+    .header-cta-btn {
+      background-color: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      padding: 14px 26px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.95rem;
+      border: 2px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(94, 140, 97, 0.35);
+    }
+
+    .header-cta-btn:hover {
+      background-color: var(--btn-primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(94, 140, 97, 0.45);
+    }
+
+    .mobile-nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #FFFFFF;
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       ESTILOS GERAIS DE ESTRUTURA E BOTÕES
+       ========================================================================== */
+    .container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 95px 0;
+    }
+
+    .section-bg-alt { background-color: var(--bg-alt); }
+    .section-bg-teal { background-color: var(--bg-teal-light); }
+
+    .gold-pill {
+      display: inline-block;
+      background-color: var(--bg-gold-light);
+      color: var(--accent-gold-dark);
+      border: 1.5px solid var(--accent-gold);
+      padding: 8px 20px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      color: var(--color-primary);
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      max-width: 780px;
+      margin: 0 auto 50px auto;
+      line-height: 1.65;
+    }
+
+    .text-center { text-align: center; }
+
+    /* BOTÃO PRINCIPAL SOLICITADO (VERDE #5E8C61 COM TEXTO BRANCO) */
+    .btn-cta-green {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background-color: var(--btn-primary-bg); /* #5E8C61 */
+      color: var(--btn-primary-text);         /* Branco */
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 800;
+      padding: 20px 40px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(94, 140, 97, 0.35);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: center;
+    }
+
+    .btn-cta-green:hover {
+      background-color: var(--btn-primary-hover);
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 12px 28px rgba(94, 140, 97, 0.45);
+    }
+
+    .btn-cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background-color: #FFFFFF;
+      color: var(--color-primary);
+      border: 2px solid var(--color-primary);
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 18px 34px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-cta-secondary:hover {
+      background-color: var(--color-primary);
+      color: #FFFFFF;
+    }
+
+    /* ==========================================================================
+       HERO SECTION (ELEGÂNCIA & CONVERSÃO)
+       ========================================================================== */
+    .hero-section {
+      background: linear-gradient(180deg, #FFFFFF 0%, #F0F6F7 100%);
+      padding: 70px 0 100px 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .hero-content h1 {
+      font-family: var(--font-heading);
+      color: var(--color-primary);
+      font-size: 2.8rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 18px;
+      letter-spacing: -0.8px;
+    }
+
+    .hero-subheadline {
+      font-family: var(--font-heading);
+      font-size: 1.45rem;
+      color: var(--accent-gold-dark);
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .hero-paragraph {
+      font-size: 1.15rem;
+      color: var(--text-main);
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-trust-bullets {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .hero-img-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 6px solid #FFFFFF;
+    }
+
+    .hero-img-card img {
+      width: 100%;
+      height: 100%;
+      max-height: 520px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-floating-quote {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      right: 24px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      padding: 18px 22px;
+      border-radius: var(--radius-md);
+      border-left: 5px solid var(--accent-gold);
+      box-shadow: var(--shadow-md);
+    }
+
+    .hero-floating-quote p {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--color-primary);
     }
   </style>
 </head>
 <body>
 
-  <!-- BARRA DE ACESSIBILIDADE DE FONTE -->
-  <div class="top-accessibility-bar">
+  <!-- BARRA DE ACESSIBILIDADE DE FONTE SENIOR -->
+  <div class="accessibility-top-bar">
     <div class="accessibility-controls">
       <span>Tamanho do Texto:</span>
-      <button class="btn-acc" onclick="setFontSize('normal')" title="Tamanho normal">A</button>
+      <button class="btn-acc" onclick="setFontSize('normal')" title="Tamanho padrão">A</button>
       <button class="btn-acc" onclick="setFontSize('large')" title="Aumentar texto">+A</button>
-      <button class="btn-acc" onclick="setFontSize('extra-large')" title="Aumentar texto extra">++A</button>
+      <button class="btn-acc" onclick="setFontSize('extra-large')" title="Aumentar texto bastante">++A</button>
     </div>
     <div>
       <a href="https://wa.me/5585999279151?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20a%20consultoria%20VIVER%20MAIS." target="_blank" class="top-phone-link">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-        Atendimento: (85) 99927-9151
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        Atendimento WhatsApp: (85) 99927-9151
       </a>
     </div>
   </div>
 
-  <!-- HEADER & MARCA VIVER MAIS -->
+  <!-- HEADER COM LOGOMARCA PROPRIA VIVER MAIS -->
   <header class="site-header">
     <div class="header-container">
       <a href="#" class="brand-logo" aria-label="VIVER MAIS - Página Inicial">
-        <div class="logo-icon-box">
+        <div class="logo-badge">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C5A45D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
         </div>
-        <div class="logo-text-box">
+        <div class="logo-text-group">
           <span class="brand-title">VIVER <span>MAIS</span></span>
-          <span class="brand-sub">Longevidade & Autonomia 60+</span>
+          <span class="brand-subtitle">Longevidade & Autonomia 60+</span>
         </div>
       </a>
 
-      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Abrir Menu">
+      <button class="mobile-nav-toggle" onclick="toggleMobileNav()" aria-label="Menu">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
 
       <nav>
-        <ul class="nav-menu" id="navMenu">
-          <li><a href="#inicio" onclick="closeMobileNav()">Início</a></li>
-          <li><a href="#dificuldades" onclick="closeMobileNav()">Dia a Dia</a></li>
-          <li><a href="#familiares" onclick="closeMobileNav()">Para a Família</a></li>
-          <li><a href="#metodo" onclick="closeMobileNav()">O Método</a></li>
-          <li><a href="#planos" onclick="closeMobileNav()">Planos</a></li>
-          <li><a href="#avaliacao" onclick="closeMobileNav()">Avaliação</a></li>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#inicio" onclick="closeNav()">Início</a></li>
+          <li><a href="#dificuldades" onclick="closeNav()">Dia a Dia</a></li>
+          <li><a href="#familiares" onclick="closeNav()">Para Filhos</a></li>
+          <li><a href="#metodo" onclick="closeNav()">Método 60+</a></li>
+          <li><a href="#planos" onclick="closeNav()">Planos</a></li>
+          <li><a href="#avaliacao" onclick="closeNav()">Avaliação</a></li>
         </ul>
       </nav>
 
-      <a href="#avaliacao" class="header-cta">
+      <a href="#avaliacao" class="header-cta-btn">
         <span>QUERO CONHECER A CONSULTORIA</span>
       </a>
     </div>
   </header>
 
-  <!-- 1. HERO — PRIMEIRA TELA CLEAN -->
+  <!-- HERO SECTION -->
   <section id="inicio" class="hero-section">
     <div class="container">
       <div class="hero-grid">
         <div class="hero-content">
-          <span class="badge-gold">Treinamento Especializado 60+</span>
+          <span class="gold-pill">Treinamento Especializado para Longevidade</span>
           <h1>Treinamento Especializado para Longevidade, Força e Autonomia</h1>
-          <div class="hero-subtitle">Envelhecer não precisa significar perder força e independência.</div>
-          <p class="hero-text">
-            Um programa de exercícios planejado de forma individual para ajudar pessoas 60+ a desenvolver força, mobilidade, equilíbrio e condicionamento — respeitando suas limitações e objetivos.
+          <div class="hero-subheadline">Envelhecer não precisa significar perder força, mobilidade e independência.</div>
+          <p class="hero-paragraph">
+            Um programa de treinamento personalizado para sua idade, condição física e objetivos, com acompanhamento profissional e exercícios adaptados à sua realidade.
           </p>
 
-          <div class="hero-btn-group">
+          <div class="hero-cta-group">
             <a href="#avaliacao" class="btn-cta-green">
               <span>QUERO CONHECER A CONSULTORIA</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
-            <a href="#avaliacao" class="btn-cta-outline">
+            <a href="#avaliacao" class="btn-cta-secondary">
               <span>QUERO SABER SE É PARA MIM</span>
             </a>
           </div>
+
+          <div class="hero-trust-bullets">
+            <span>✓ Atendimento individualizado</span>
+            <span>•</span>
+            <span>✓ Exercícios adaptados</span>
+            <span>•</span>
+            <span>✓ Acompanhamento próximo</span>
+          </div>
         </div>
 
-        <div class="hero-img-box">
-          <img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1000&q=80" alt="Idoso real ativo praticando exercícios de força" loading="lazy">
+        <div class="hero-img-card">
+          <img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1000&q=80" alt="Idoso real fazendo exercícios de força de maneira ativa e segura" loading="lazy">
+          <div class="hero-floating-quote">
+            <p>"Força para continuar vivendo a vida que você escolheu."</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 2. AS MAIORES DIFICULDADES NO DIA A DIA -->
-  <section id="dificuldades" class="section-bg-soft">
+  <!-- SEÇÃO 2: AS DIFICULDADES DA VIDA REAL -->
+  <section id="dificuldades" class="section-bg-alt">
     <div class="container">
       <div class="text-center">
-        <span class="badge-gold">Você Percebeu Essas Mudanças?</span>
-        <h2 class="section-title">Coisas simples que estão ficando mais difíceis no seu dia a dia</h2>
+        <span class="gold-pill">Você Percebeu Essas Mudanças?</span>
+        <h2 class="section-title">As maiores dificuldades que acontecem no dia a dia</h2>
         <p class="section-desc">
-          Com o passar dos anos, tarefas rotineiras podem começar a exigir mais esforço. A boa notícia é que o corpo responde muito bem quando estimulado com orientação correta.
+          Com o passar dos anos, tarefas simples podem exigir mais esforço. A musculação especializada fortalece exatamente os músculos e articulações necessários para devolver sua independência.
         </p>
       </div>
 
       <div class="difficulties-grid">
+        <!-- Card 1 -->
         <div class="diff-card">
-          <div class="diff-img-box">
+          <div class="diff-img-wrap">
+            <span class="diff-tag">Movimento Funcional</span>
             <img src="https://images.unsplash.com/photo-1581579438747-1dc8d1e05fec?auto=format&fit=crop&w=600&q=80" alt="Levantar da cadeira com facilidade" loading="lazy">
           </div>
           <div class="diff-body">
-            <h3>Levantar de Cadeiras e Sofás</h3>
-            <p>Dificuldade para levantar sem fazer força extrema nos braços ou precisar de apoio de terceiros.</p>
+            <h3>Levantar da cadeira sem apoio</h3>
+            <p>Dificuldade para se levantar de poltronas ou sofás baixos sem precisar empurrar com os braços ou contar com ajuda.</p>
           </div>
         </div>
 
+        <!-- Card 2 -->
         <div class="diff-card">
-          <div class="diff-img-box">
+          <div class="diff-img-wrap">
+            <span class="diff-tag">Força nas Pernas</span>
             <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80" alt="Subir e descer escadas com firmeza" loading="lazy">
           </div>
           <div class="diff-body">
-            <h3>Subir e Descer Escadas</h3>
-            <p>Sensação de fraqueza nos joelhos, falta de firmeza nas pernas e insegurança a cada degrau.</p>
+            <h3>Subir e descer escadas</h3>
+            <p>Insegurança a cada degrau, sensação de fraqueza nas pernas e desconforto nos joelhos durante o trajeto.</p>
           </div>
         </div>
 
+        <!-- Card 3 -->
         <div class="diff-card">
-          <div class="diff-img-box">
-            <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80" alt="Caminhar com segurança e equilíbrio" loading="lazy">
+          <div class="diff-img-wrap">
+            <span class="diff-tag">Resistência Física</span>
+            <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80" alt="Caminhar por longos períodos" loading="lazy">
           </div>
           <div class="diff-body">
-            <h3>Caminhar Longos Percursos</h3>
-            <p>Cansaço rápido nas pernas ao caminhar na rua, medo de tropeçar e perda gradual de estabilidade.</p>
+            <h3>Caminhar por longos períodos</h3>
+            <p>Cansaço precoce ao passear na rua ou fazer caminhadas curtas que antes eram realizadas sem esforço.</p>
           </div>
         </div>
 
+        <!-- Card 4 -->
         <div class="diff-card">
-          <div class="diff-img-box">
+          <div class="diff-img-wrap">
+            <span class="diff-tag">Capacidade de Carga</span>
             <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="Carregar sacolas de compras" loading="lazy">
           </div>
           <div class="diff-body">
-            <h3>Carregar Compras e Objetos</h3>
-            <p>Perda de força nos braços e na postura para carregar sacolas leves do supermercado.</p>
+            <h3>Carregar as próprias compras</h3>
+            <p>Falta de firmeza nos braços e tronco para carregar sacolas de supermercado ou objetos da casa.</p>
           </div>
         </div>
 
+        <!-- Card 5 -->
         <div class="diff-card">
-          <div class="diff-img-box">
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80" alt="Equilíbrio e segurança nas tarefas diárias" loading="lazy">
+          <div class="diff-img-wrap">
+            <span class="diff-tag">Estabilidade Corporal</span>
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80" alt="Manter o equilíbrio e postura" loading="lazy">
           </div>
           <div class="diff-body">
-            <h3>Segurança para Sair Sozinho</h3>
-            <p>Insegurança ao andar na rua sem acompanhante por receio de perder o equilíbrio.</p>
+            <h3>Manter o equilíbrio corporal</h3>
+            <p>Receio constante de tropeçar, desequilibrar ou perder a estabilidade ao andar em pisos irregulares.</p>
           </div>
         </div>
 
+        <!-- Card 6 -->
         <div class="diff-card">
-          <div class="diff-img-box">
+          <div class="diff-img-wrap">
+            <span class="diff-tag">Qualidade de Vida</span>
             <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80" alt="Brincar com netos e curtir a família" loading="lazy">
           </div>
           <div class="diff-body">
-            <h3>Brincar com Netos e Agachar</h3>
-            <p>Dificuldade para se abaixar, sentar no chão e acompanhar o ritmo dos netos e da família.</p>
+            <h3>Brincar com netos e curtir a família</h3>
+            <p>Dificuldade para abaixar, sentar no chão com as crianças e manter a energia ao longo do dia.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 3. SEÇÃO PARA FILHOS E FAMILIARES -->
-  <section id="familiares">
+  <!-- SEÇÃO 3: SEÇÃO ESPECÍFICA PARA OS FILHOS -->
+  <section id="familiares" class="section-bg-teal">
     <div class="container">
-      <div class="family-card">
+      <div class="family-banner-card">
         <div>
-          <span class="badge-gold">Para Filhos e Familiares</span>
-          <h2 class="section-title" style="font-size: 2rem;">Se você é filho ou filha, quer ver seus pais seguros e independentes.</h2>
-          <p style="font-size: 1.1rem; color: var(--text-muted); margin-top: 16px;">
-            Você quer que eles tenham mais confiança para caminhar, levantar, realizar suas atividades e continuar aproveitando a vida com dignidade. Nosso trabalho é desenhado sob medida para essa realidade.
+          <span class="gold-pill">Para Filhos e Familiares</span>
+          <h2 class="section-title" style="font-size: 2.1rem; margin-bottom: 16px;">
+            Se você é filho ou filha, provavelmente quer uma coisa acima de todas: ver seus pais bem.
+          </h2>
+          <p style="font-size: 1.15rem; color: var(--text-muted); line-height: 1.65;">
+            Você quer que eles tenham mais confiança para caminhar, levantar, subir escadas, realizar suas atividades e continuar aproveitando a própria vida.
           </p>
 
-          <ul class="family-list">
-            <li><span class="check">✓</span> Mais Força para o cotidiano</li>
-            <li><span class="check">✓</span> Mais Capacidade e estabilidade</li>
-            <li><span class="check">✓</span> Mais Confiança e segurança</li>
-            <li><span class="check">✓</span> Mais Autonomia para viver bem</li>
-          </ul>
+          <div class="family-check-list">
+            <div class="family-check-item">✓ Mais Força muscular</div>
+            <div class="family-check-item">✓ Mais Capacidade funcional</div>
+            <div class="family-check-item">✓ Mais Confiança diária</div>
+            <div class="family-check-item">✓ Mais Autonomia real</div>
+          </div>
 
           <a href="#avaliacao" class="btn-cta-green">
-            <span>AGENDAR UMA AVALIAÇÃO PARA SEUS PAIS</span>
+            <span>QUERO AGENDAR UMA AVALIAÇÃO PARA MEUS PAIS</span>
           </a>
         </div>
 
         <div>
-          <img src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=800&q=80" alt="Família reunida com idosos saudáveis e ativos" style="width: 100%; border-radius: var(--radius-md);" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=800&q=80" alt="Família feliz com idosos ativos e independentes" style="width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-md);" loading="lazy">
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. MÉTODO VIVER MAIS 60+ -->
-  <section id="metodo" class="section-bg-teal">
+  <!-- SEÇÃO 4: O MÉTODO VIVER MAIS 60+ -->
+  <section id="metodo">
     <div class="container text-center">
-      <span class="badge-gold">Metodologia Especializada</span>
-      <h2 class="section-title">O Método VIVER MAIS 60+</h2>
+      <span class="gold-pill">Metodologia Própria</span>
+      <h2 class="section-title">Método LongeViva 60+ / VIVER MAIS</h2>
       <p class="section-desc">
-        Construído ao redor de 5 pilares essenciais para recuperar a funcionalidade do corpo sem riscos de lesão.
+        Um método de treinamento estruturado ao redor das capacidades físicas mais importantes para manter sua longevidade e independência no dia a dia.
       </p>
 
-      <div class="method-grid">
-        <div class="method-card">
-          <div class="method-icon">🏋️</div>
-          <h3 class="method-title">FORÇA</h3>
-          <p class="method-desc">Preservação e ganho de massa muscular progressiva.</p>
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon-box">🏋️</div>
+          <h3>FORÇA</h3>
+          <p>Treinamento progressivo para preservar e construir capacidade muscular em todo o corpo.</p>
         </div>
 
-        <div class="method-card">
-          <div class="method-icon">🧘</div>
-          <h3 class="method-title">MOBILIDADE</h3>
-          <p class="method-desc">Exercícios suaves para destravar articulações e rígidez.</p>
+        <div class="pillar-card">
+          <div class="pillar-icon-box">🧘</div>
+          <h3>MOBILIDADE</h3>
+          <p>Exercícios para melhorar a amplitude articular e diminuir a rigidez do dia a dia.</p>
         </div>
 
-        <div class="method-card">
-          <div class="method-icon">⚖️</div>
-          <h3 class="method-title">EQUILÍBRIO</h3>
-          <p class="method-desc">Trabalho específico de estabilidade postural.</p>
+        <div class="pillar-card">
+          <div class="pillar-icon-box">⚖️</div>
+          <h3>EQUILÍBRIO</h3>
+          <p>Trabalho específico de controle corporal e firmeza nas pisadas ao caminhar.</p>
         </div>
 
-        <div class="method-card">
-          <div class="method-icon">🚶</div>
-          <h3 class="method-title">CAPACIDADE</h3>
-          <p class="method-desc">Movimentos alinhados com as tarefas reais do dia a dia.</p>
+        <div class="pillar-card">
+          <div class="pillar-icon-box">🚶</div>
+          <h3>CAPACIDADE</h3>
+          <p>Treinos relacionados diretamente aos movimentos realizados na rotina cotidiana.</p>
         </div>
 
-        <div class="method-card">
-          <div class="method-icon">🌟</div>
-          <h3 class="method-title">AUTONOMIA</h3>
-          <p class="method-desc">Liberdade para ir e vir com plena confiança.</p>
+        <div class="pillar-card">
+          <div class="pillar-icon-box">🌟</div>
+          <h3>AUTONOMIA</h3>
+          <p>O objetivo maior: viver com independência total para realizar o que você mais gosta.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 5. PLANOS COM CONDIÇÕES DE SERVIÇO DIFERENTES -->
-  <section id="planos" class="section-bg-soft">
+  <!-- SEÇÃO 5: PLANOS DE CONSULTORIA -->
+  <section id="planos" class="section-bg-alt">
     <div class="container">
       <div class="text-center">
-        <span class="badge-gold">Opções de Consultoria</span>
-        <h2 class="section-title">Conheça Nossos Planos de Acompanhamento</h2>
-        <p class="section-desc">Escolha a condição de serviço ideal para suas necessidades ou de sua família.</p>
+        <span class="gold-pill">Opções de Serviço</span>
+        <h2 class="section-title">Escolha o plano ideal para você ou sua família</h2>
+        <p class="section-desc">Planos com diferentes níveis de suporte, acompanhamento e orientação técnica.</p>
       </div>
 
       <div class="plans-grid">
         <!-- PLANO ESSENCIAL -->
         <div class="plan-card">
           <h3 class="plan-title">Plano Essencial</h3>
-          <p style="color: var(--text-muted); font-size: 0.95rem;">Para quem busca uma orientação clara para começar com segurança.</p>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Para quem busca orientação técnica para iniciar com total segurança.</p>
           <div class="plan-price">R$ 149<span style="font-size: 1rem; font-weight: normal;">/mês</span></div>
 
           <ul class="plan-features">
             <li><span class="check">✓</span> Avaliação Inicial Completa</li>
-            <li><span class="check">✓</span> Prescrição de Treino Individualizado</li>
-            <li><span class="check">✓</span> Orientações de Execução dos Exercícios</li>
-            <li><span class="check">✓</span> Suporte Direto via WhatsApp</li>
+            <li><span class="check">✓</span> Planejamento Individualizado</li>
+            <li><span class="check">✓</span> Prescrição dos Exercícios</li>
+            <li><span class="check">✓</span> Orientações de Execução</li>
+            <li><span class="check">✓</span> Suporte por mensagem via WhatsApp</li>
           </ul>
 
-          <a href="#avaliacao" onclick="setSelectPlan('Plano Essencial')" class="btn-cta-green" style="font-size: 1rem; padding: 16px 24px;">
-            <span>COMEÇAR NO PLANO ESSENCIAL</span>
+          <a href="#avaliacao" onclick="selectPlanInForm('Plano Essencial')" class="btn-cta-green" style="font-size: 1rem; padding: 16px 24px;">
+            <span>COMEÇAR COM O PLANO ESSENCIAL</span>
           </a>
         </div>
 
         <!-- PLANO EVOLUÇÃO (DESTAQUE) -->
         <div class="plan-card featured">
-          <div class="plan-badge">RECOMENDADO</div>
+          <div class="plan-badge">MAIS ESCOLHIDO</div>
           <h3 class="plan-title">Plano Evolução</h3>
-          <p style="color: var(--text-muted); font-size: 0.95rem;">Acompanhamento semanal com ajustes periódicos do programa.</p>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Acompanhamento próximo com monitoramento e progressão constante.</p>
           <div class="plan-price">R$ 249<span style="font-size: 1rem; font-weight: normal;">/mês</span></div>
 
           <ul class="plan-features">
             <li><span class="check">✓</span> <strong>Tudo do Plano Essencial</strong></li>
+            <li><span class="check">✓</span> Treinamento Personalizado Contínuo</li>
             <li><span class="check">✓</span> Análise Continuada da Execução</li>
             <li><span class="check">✓</span> Progressão Periódica de Cargas</li>
-            <li><span class="check">✓</span> Monitoramento da Evolução Postural</li>
+            <li><span class="check">✓</span> Ajustes Periódicos de Treinamento</li>
           </ul>
 
-          <a href="#avaliacao" onclick="setSelectPlan('Plano Evolução')" class="btn-cta-green" style="font-size: 1rem; padding: 16px 24px;">
+          <a href="#avaliacao" onclick="selectPlanInForm('Plano Evolução')" class="btn-cta-green" style="font-size: 1rem; padding: 16px 24px;">
             <span>QUERO O PLANO EVOLUÇÃO</span>
           </a>
         </div>
@@ -1127,69 +1283,78 @@
         <!-- PLANO AUTONOMIA (PREMIUM) -->
         <div class="plan-card">
           <h3 class="plan-title">Plano Autonomia</h3>
-          <p style="color: var(--text-muted); font-size: 0.95rem;">Acompanhamento VIP integrando laudos e suporte familiar.</p>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Plano VIP com chamadas de vídeo e suporte dedicado para a família.</p>
           <div class="plan-price">R$ 399<span style="font-size: 1rem; font-weight: normal;">/mês</span></div>
 
           <ul class="plan-features">
             <li><span class="check">✓</span> <strong>Tudo do Plano Evolução</strong></li>
-            <li><span class="check">✓</span> Videochamada Mensal de Reavaliação</li>
-            <li><span class="check">✓</span> Canal Direto com Filhos/Familiares</li>
-            <li><span class="check">✓</span> Análise de Exames e Recomendações Médicas</li>
+            <li><span class="check">✓</span> Chamada de Vídeo Mensal de Reavaliação</li>
+            <li><span class="check">✓</span> Canal Direto com Filhos / Familiares</li>
+            <li><span class="check">✓</span> Análise Integrada com Exames Médicos</li>
+            <li><span class="check">✓</span> Prioridade Máxima no Atendimento</li>
           </ul>
 
-          <a href="#avaliacao" onclick="setSelectPlan('Plano Autonomia')" class="btn-cta-green" style="font-size: 1rem; padding: 16px 24px;">
-            <span>QUERO O PLANO AUTONOMIA</span>
+          <a href="#avaliacao" onclick="selectPlanInForm('Plano Autonomia')" class="btn-cta-green" style="font-size: 1rem; padding: 16px 24px;">
+            <span>CONHECER PLANO AUTONOMIA</span>
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 6. FAQ SIMPLES E DIRETO -->
+  <!-- SEÇÃO 6: PERGUNTAS FREQUENTES (FAQ) -->
   <section id="faq">
     <div class="container">
       <div class="text-center">
-        <span class="badge-gold">Tire Suas Dúvidas</span>
+        <span class="gold-pill">Tire Suas Dúvidas</span>
         <h2 class="section-title">Perguntas Frequentes</h2>
-        <p class="section-desc">Respostas simples para as dúvidas mais comuns de alunos e familiares.</p>
+        <p class="section-desc">Respostas claras para você e sua família iniciarem com total tranquilidade.</p>
       </div>
 
       <div class="faq-container">
         <div class="faq-item">
           <button class="faq-btn" onclick="toggleFaq(this)">
-            <span>Nunca fiz musculação na minha vida. Consigo fazer?</span>
+            <span>"Tenho mais de 60, 65, 70 anos. Será que consigo fazer?"</span>
             <svg class="faq-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
-          <div class="faq-content"><p>Sim! Os exercícios são ensinados passo a passo do absoluto zero, respeitando exatamente o seu ritmo atual.</p></div>
+          <div class="faq-content"><p>Sim! O treinamento respeita o nível atual, capacidade e limitações de cada pessoa. Tudo é adaptado do zero.</p></div>
         </div>
 
         <div class="faq-item">
           <button class="faq-btn" onclick="toggleFaq(this)">
-            <span>Tenho medo de sentir dor ou me machucar. É seguro?</span>
+            <span>"Nunca fiz musculação na vida."</span>
             <svg class="faq-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
-          <div class="faq-content"><p>A segurança é a nossa maior prioridade. Todos os exercícios são adaptados para proteger suas articulações e coluna.</p></div>
+          <div class="faq-content"><p>Não tem problema. O programa é desenhado de forma pedagógica, ensinando cada movimento com máxima segurança.</p></div>
         </div>
 
         <div class="faq-item">
           <button class="faq-btn" onclick="toggleFaq(this)">
-            <span>Como o aluno envia os dados e recebe o treino?</span>
+            <span>"Tenho medo de me machucar ou sentir dores."</span>
             <svg class="faq-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
-          <div class="faq-content"><p>Tudo é feito de forma simples e direta pelo WhatsApp, podendo ser acompanhado também pelos filhos ou familiares.</p></div>
+          <div class="faq-content"><p>A prioridade absoluta da consultoria é a execução correta e a segurança articular. Não trabalhamos com cargas excessivas ou exercícios arriscados.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn" onclick="toggleFaq(this)">
+            <span>"Estou muito tempo parado."</span>
+            <svg class="faq-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-content"><p>O ponto de partida será sua condição física de hoje, progredindo passo a passo no seu próprio ritmo.</p></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 7. FORMULÁRIO DE AVALIAÇÃO & ANAMNESE COM ANEXOS -->
-  <section id="avaliacao" class="section-bg-soft">
+  <!-- SEÇÃO 7: FORMULÁRIO DE ANAMNESE E ANEXOS DE FOTOS E EXAMES -->
+  <section id="avaliacao" class="section-bg-alt">
     <div class="container">
       <div class="text-center">
-        <span class="badge-gold">Avaliação Inicial</span>
-        <h2 class="section-title">Preencha para Solicitar Sua Avaliação</h2>
+        <span class="gold-pill">Formulário de Avaliação</span>
+        <h2 class="section-title">Preencha sua Anamnese Inicial</h2>
         <p class="section-desc">
-          As informações abaixo serão formatadas e enviadas com segurança diretamente ao nosso WhatsApp.
+          Preencha os campos abaixo. Ao enviar, todas as informações e os nomes dos anexos selecionados serão formatados e enviados ao WhatsApp do treinador.
         </p>
       </div>
 
@@ -1198,12 +1363,12 @@
           <div class="form-grid">
             <div class="form-group">
               <label class="form-label" for="inputNome">Nome Completo *</label>
-              <input type="text" id="inputNome" class="form-input" placeholder="Ex: Maria da Silva" required>
+              <input type="text" id="inputNome" class="form-input" placeholder="Ex: Maria José da Silva" required>
             </div>
 
             <div class="form-group">
               <label class="form-label" for="inputIdade">Idade (anos) *</label>
-              <input type="number" id="inputIdade" class="form-input" placeholder="Ex: 68" min="40" max="110" required>
+              <input type="number" id="inputIdade" class="form-input" placeholder="Ex: 67" min="40" max="110" required>
             </div>
 
             <div class="form-group">
@@ -1212,46 +1377,65 @@
             </div>
 
             <div class="form-group">
+              <label class="form-label" for="inputCidade">Cidade / Estado</label>
+              <input type="text" id="inputCidade" class="form-input" placeholder="Ex: Fortaleza / CE">
+            </div>
+
+            <div class="form-group">
               <label class="form-label" for="inputPlano">Plano de Interesse *</label>
               <select id="inputPlano" class="form-select" required>
-                <option value="Plano Evolução (Recomendado)">Plano Evolução (Recomendado)</option>
+                <option value="Plano Evolução (Mais Escolhido)">Plano Evolução (Mais Escolhido)</option>
                 <option value="Plano Essencial">Plano Essencial</option>
                 <option value="Plano Autonomia (Premium)">Plano Autonomia (Premium)</option>
-                <option value="Desejo orientação para escolher">Desejo orientação para escolher</option>
+                <option value="Preciso de ajuda para escolher">Preciso de ajuda para escolher</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="inputExperiencia">Experiência Anterior com Musculação</label>
+              <select id="inputExperiencia" class="form-select">
+                <option value="Nunca fiz musculação">Nunca fiz musculação</option>
+                <option value="Estou há muitos anos parado(a)">Estou há muitos anos parado(a)</option>
+                <option value="Já pratiquei antes">Já pratiquei antes</option>
               </select>
             </div>
 
             <div class="form-group full">
-              <label class="form-label" for="inputObjetivo">Dificuldades Atuais ou Objetivos Principal</label>
-              <textarea id="inputObjetivo" class="form-textarea" rows="2" placeholder="Ex: Sentir mais firmeza nos joelhos ao subir escadas, melhorar o equilíbrio para caminhar..."></textarea>
+              <label class="form-label" for="inputObjetivo">Objetivo Principal & Dificuldades no Dia a Dia</label>
+              <textarea id="inputObjetivo" class="form-textarea" rows="2" placeholder="Ex: Ganhar mais força para subir escadas sem dor nos joelhos, melhorar equilíbrio para caminhar sem receio..."></textarea>
             </div>
 
             <div class="form-group full">
-              <label class="form-label" for="inputHistorico">Histórico de Saúde / Remédios em uso (Opcional)</label>
-              <textarea id="inputHistorico" class="form-textarea" rows="2" placeholder="Ex: Pressão alta controlada, dores esporádicas na coluna..."></textarea>
+              <label class="form-label" for="inputHistorico">Histórico de Saúde, Dores ou Medicamentos em uso</label>
+              <textarea id="inputHistorico" class="form-textarea" rows="2" placeholder="Ex: Pressão alta controlada com remédio, dor no joelho esquerdo ao dobrar..."></textarea>
             </div>
           </div>
 
-          <!-- CAMPOS DE ANEXO SOLICITADOS -->
+          <!-- ANEXOS DE FOTOS E EXAMES -->
           <div style="margin-top: 28px;">
-            <label class="form-label">📷 Anexos de Fotos de Postura e Exames (Opcional)</label>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;">Se desejar, selecione as fotos ou laudos para análise do treinador.</p>
+            <label class="form-label" style="font-size: 1.05rem;">📷 Anexos de Fotos (Postura) e Exames Médicos (Opcional)</label>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">
+              Anexe fotos de frente, costas e laterais para análise postural, além de exames recentes.
+            </p>
 
             <div class="attach-grid">
+              <!-- Frente -->
               <div class="attach-box">
-                <span class="attach-label">Foto de Frente</span>
+                <span class="attach-label">Foto Frente</span>
                 <input type="file" id="fileFrente" accept="image/*" onchange="onFileChange(this, 'nameFrente', 'btnFrente')">
                 <div id="nameFrente" class="attach-file-name">Nenhum arquivo</div>
                 <button type="button" id="btnFrente" class="remove-file-btn" onclick="clearFile('fileFrente', 'nameFrente', 'btnFrente')">Remover</button>
               </div>
 
+              <!-- Costas -->
               <div class="attach-box">
-                <span class="attach-label">Foto de Costas</span>
+                <span class="attach-label">Foto Costas</span>
                 <input type="file" id="fileCostas" accept="image/*" onchange="onFileChange(this, 'nameCostas', 'btnCostas')">
                 <div id="nameCostas" class="attach-file-name">Nenhum arquivo</div>
                 <button type="button" id="btnCostas" class="remove-file-btn" onclick="clearFile('fileCostas', 'nameCostas', 'btnCostas')">Remover</button>
               </div>
 
+              <!-- Lat. Esquerda -->
               <div class="attach-box">
                 <span class="attach-label">Lat. Esquerda</span>
                 <input type="file" id="fileLatEsq" accept="image/*" onchange="onFileChange(this, 'nameLatEsq', 'btnLatEsq')">
@@ -1259,6 +1443,7 @@
                 <button type="button" id="btnLatEsq" class="remove-file-btn" onclick="clearFile('fileLatEsq', 'nameLatEsq', 'btnLatEsq')">Remover</button>
               </div>
 
+              <!-- Lat. Direita -->
               <div class="attach-box">
                 <span class="attach-label">Lat. Direita</span>
                 <input type="file" id="fileLatDir" accept="image/*" onchange="onFileChange(this, 'nameLatDir', 'btnLatDir')">
@@ -1266,6 +1451,7 @@
                 <button type="button" id="btnLatDir" class="remove-file-btn" onclick="clearFile('fileLatDir', 'nameLatDir', 'btnLatDir')">Remover</button>
               </div>
 
+              <!-- Exames Médicos -->
               <div class="attach-box">
                 <span class="attach-label">Exames Médicos</span>
                 <input type="file" id="fileExames" accept="image/*,.pdf" onchange="onFileChange(this, 'nameExames', 'btnExames')">
@@ -1275,15 +1461,15 @@
             </div>
           </div>
 
-          <div style="margin: 20px 0; display: flex; align-items: flex-start; gap: 10px;">
+          <div style="margin: 22px 0; display: flex; align-items: flex-start; gap: 10px;">
             <input type="checkbox" id="checkConsent" required style="margin-top: 4px; width: 18px; height: 18px;">
             <label for="checkConsent" style="font-size: 0.9rem; color: var(--text-muted);">
-              Autorizo o envio das minhas respostas para contato e análise do programa VIVER MAIS.
+              Autorizo a consultoria VIVER MAIS a entrar em contato via WhatsApp para apresentar o plano de treinamento.
             </label>
           </div>
 
           <div class="text-center" style="margin-top: 32px;">
-            <button type="submit" class="btn-cta-green" style="width: 100%;">
+            <button type="submit" class="btn-cta-green" style="width: 100%; max-width: 520px;">
               <span>ENVIAR AVALIAÇÃO PARA O WHATSAPP</span>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
@@ -1293,21 +1479,21 @@
     </div>
   </section>
 
-  <!-- CTA FINAL -->
+  <!-- SEÇÃO 8: CTA FINAL & FRASE FINAL -->
   <section class="cta-final-section">
     <div class="container">
-      <h2 style="font-family: var(--font-heading); font-size: 2.2rem; margin-bottom: 16px;">
-        Não espere perder a autonomia para começar a cuidar dela.
+      <h2 style="font-family: var(--font-heading); font-size: 2.3rem; margin-bottom: 16px;">
+        Não espere perder autonomia para começar a cuidar dela.
       </h2>
-      <p style="font-size: 1.2rem; max-width: 680px; margin: 0 auto 36px auto; color: #E2EFF1;">
-        Força depois dos 60 significa independência para caminhar, levantar, viajar e viver bem.
+      <p style="font-size: 1.25rem; max-width: 720px; margin: 0 auto 36px auto; color: #E2EFF1;">
+        A musculação não precisa ser apenas sobre estética. Depois dos 60, força também significa independência.
       </p>
 
       <a href="#avaliacao" class="btn-cta-green" style="font-size: 1.2rem; padding: 22px 44px;">
         <span>QUERO CONHECER A CONSULTORIA</span>
       </a>
 
-      <div class="final-tagline">
+      <div class="final-brand-tagline">
         VIVER MAIS — Força para continuar vivendo a vida que você escolheu.
       </div>
     </div>
@@ -1316,18 +1502,18 @@
   <!-- RODAPÉ -->
   <footer class="site-footer">
     <div class="container text-center">
-      <p>&copy; 2025 VIVER MAIS — Treinamento Especializado 60+. Atendimento: (85) 99927-9151</p>
+      <p>&copy; 2025 VIVER MAIS — Treinamento Especializado 60+. Todos os direitos reservados. Atendimento: (85) 99927-9151</p>
     </div>
   </footer>
 
-  <!-- BOTÃO FLUTUANTE ORIGINAL DO WHATSAPP SOLICITADO (85999279151) -->
+  <!-- BOTÃO FLUTUANTE ORIGINAL DO WHATSAPP (5585999279151) -->
   <a href="https://wa.me/5585999279151?text=Ol%C3%A1!%20Gostaria%20de%20conhecer%20a%20Consultoria%20VIVER%20MAIS%20para%20treinamento%20especializado%2060%2B." target="_blank" class="whatsapp-float" aria-label="Falar pelo WhatsApp">
     <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor">
       <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
     </svg>
   </a>
 
-  <!-- JAVASCRIPT SIMPLES E FUNCIONAL -->
+  <!-- SCRIPTS E INTERAÇÕES -->
   <script>
     function setFontSize(size) {
       document.documentElement.classList.remove('font-large', 'font-extra-large');
@@ -1335,7 +1521,7 @@
       if (size === 'extra-large') document.documentElement.classList.add('font-extra-large');
     }
 
-    function setSelectPlan(planName) {
+    function selectPlanInForm(planName) {
       const select = document.getElementById('inputPlano');
       if (select) {
         for (let i = 0; i < select.options.length; i++) {
@@ -1347,12 +1533,12 @@
       }
     }
 
-    function toggleMobileMenu() {
-      document.getElementById('navMenu').classList.toggle('mobile-open');
+    function toggleMobileNav() {
+      document.getElementById('navLinks').classList.toggle('mobile-open');
     }
 
-    function closeMobileNav() {
-      document.getElementById('navMenu').classList.remove('mobile-open');
+    function closeNav() {
+      document.getElementById('navLinks').classList.remove('mobile-open');
     }
 
     function toggleFaq(btn) {
@@ -1369,7 +1555,7 @@
       if (input.files && input.files[0]) {
         const file = input.files[0];
         if (file.size > 10 * 1024 * 1024) {
-          alert("O arquivo excede o limite de 10MB. Selecione um arquivo menor.");
+          alert("O arquivo é muito grande (limite 10MB). Por favor escolha outro.");
           input.value = "";
           nameEl.innerText = "Nenhum arquivo";
           btnEl.style.display = "none";
@@ -1399,7 +1585,9 @@
       const nome = document.getElementById('inputNome').value;
       const idade = document.getElementById('inputIdade').value;
       const whatsapp = document.getElementById('inputWhatsapp').value;
+      const cidade = document.getElementById('inputCidade').value || "Não informada";
       const plano = document.getElementById('inputPlano').value;
+      const experiencia = document.getElementById('inputExperiencia').value;
       const objetivo = document.getElementById('inputObjetivo').value || "Não informado";
       const historico = document.getElementById('inputHistorico').value || "Não informado";
 
@@ -1413,16 +1601,18 @@
       text += `👤 *Nome:* ${nome}\n`;
       text += `🎂 *Idade:* ${idade} anos\n`;
       text += `📱 *WhatsApp:* ${whatsapp}\n`;
-      text += `🎯 *Plano de Interesse:* ${plano}\n\n`;
-      text += `🌟 *Objetivo / Dificuldades:* ${objetivo}\n`;
-      text += `🏥 *Histórico de Saúde:* ${historico}\n\n`;
-      text += `📷 *ANEXOS SELECIONADOS:*\n`;
+      text += `📍 *Cidade:* ${cidade}\n`;
+      text += `🎯 *Plano de Interesse:* ${plano}\n`;
+      text += `🏋️ *Experiência:* ${experiencia}\n\n`;
+      text += `🌟 *Objetivo & Dificuldades:* ${objetivo}\n`;
+      text += `🏥 *Histórico de Saúde / Medicamentos:* ${historico}\n\n`;
+      text += `📷 *ANEXOS SELECIONADOS NO SITE:*\n`;
       text += `- Foto Frente: ${fFrente}\n`;
       text += `- Foto Costas: ${fCostas}\n`;
       text += `- Foto Lat. Esquerda: ${fLatEsq}\n`;
       text += `- Foto Lat. Direita: ${fLatDir}\n`;
       text += `- Exames Médicos: ${fExames}\n\n`;
-      text += `_Enviado via Landing Page VIVER MAIS._`;
+      text += `_Mensagem enviada através da Landing Page VIVER MAIS._`;
 
       const encodedMsg = encodeURIComponent(text);
       const targetPhone = "5585999279151";
